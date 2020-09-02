@@ -26,6 +26,7 @@ namespace Storage.API.Controllers
         public async Task<IActionResult> RegisterLocation(LocationForRegisterDto LocationForRegisterDto)
         {
 
+            
            var ReelsFromRepo = await _repo.GetReel(LocationForRegisterDto.Id);
            var ComponentasFromRepo = await _srepo.GetCompCMnf(ReelsFromRepo.CMnf);
 

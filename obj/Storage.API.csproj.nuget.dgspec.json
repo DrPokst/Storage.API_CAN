@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\domantass\\Documents\\GitHub\\Storage.API\\Storage.API.csproj": {}
+    "C:\\Users\\domantass\\Documents\\GitHub\\Storage.API_CAN\\Storage.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\domantass\\Documents\\GitHub\\Storage.API\\Storage.API.csproj": {
+    "C:\\Users\\domantass\\Documents\\GitHub\\Storage.API_CAN\\Storage.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\domantass\\Documents\\GitHub\\Storage.API\\Storage.API.csproj",
+        "projectUniqueName": "C:\\Users\\domantass\\Documents\\GitHub\\Storage.API_CAN\\Storage.API.csproj",
         "projectName": "Storage.API",
-        "projectPath": "C:\\Users\\domantass\\Documents\\GitHub\\Storage.API\\Storage.API.csproj",
+        "projectPath": "C:\\Users\\domantass\\Documents\\GitHub\\Storage.API_CAN\\Storage.API.csproj",
         "packagesPath": "C:\\Users\\domantass\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\domantass\\Documents\\GitHub\\Storage.API\\obj\\",
+        "outputPath": "C:\\Users\\domantass\\Documents\\GitHub\\Storage.API_CAN\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"

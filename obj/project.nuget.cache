@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UUbjZb5fTQ+L+f9HJr/yWK8rfmrizyjWI7HClUYu3yR1k5LODKI/v5ma7+a0/BrICDj3FIQ3SZAamCifLWLRtw==",
+  "dgSpecHash": "BoRTiivwtH5Uz5RKlq0zBcpUzgjtkS7jc0p4AeRo24GCVjvLtzOCGiqEGhN24WRkWzpJe092h6n9UHO6cYRJ3w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\domantass\\Documents\\GitHub\\Storage.API\\Storage.API.csproj",
+  "projectFilePath": "C:\\Users\\domantass\\Documents\\GitHub\\Storage.API_CAN\\Storage.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\domantass\\.nuget\\packages\\automapper\\9.0.0\\automapper.9.0.0.nupkg.sha512",
     "C:\\Users\\domantass\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\7.0.0\\automapper.extensions.microsoft.dependencyinjection.7.0.0.nupkg.sha512",
