@@ -69,29 +69,39 @@ namespace Storage.API.Services
                 mcp25xxx.Write(Address.RxB1Ctrl, new byte [] { 0b0110_0000 });
 
                 var CANINTF = new BitArray(BitConverter.GetBytes(mcp25xxx.Read(Address.CanIntF)).ToArray());
+
+                
+                while (CANINTF[0] == false)
+                {
+                       CANINTF = new BitArray(BitConverter.GetBytes(mcp25xxx.Read(Address.CanIntF)).ToArray());
+                }
+                
+
+                
                 var CANINTE = new BitArray(BitConverter.GetBytes(mcp25xxx.Read(Address.CanIntE)).ToArray());
                  
-
-                if (CANINTF[0] == true)
-                {
-
                 byte[] data1 = mcp25xxx.ReadRxBuffer(RxBufferAddressPointer.RxB0D0, 8);
                 byte[] data2 = mcp25xxx.ReadRxBuffer(RxBufferAddressPointer.RxB1D0, 8);
+
+                
+
+                             
                 byte STID0 = mcp25xxx.Read(Address.RxB0Sidh);
                 byte STID1 = mcp25xxx.Read(Address.RxB0Sidl);
                 
+                
 
                 //Nuskaito registrus ID paieskai ir konvertuoja i bitu masyva. 
-                var bits1 = new BitArray(BitConverter.GetBytes(mcp25xxx.Read(Address.RxB1Sidh)).ToArray());
-                var bits2 = new BitArray(BitConverter.GetBytes(mcp25xxx.Read(Address.RxB1Sidl)).ToArray());
+                var bits1 = new BitArray(BitConverter.GetBytes(mcp25xxx.Read(Address.RxB0Sidh)).ToArray());
+                var bits2 = new BitArray(BitConverter.GetBytes(mcp25xxx.Read(Address.RxB0Sidl)).ToArray());
 
 
-                var RxB1Dlc = new BitArray(BitConverter.GetBytes(mcp25xxx.Read(Address.RxB1Dlc)).ToArray());
-                RxB1Dlc[6]=false;
-                RxB1Dlc[5]=false;
-                RxB1Dlc[4]=false;
+                var RxB0Dlc = new BitArray(BitConverter.GetBytes(mcp25xxx.Read(Address.RxB0Dlc)).ToArray());
+                RxB0Dlc[6]=false;
+                RxB0Dlc[5]=false;
+                RxB0Dlc[4]=false;
 
-                int DLC = getIntFromBitArray(RxB1Dlc);
+                int DLC = getIntFromBitArray(RxB0Dlc);
 
 
                 //surasau bitus is dvieju skirtingu adresu i viena masyva
@@ -101,21 +111,21 @@ namespace Storage.API.Services
                 
                 //bitu masyva pakeiciu i integer skaiciu kuris parodo atejusio CAN paketo ID 
                 int ID = getIntFromBitArray(myBA2);
-                
-                Rxmsg msg2 = new Rxmsg {
-                    DLC = DLC,
+
+                Rxmsg msg = new Rxmsg {
+                    DLC  = DLC,
                     ID = ID,
                     Msg = data1
                 };
-                
-                return msg2;
-                
-                }
-                
-                Rxmsg msg = new Rxmsg {
-                    DLC = 0,
-                    ID = 0
-                };
+               
+               
+                Console.WriteLine("RxB0D0 pirmas bytes DEC: " + data1[0]);
+                Console.WriteLine("RxB1D0 pirmas bytes DEC: " + data2[0]);
+                Console.WriteLine("RxB1Sidh: " + STID0);
+                Console.WriteLine("RxB1Sidl: " + STID1);
+                Console.WriteLine("DLC: " + DLC);
+                Console.WriteLine("ID: " + ID);
+
 
                 return msg;
             }

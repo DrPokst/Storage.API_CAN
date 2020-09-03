@@ -5,6 +5,7 @@ using Storage.API.Data;
 using Storage.API.DTOs;
 using Storage.API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Storage.API.Services;
 
 namespace Storage.API.Controllers
 {
@@ -15,18 +16,24 @@ namespace Storage.API.Controllers
          private readonly IReelRepository _repo;
         private readonly ISearchRepository _srepo;
         private readonly IMapper _mapper;
-        public LocationController(IReelRepository repo, ISearchRepository srepo, IMapper mapper)
+        private readonly ILedService  _ledService;
+        public LocationController(ILedService ledService, IReelRepository repo, ISearchRepository srepo, IMapper mapper)
         {
             _srepo = srepo;
             _mapper = mapper;
             _repo = repo;
+            _ledService = ledService;
         }
 
         [HttpPost("put")]
         public async Task<IActionResult> RegisterLocation(LocationForRegisterDto LocationForRegisterDto)
         {
 
-            
+           var rxmsg = await _ledService.SetLedLocation();
+
+         
+           int Location = rxmsg.Msg[0] + ((rxmsg.ID - 1) * 30);
+           
            var ReelsFromRepo = await _repo.GetReel(LocationForRegisterDto.Id);
            var ComponentasFromRepo = await _srepo.GetCompCMnf(ReelsFromRepo.CMnf);
 
@@ -37,17 +44,17 @@ namespace Storage.API.Controllers
            var HistoryToCreate = new History
             {
                 Mnf = ReelsFromRepo.CMnf,
-                NewLocation = LocationForRegisterDto.Location,
-                NewQty = LocationForRegisterDto.QTY,
+                NewLocation = Location.ToString(),
+                NewQty = rxmsg.Msg[0],
                 OldLocation = ReelsFromRepo.Location,
-                OldQty = ReelsFromRepo.QTY,
+                OldQty = rxmsg.ID,
                 ComponentasId = ComponentasFromRepo.Id,
                 DateAdded = DateTime.Now,
                 ReelId = LocationForRegisterDto.Id
            };
 
             var createHistory = await _srepo.RegisterHistory(HistoryToCreate);
-
+            LocationForRegisterDto.Location = Location.ToString();
             _mapper.Map(LocationForRegisterDto, ReelsFromRepo);
 
             if (await _repo.SaveAll())
