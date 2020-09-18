@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Storage.API.Helpers;
 using Storage.API.Models;
+using Storage.API_CAN.Helpers;
 
 namespace Storage.API.Data
 {
@@ -15,7 +16,7 @@ namespace Storage.API.Data
          Task<IEnumerable<Componentas>> GetMnfs();
          Task<Componentas> GetCompCMnf(string cMnf);
          Task<Componentas> RegisterComponents(Componentas componentas);
-         Task<IEnumerable<History>> GetHistory();
+         Task<PageList<History>> GetHistory(HistoryParams historyParams);
          Task<History> RegisterHistory(History history);
          Task<Photo> RegisterPhoto(Photo photo);
          Task<Photo> GetPhoto(int id);

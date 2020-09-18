@@ -26,8 +26,9 @@
         "dependencies": {
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "7.0.0",
           "CloudinaryDotNet": "1.10.0",
-          "Iot.Device.Bindings": "0.1.0-prerelease.19310.5",
+          "Iot.Device.Bindings": "1.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "3.1.6",
+          "Microsoft.AspNetCore.Authentication.MicrosoftAccount": "3.0.0",
           "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "3.1.6",
           "Microsoft.EntityFrameworkCore": "3.1.6",
           "Microsoft.EntityFrameworkCore.Design": "3.1.6",
@@ -36,7 +37,7 @@
           "Microsoft.IdentityModel.Tokens": "6.5.1",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "3.1.2",
           "Pomelo.EntityFrameworkCore.MySql": "3.1.2",
-          "System.Device.Gpio": "0.1.0-prerelease.19310.5",
+          "System.Device.Gpio": "1.0.0",
           "Microsoft.AspNetCore.Antiforgery": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "3.1.0.0",
@@ -357,19 +358,19 @@
           "lib/netstandard1.3/CloudinaryDotNet.dll": {}
         }
       },
-      "Iot.Device.Bindings/0.1.0-prerelease.19310.5": {
+      "Iot.Device.Bindings/1.0.0": {
         "dependencies": {
-          "System.Device.Gpio": "0.1.0-prerelease.19310.5",
-          "System.Drawing.Common": "4.6.0-preview4.19212.13"
+          "System.Device.Gpio": "1.0.0",
+          "System.Drawing.Common": "4.6.0"
         },
         "runtime": {
           "lib/netcoreapp2.1/Iot.Device.Bindings.dll": {
-            "assemblyVersion": "0.1.0.0",
-            "fileVersion": "0.100.19.31005"
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.19.47001"
           }
         },
         "compile": {
-          "ref/netcoreapp2.1/Iot.Device.Bindings.dll": {}
+          "lib/netcoreapp2.1/Iot.Device.Bindings.dll": {}
         }
       },
       "Microsoft.AspNetCore.Authentication.JwtBearer/3.1.6": {
@@ -384,6 +385,17 @@
         },
         "compile": {
           "lib/netcoreapp3.1/Microsoft.AspNetCore.Authentication.JwtBearer.dll": {}
+        }
+      },
+      "Microsoft.AspNetCore.Authentication.MicrosoftAccount/3.0.0": {
+        "runtime": {
+          "lib/netcoreapp3.0/Microsoft.AspNetCore.Authentication.MicrosoftAccount.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.0.19.46502"
+          }
+        },
+        "compile": {
+          "lib/netcoreapp3.0/Microsoft.AspNetCore.Authentication.MicrosoftAccount.dll": {}
         }
       },
       "Microsoft.AspNetCore.Html.Abstractions/2.2.0": {
@@ -1128,7 +1140,7 @@
           "lib/netstandard2.0/Microsoft.IdentityModel.Tokens.dll": {}
         }
       },
-      "Microsoft.NETCore.Platforms/3.0.0-preview4.19212.13": {},
+      "Microsoft.NETCore.Platforms/3.0.0": {},
       "Microsoft.NETCore.Targets/1.1.0": {},
       "Microsoft.VisualStudio.Web.CodeGeneration/3.1.2": {
         "dependencies": {
@@ -1254,7 +1266,7 @@
       },
       "Microsoft.Win32.Primitives/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Runtime": "4.3.0"
         }
@@ -1265,9 +1277,9 @@
           "System.Security.Principal.Windows": "4.5.0"
         }
       },
-      "Microsoft.Win32.SystemEvents/4.6.0-preview4.19212.13": {
+      "Microsoft.Win32.SystemEvents/4.6.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13"
+          "Microsoft.NETCore.Platforms": "3.0.0"
         }
       },
       "MySqlConnector/0.61.0": {
@@ -1283,7 +1295,7 @@
       },
       "NETStandard.Library/1.6.1": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.Win32.Primitives": "4.3.0",
           "System.AppContext": "4.3.0",
           "System.Collections": "4.3.0",
@@ -1404,7 +1416,7 @@
       "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
       "runtime.native.System/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0"
         }
       },
@@ -1417,13 +1429,13 @@
       },
       "runtime.native.System.IO.Compression/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0"
         }
       },
       "runtime.native.System.Net.Http/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0"
         }
       },
@@ -1610,7 +1622,7 @@
       },
       "System.Collections/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Runtime": "4.3.0"
         }
@@ -1834,14 +1846,14 @@
       },
       "System.Console/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.IO": "4.3.0",
           "System.Runtime": "4.3.0",
           "System.Text.Encoding": "4.3.0"
         }
       },
-      "System.Device.Gpio/0.1.0-prerelease.19310.5": {
+      "System.Device.Gpio/1.0.0": {
         "dependencies": {
           "Microsoft.Win32.Registry": "4.5.0",
           "System.Memory": "4.5.3",
@@ -1851,27 +1863,22 @@
         },
         "runtime": {
           "lib/netstandard2.0/System.Device.Gpio.dll": {
-            "assemblyVersion": "0.1.0.0",
-            "fileVersion": "0.100.19.31005"
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.19.47001"
           }
         },
         "runtimeTargets": {
           "runtimes/linux/lib/netstandard2.0/System.Device.Gpio.dll": {
             "rid": "linux",
             "assetType": "runtime",
-            "assemblyVersion": "0.1.0.0",
-            "fileVersion": "0.100.19.31005"
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.19.47001"
           },
           "runtimes/win/lib/netstandard2.0/System.Device.Gpio.dll": {
             "rid": "win",
             "assetType": "runtime",
-            "assemblyVersion": "0.1.0.0",
-            "fileVersion": "0.100.19.31005"
-          },
-          "runtimes/linux-arm/native/System.Device.Gpio.Native.so": {
-            "rid": "linux-arm",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.19.47001"
           }
         },
         "compile": {
@@ -1880,7 +1887,7 @@
       },
       "System.Diagnostics.Debug/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Runtime": "4.3.0"
         }
@@ -1898,22 +1905,22 @@
       },
       "System.Diagnostics.Tools/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Runtime": "4.3.0"
         }
       },
       "System.Diagnostics.Tracing/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Runtime": "4.3.0"
         }
       },
-      "System.Drawing.Common/4.6.0-preview4.19212.13": {
+      "System.Drawing.Common/4.6.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
-          "Microsoft.Win32.SystemEvents": "4.6.0-preview4.19212.13"
+          "Microsoft.NETCore.Platforms": "3.0.0",
+          "Microsoft.Win32.SystemEvents": "4.6.0"
         },
         "compile": {
           "ref/netcoreapp3.0/System.Drawing.Common.dll": {}
@@ -1921,14 +1928,14 @@
       },
       "System.Globalization/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Runtime": "4.3.0"
         }
       },
       "System.Globalization.Calendars/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Globalization": "4.3.0",
           "System.Runtime": "4.3.0"
@@ -1936,7 +1943,7 @@
       },
       "System.Globalization.Extensions/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "System.Globalization": "4.3.0",
           "System.Resources.ResourceManager": "4.3.0",
           "System.Runtime": "4.3.0",
@@ -1962,7 +1969,7 @@
       },
       "System.IO/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Runtime": "4.3.0",
           "System.Text.Encoding": "4.3.0",
@@ -1971,7 +1978,7 @@
       },
       "System.IO.Compression/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "System.Buffers": "4.3.0",
           "System.Collections": "4.3.0",
           "System.Diagnostics.Debug": "4.3.0",
@@ -2003,7 +2010,7 @@
       },
       "System.IO.FileSystem/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.IO": "4.3.0",
           "System.IO.FileSystem.Primitives": "4.3.0",
@@ -2051,7 +2058,7 @@
       "System.Memory/4.5.3": {},
       "System.Net.Http/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "System.Collections": "4.3.0",
           "System.Diagnostics.Debug": "4.3.0",
           "System.Diagnostics.DiagnosticSource": "4.7.1",
@@ -2081,7 +2088,7 @@
       },
       "System.Net.NameResolution/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "System.Collections": "4.3.0",
           "System.Diagnostics.Tracing": "4.3.0",
           "System.Globalization": "4.3.0",
@@ -2099,7 +2106,7 @@
       },
       "System.Net.Primitives/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Runtime": "4.3.0",
           "System.Runtime.Handles": "4.3.0"
@@ -2107,7 +2114,7 @@
       },
       "System.Net.Sockets/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.IO": "4.3.0",
           "System.Net.Primitives": "4.3.0",
@@ -2155,7 +2162,7 @@
       },
       "System.Reflection/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.IO": "4.3.0",
           "System.Reflection.Primitives": "4.3.0",
@@ -2188,7 +2195,7 @@
       },
       "System.Reflection.Extensions/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Reflection": "4.3.0",
           "System.Runtime": "4.3.0"
@@ -2197,7 +2204,7 @@
       "System.Reflection.Metadata/1.6.0": {},
       "System.Reflection.Primitives/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Runtime": "4.3.0"
         }
@@ -2210,7 +2217,7 @@
       },
       "System.Resources.ResourceManager/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Globalization": "4.3.0",
           "System.Reflection": "4.3.0",
@@ -2219,13 +2226,13 @@
       },
       "System.Runtime/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0"
         }
       },
       "System.Runtime.Caching/4.5.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "System.Configuration.ConfigurationManager": "4.5.0"
         },
         "runtime": {
@@ -2252,21 +2259,21 @@
       "System.Runtime.CompilerServices.Unsafe/4.5.2": {},
       "System.Runtime.Extensions/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Runtime": "4.3.0"
         }
       },
       "System.Runtime.Handles/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Runtime": "4.3.0"
         }
       },
       "System.Runtime.InteropServices/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Reflection": "4.3.0",
           "System.Reflection.Primitives": "4.3.0",
@@ -2322,7 +2329,7 @@
       },
       "System.Runtime.WindowsRuntime/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "System.IO": "4.3.0",
           "System.ObjectModel": "4.3.0",
           "System.Runtime": "4.3.0",
@@ -2334,13 +2341,13 @@
       },
       "System.Security.AccessControl/4.5.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "System.Security.Principal.Windows": "4.5.0"
         }
       },
       "System.Security.Cryptography.Algorithms/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "System.Collections": "4.3.0",
           "System.IO": "4.3.0",
           "System.Resources.ResourceManager": "4.3.0",
@@ -2359,7 +2366,7 @@
       "System.Security.Cryptography.Cng/4.5.0": {},
       "System.Security.Cryptography.Csp/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "System.IO": "4.3.0",
           "System.Reflection": "4.3.0",
           "System.Resources.ResourceManager": "4.3.0",
@@ -2376,7 +2383,7 @@
       },
       "System.Security.Cryptography.Encoding/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "System.Collections": "4.3.0",
           "System.Collections.Concurrent": "4.3.0",
           "System.Linq": "4.3.0",
@@ -2436,7 +2443,7 @@
       },
       "System.Security.Cryptography.X509Certificates/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "System.Collections": "4.3.0",
           "System.Diagnostics.Debug": "4.3.0",
           "System.Globalization": "4.3.0",
@@ -2470,12 +2477,12 @@
       },
       "System.Security.Principal.Windows/4.5.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13"
+          "Microsoft.NETCore.Platforms": "3.0.0"
         }
       },
       "System.Security.SecureString/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "System.Resources.ResourceManager": "4.3.0",
           "System.Runtime": "4.3.0",
           "System.Runtime.Handles": "4.3.0",
@@ -2487,20 +2494,20 @@
       },
       "System.Text.Encoding/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Runtime": "4.3.0"
         }
       },
       "System.Text.Encoding.CodePages/4.5.1": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "System.Runtime.CompilerServices.Unsafe": "4.5.2"
         }
       },
       "System.Text.Encoding.Extensions/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Runtime": "4.3.0",
           "System.Text.Encoding": "4.3.0"
@@ -2531,7 +2538,7 @@
       },
       "System.Threading.Tasks/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Runtime": "4.3.0"
         }
@@ -2539,7 +2546,7 @@
       "System.Threading.Tasks.Extensions/4.5.3": {},
       "System.Threading.Timer/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.0.0-preview4.19212.13",
+          "Microsoft.NETCore.Platforms": "3.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Runtime": "4.3.0"
         }
@@ -4251,12 +4258,12 @@
       "path": "cloudinarydotnet/1.10.0",
       "hashPath": "cloudinarydotnet.1.10.0.nupkg.sha512"
     },
-    "Iot.Device.Bindings/0.1.0-prerelease.19310.5": {
+    "Iot.Device.Bindings/1.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-2hVrOGb09UlkYtxf6ZU4Ocg07wXO2M/k4ud+RcnYOEodaeTtk3s+DxkImatQmfA2VZAnCteEWNH4KQzWnIA2YQ==",
-      "path": "iot.device.bindings/0.1.0-prerelease.19310.5",
-      "hashPath": "iot.device.bindings.0.1.0-prerelease.19310.5.nupkg.sha512"
+      "sha512": "sha512-2u9zsFK0bAELfkHEf8VUlbFDmXqtDCddwLuZr7A467JLMKdcx4URWHAym4z3lkJJAWZ/QRzrcyzlxLEbWELu9A==",
+      "path": "iot.device.bindings/1.0.0",
+      "hashPath": "iot.device.bindings.1.0.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authentication.JwtBearer/3.1.6": {
       "type": "package",
@@ -4264,6 +4271,13 @@
       "sha512": "sha512-XT5yph4cdiMbas6FyvVafCKfg1QgPZM7Ssma7aDCG0Ee8JhZMMpXGottBeUC43/lDHCaw8wTq29HOKOTDB41vA==",
       "path": "microsoft.aspnetcore.authentication.jwtbearer/3.1.6",
       "hashPath": "microsoft.aspnetcore.authentication.jwtbearer.3.1.6.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Authentication.MicrosoftAccount/3.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/jsxXwNO0i9nXQfpYfjARXXPkpajniHMZAFDd/nduJ+LYX2SF1cF13o9b74X/WNmGv3LuAeQ/OW1NZ63L5Mseg==",
+      "path": "microsoft.aspnetcore.authentication.microsoftaccount/3.0.0",
+      "hashPath": "microsoft.aspnetcore.authentication.microsoftaccount.3.0.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Html.Abstractions/2.2.0": {
       "type": "package",
@@ -4573,12 +4587,12 @@
       "path": "microsoft.identitymodel.tokens/6.5.1",
       "hashPath": "microsoft.identitymodel.tokens.6.5.1.nupkg.sha512"
     },
-    "Microsoft.NETCore.Platforms/3.0.0-preview4.19212.13": {
+    "Microsoft.NETCore.Platforms/3.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-cBcFp3iIi/c6AK9F/aZxbZaNhWGOLSJD071L9tO8JbyODp38NDKsJ38Xq/KJUCt1EUIlqnyF6PdqOngFuCvD1Q==",
-      "path": "microsoft.netcore.platforms/3.0.0-preview4.19212.13",
-      "hashPath": "microsoft.netcore.platforms.3.0.0-preview4.19212.13.nupkg.sha512"
+      "sha512": "sha512-TsETIgVJb/AKoYfSP+iCxkuly5d3inZjTdx/ItZLk2CxY85v8083OBS3uai84kK3/baLnS5/b5XGs6zR7SuuHQ==",
+      "path": "microsoft.netcore.platforms/3.0.0",
+      "hashPath": "microsoft.netcore.platforms.3.0.0.nupkg.sha512"
     },
     "Microsoft.NETCore.Targets/1.1.0": {
       "type": "package",
@@ -4657,12 +4671,12 @@
       "path": "microsoft.win32.registry/4.5.0",
       "hashPath": "microsoft.win32.registry.4.5.0.nupkg.sha512"
     },
-    "Microsoft.Win32.SystemEvents/4.6.0-preview4.19212.13": {
+    "Microsoft.Win32.SystemEvents/4.6.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-R7R/lAx/aDMXhd1CHIb36jLjm/GDBECHz4gUJiIZcF1v30sTD4TkXJBkILxWF/+wy418PKphE2tX/tzaE5i6hA==",
-      "path": "microsoft.win32.systemevents/4.6.0-preview4.19212.13",
-      "hashPath": "microsoft.win32.systemevents.4.6.0-preview4.19212.13.nupkg.sha512"
+      "sha512": "sha512-Edg+pFW5C8WJb680Za2kTV8TqUi6Ahl/WldRVoOVJ23UQLpDHFspa+umgFjkWZw24ETsU99Cg+ErZz683M4chg==",
+      "path": "microsoft.win32.systemevents/4.6.0",
+      "hashPath": "microsoft.win32.systemevents.4.6.0.nupkg.sha512"
     },
     "MySqlConnector/0.61.0": {
       "type": "package",
@@ -5014,12 +5028,12 @@
       "path": "system.console/4.3.0",
       "hashPath": "system.console.4.3.0.nupkg.sha512"
     },
-    "System.Device.Gpio/0.1.0-prerelease.19310.5": {
+    "System.Device.Gpio/1.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-HElGRyf7763EvOnL2taUFAUTBETYtwgBv5HEnEm3DrKIih3HAJeL2SEUcLK1+0khLxhWXuHuM+WjzcRJPey0Xw==",
-      "path": "system.device.gpio/0.1.0-prerelease.19310.5",
-      "hashPath": "system.device.gpio.0.1.0-prerelease.19310.5.nupkg.sha512"
+      "sha512": "sha512-eriWADx9+tnCuwzZVeXLx4AgNG/J7LsK0Fvsy9O9ysrjaBGIFrAjPdtOaP/AmvVAuSeoSZL02PA3HT2LGtOkmQ==",
+      "path": "system.device.gpio/1.0.0",
+      "hashPath": "system.device.gpio.1.0.0.nupkg.sha512"
     },
     "System.Diagnostics.Debug/4.3.0": {
       "type": "package",
@@ -5049,12 +5063,12 @@
       "path": "system.diagnostics.tracing/4.3.0",
       "hashPath": "system.diagnostics.tracing.4.3.0.nupkg.sha512"
     },
-    "System.Drawing.Common/4.6.0-preview4.19212.13": {
+    "System.Drawing.Common/4.6.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-ef4iZZgjSHJ6XXfMFtX0YnEhz0BDmyf2u1t3wN+2SZSNJMNSPEBN53XcoGe6C7dTxMk2keE1G9qerszpdxhQQg==",
-      "path": "system.drawing.common/4.6.0-preview4.19212.13",
-      "hashPath": "system.drawing.common.4.6.0-preview4.19212.13.nupkg.sha512"
+      "sha512": "sha512-2A3spjjoPZnvpVh/sDTzd+0H8ZqTdr+hH/6obB8MMfG81EJ85PmxCKDBxhBVQiA25PliKAZ1sKogDcq9mSnFEA==",
+      "path": "system.drawing.common/4.6.0",
+      "hashPath": "system.drawing.common.4.6.0.nupkg.sha512"
     },
     "System.Globalization/4.3.0": {
       "type": "package",

@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -33,12 +34,13 @@ namespace Storage.API
             ConfigureServices(services);
         }
 
-          public void ConfigureProductionServices(IServiceCollection services)
+        public void ConfigureProductionServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(x => x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 
             ConfigureServices(services);
         }
+
         public void ConfigureServices(IServiceCollection services)
         {
             
@@ -97,8 +99,8 @@ namespace Storage.API
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseAuthentication();
-
             app.UseAuthorization();
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseEndpoints(endpoints =>

@@ -509,3 +509,4 @@ C:\Users\domantass\Documents\GitHub\Storage.API_CAN\obj\Release\netcoreapp3.1\st
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\obj\Release\netcoreapp3.1\Storage.API.dll
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\obj\Release\netcoreapp3.1\Storage.API.pdb
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\obj\Release\netcoreapp3.1\Storage.API.genruntimeconfig.cache
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Microsoft.AspNetCore.Authentication.MicrosoftAccount.dll

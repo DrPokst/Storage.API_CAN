@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Storage.API.Helpers;
 using System.ComponentModel;
 using System.Linq;
+using Storage.API_CAN.Helpers;
 
 namespace Storage.API.Data
 {
@@ -148,11 +149,48 @@ namespace Storage.API.Data
             return history;
         }
 
-        public async Task<IEnumerable<History>> GetHistory()
+        public async Task<PageList<History>> GetHistory(HistoryParams historyParams)
         {
             var history = _context.History.AsQueryable();
 
-            return history;
+            if (historyParams.Mnf != null)
+            {
+                history  = history.Where(u => u.Mnf == historyParams.Mnf);
+            }
+
+            if (historyParams.ReelId != null)
+            {
+                history  = history.Where(u => u.ReelId == historyParams.ReelId);
+            }
+
+             if (historyParams.OldLocation!= null)
+            {
+                history  = history.Where(u => u.OldLocation == historyParams.OldLocation);
+            }
+             if (historyParams.NewLocation!= null)
+            {
+                history  = history.Where(u => u.NewLocation == historyParams.NewLocation);
+            }
+
+            history = history.OrderByDescending(u => u.DateAdded);
+
+            if (!string.IsNullOrEmpty(historyParams.OrderBy))
+            {
+                switch (historyParams.OrderBy)
+                {
+                    case "Mnf":
+                        history = history.OrderBy(u => u.Mnf);
+                        break;
+                    case "id":
+                        history = history.OrderBy(u => u.ReelId);
+                        break;
+                    default:
+                        history = history.OrderBy(u => u.DateAdded);
+                        break;
+                }
+            }
+
+            return await PageList<History>.CreateAsync(history, historyParams.PageNumber, historyParams.PageSize);
         }
         public async Task<bool> MnfExists(string Mnf)
         {

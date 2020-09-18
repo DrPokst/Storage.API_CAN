@@ -2,6 +2,7 @@ using System.Linq;
 using AutoMapper;
 using Storage.API.DTOs;
 using Storage.API.Models;
+using Storage.API_CAN.DTOs;
 
 namespace Storage.API.Helpers
 {
@@ -19,6 +20,7 @@ namespace Storage.API.Helpers
                 .ForMember(dest => dest.PhotoUrl2, opt => opt.MapFrom(s => s.Photos2.FirstOrDefault(p => p.IsMain).Url));
             CreateMap<Photo, PhotosForReturnDto>();
             CreateMap<PhotosForCreationDto, Photo>();
+             CreateMap<History, HistoryForListDto>();
         }
     }
 } 

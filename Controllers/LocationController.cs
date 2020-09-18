@@ -6,6 +6,10 @@ using Storage.API.DTOs;
 using Storage.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Storage.API.Services;
+using Storage.API_CAN.Helpers;
+using System.Collections.Generic;
+using Storage.API.Helpers;
+using Storage.API_CAN.DTOs;
 
 namespace Storage.API.Controllers
 {
@@ -65,12 +69,16 @@ namespace Storage.API.Controllers
         }
 
         [HttpGet("history")]
-        public async Task<IActionResult> GetHistory()
+        public async Task<IActionResult> GetHistory([FromQuery]HistoryParams historyParams)
         {
-            var history = await _srepo.GetHistory();
+            var history = await _srepo.GetHistory(historyParams);
+            var historyToReturn = _mapper.Map<IEnumerable<HistoryForListDto>>(history);
             //var componentsToReturn = _mapper.Map<IEnumerable<ComponetsForListDto>>(components);
 
-            return Ok(history);
+            Response.AddPagination(history.CurrentPage, history.PageSize, history.TotalCount, history.TotalPages);
+
+
+            return Ok(historyToReturn);
         }
     }
 }

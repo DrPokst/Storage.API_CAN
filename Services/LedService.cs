@@ -68,6 +68,14 @@ namespace Storage.API.Services
                 mcp25xxx.Write(Address.RxB0Ctrl, new byte [] { 0b0110_0000 });
                 mcp25xxx.Write(Address.RxB1Ctrl, new byte [] { 0b0110_0000 });
 
+                //isvalau rx bufferius 
+                mcp25xxx.Write(Address.CanIntF, new byte [] { 0b0000_0000 });
+
+                //issiunciu msg, kad lauksiu rites location
+                byte[] da = new byte[] {0x0F, 0xF0};
+               TransmitMessage(mcp25xxx, da);
+
+
                 var CANINTF = new BitArray(BitConverter.GetBytes(mcp25xxx.Read(Address.CanIntF)).ToArray());
 
                 
