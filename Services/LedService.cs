@@ -160,18 +160,10 @@ namespace Storage.API.Services
                 int id2 = id - ((tarpinis - 1)* 30);
                 byte ID = Convert.ToByte(tarpinis);
 
-                if (id2 < 6 )
-                {
-                    byte[] data = new byte[] { ID, (byte)id2, 0x00, 0xFF, 0x00, 0x01};
-                    TransmitMessage(mcp25xxx, data);
-                }
-                if (id2 > 5)
-                {
-                    byte[] data = new byte[] { ID, (byte)id2, 0x00, 0x00, 0xFF, 0x01};
-                    TransmitMessage(mcp25xxx, data);
-                }
                 
-
+                byte[] data = new byte[] { ID, (byte)id2, 0x00, 0xFF, 0x00, 0x01};
+                TransmitMessage(mcp25xxx, data);
+                
                
                 
                 //ReadAllRegisters(mcp25xxx);
