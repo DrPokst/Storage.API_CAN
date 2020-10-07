@@ -6,5 +6,6 @@ namespace Storage.API.DTOs
         public string Mnf { get; set; }
         public string Location { get; set; }
         public int QTY { get; set; }
+        public string Token { get; set; }
     }
 }

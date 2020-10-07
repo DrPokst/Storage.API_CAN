@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using Storage.API.Data;
 using Storage.API.Helpers;
 using Storage.API.Services;
+using Storage.API_CAN.SignalR;
 
 namespace Storage.API
 {
@@ -67,6 +68,7 @@ namespace Storage.API
 
 
             });
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -110,6 +112,7 @@ namespace Storage.API
              pattern: "{controller=Fallback}/{action=Index}/{id?}");
         
              endpoints.MapFallbackToController("Index", "Fallback");
+             endpoints.MapHub<PresenceHub>("hubs/presence");
             });
             
         }

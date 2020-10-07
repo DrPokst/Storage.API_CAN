@@ -16,6 +16,7 @@ namespace Storage.API.Models
         public DateTime DateAdded { get; set; }
         public int ComponentasId { get; set; }
         public int ReelId { get; set; }
+        
 
     }
 }

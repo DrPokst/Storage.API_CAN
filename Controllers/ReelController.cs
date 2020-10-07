@@ -58,12 +58,22 @@ namespace Storage.API.Controllers
 
             return Ok(reelToReturn);
         }
+        [HttpGet("PagalMnf/{Mnf}")]
+        public async Task<IActionResult> GetReelCMnf(string Mnf)
+        {
+            var reel = await _repo.GetReelCMnf(Mnf);
+            var reelToReturn= _mapper.Map<ReelsForListDto>(reel);
+
+            return Ok(reelToReturn);
+        }
         [HttpPost("registerreel")]
         public async Task<IActionResult> RegisterReel([FromForm]ReelForRegisterDto reelForRegisterDto)
         {
             var file = reelForRegisterDto.file;
 
             var uploadResult = new ImageUploadResult();
+            
+            if (reelForRegisterDto.CMnf == null) return BadRequest("No manufacturer number ");    // pratestuoti paskui ar viskas ok, ne veliau bus ikelta 
 
             if (file.Length > 0)
             {

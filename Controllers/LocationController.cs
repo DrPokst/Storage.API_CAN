@@ -10,6 +10,10 @@ using Storage.API_CAN.Helpers;
 using System.Collections.Generic;
 using Storage.API.Helpers;
 using Storage.API_CAN.DTOs;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace Storage.API.Controllers
 {
@@ -43,7 +47,8 @@ namespace Storage.API.Controllers
 
            if (LocationForRegisterDto.QTY == 0) LocationForRegisterDto.QTY = ReelsFromRepo.QTY;
            
-
+            //var secret = "super secret key";
+           // var TokenData = ReadJwtToken(LocationForRegisterDto, secret);
 
            var HistoryToCreate = new History
             {
@@ -67,6 +72,8 @@ namespace Storage.API.Controllers
             else 
              return BadRequest("Could notregister location");
         }
+
+  
 
         [HttpGet("history")]
         public async Task<IActionResult> GetHistory([FromQuery]HistoryParams historyParams)

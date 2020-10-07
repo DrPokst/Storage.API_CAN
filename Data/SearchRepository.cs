@@ -158,7 +158,7 @@ namespace Storage.API.Data
                 history  = history.Where(u => u.Mnf == historyParams.Mnf);
             }
 
-            if (historyParams.ReelId != null)
+            if (historyParams.ReelId != 0 )
             {
                 history  = history.Where(u => u.ReelId == historyParams.ReelId);
             }
