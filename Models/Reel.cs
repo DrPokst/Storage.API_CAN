@@ -13,5 +13,6 @@ namespace Storage.API.Models
         public ICollection<Photo2> Photos2 { get; set; }
         public string? Location { get; set; }
         public ICollection<History> History { get; set; }
+        public ICollection<Componentas> Componentas { get; set; }
     }
 }

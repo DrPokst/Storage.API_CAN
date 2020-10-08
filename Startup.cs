@@ -3,10 +3,13 @@ using System.Text;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +17,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Storage.API.Data;
 using Storage.API.Helpers;
+using Storage.API.Models;
 using Storage.API.Services;
+using Storage.API_CAN.Models;
 using Storage.API_CAN.SignalR;
 
 namespace Storage.API
@@ -44,19 +49,22 @@ namespace Storage.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            
-            services.AddControllers().AddNewtonsoftJson(opt =>
+            IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
             {
-                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                opt.Password.RequireDigit = false;
+                opt.Password.RequiredLength = 4;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
             });
-            services.AddCors();
-            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
-            services.AddAutoMapper(typeof(SearchRepository).Assembly);
-            services.AddScoped<IAuthRepository, AuthRepository>();
-            services.AddScoped<ISearchRepository, SearchRepository>();
-            services.AddScoped<IReelRepository, ReelRepository>();
-            services.AddScoped<ILedService, LedService>();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+
+            builder = new IdentityBuilder(builder.UserType, typeof(AppRole), builder.Services);
+            builder.AddEntityFrameworkStores<DataContext>();
+            builder.AddRoleValidator<RoleValidator<AppRole>>();
+            builder.AddRoleManager<RoleManager<AppRole>>();
+            builder.AddSignInManager<SignInManager<User>>();
+
+            
+             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -68,6 +76,25 @@ namespace Storage.API
 
 
             });
+
+            services.AddControllers(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+
+                options.Filters.Add(new AuthorizeFilter(policy));    
+            }).AddNewtonsoftJson(opt =>
+            {
+                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
+            services.AddCors();
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+            services.AddAutoMapper(typeof(SearchRepository).Assembly);
+            services.AddScoped<ISearchRepository, SearchRepository>();
+            services.AddScoped<IReelRepository, ReelRepository>();
+            services.AddScoped<ILedService, LedService>();
+           
             services.AddSignalR();
         }
 
@@ -94,7 +121,7 @@ namespace Storage.API
                 });
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

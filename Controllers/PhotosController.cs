@@ -16,8 +16,7 @@ namespace Storage.API.Controllers
 {
     
     [Route("api/search/{componentId}/photos")]
-    [ApiController]
-    public class PhotosController : ControllerBase
+    [ApiController]    public class PhotosController : ControllerBase
     { 
         private readonly ISearchRepository _repo;
         private readonly IReelRepository _repo2;

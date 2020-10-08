@@ -21,6 +21,8 @@ namespace Storage.API.Helpers
             CreateMap<Photo, PhotosForReturnDto>();
             CreateMap<PhotosForCreationDto, Photo>();
              CreateMap<History, HistoryForListDto>();
+             CreateMap<User, UserForListDto>();
+             CreateMap<UserForRegisterDTO, User>();
         }
     }
 } 

@@ -1,14 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Storage.API.Data;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
+using Storage.API.Models;
+using Storage.API_CAN.Models;
+using Storage.API_CAN.Data;
 
 namespace Storage.API
 {
@@ -24,7 +24,10 @@ namespace Storage.API
                 try
                 {
                     var context = services.GetRequiredService<DataContext>();
+                    var userManager = services.GetRequiredService<UserManager<User>>();
+                    var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
                     context.Database.Migrate();
+                    Seed.SeedUsers(userManager, roleManager);
                 }
                 catch (Exception ex)
                 {
@@ -35,7 +38,6 @@ namespace Storage.API
             }
             host.Run();
         }
-
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>

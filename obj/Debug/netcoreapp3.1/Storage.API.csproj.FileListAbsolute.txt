@@ -172,8 +172,6 @@ C:\Users\domantass\AllSystem\AllSystem\storage.api\obj\Debug\netcoreapp3.1\Stora
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\appsettings.json
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\appsettings.Development.json
-C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\rpi_ws281x\obj\project.assets.json
-C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\rpi_ws281x\obj\rpi_ws281x.csproj.nuget.dgspec.json
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Storage.API.exe
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Storage.API.deps.json
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Storage.API.runtimeconfig.json
@@ -340,3 +338,9 @@ C:\Users\domantass\Documents\GitHub\Storage.API_CAN\obj\Debug\netcoreapp3.1\stat
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\obj\Debug\netcoreapp3.1\Storage.API.dll
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\obj\Debug\netcoreapp3.1\Storage.API.pdb
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\obj\Debug\netcoreapp3.1\Storage.API.genruntimeconfig.cache
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Core.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Data\SeedData.json
