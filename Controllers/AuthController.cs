@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using Storage.API_CAN.DTOs;
+using System.Collections.Generic;
 
 namespace Storage.API.Controllers
 {
@@ -62,7 +63,7 @@ namespace Storage.API.Controllers
                 var appUser = _mapper.Map<UserForListDto>(user);
                 return Ok(new
                 {
-                    token = GenerateJwtToken(user),
+                    token = GenerateJwtToken(user).Result,
                     user = appUser
                 });
             }
@@ -70,14 +71,20 @@ namespace Storage.API.Controllers
             return Unauthorized();
 
         }
-        private string GenerateJwtToken(User user)
+        private async Task<string> GenerateJwtToken(User user)
         {
-            var claims = new[]
+            var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.UserName)
 
             };
+
+            var roles = await _userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8
             .GetBytes(_config.GetSection("AppSettings:Token").Value));

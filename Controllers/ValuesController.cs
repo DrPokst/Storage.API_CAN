@@ -24,7 +24,7 @@ namespace Storage.API.Controllers
         // GET api/valuess
        
         [HttpGet]
-
+        [Authorize(Roles = "Member")]
         public async Task<IActionResult> GetValues()
         {
             var value = await _context.Values.ToListAsync();

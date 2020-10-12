@@ -64,7 +64,7 @@ namespace Storage.API
             builder.AddSignInManager<SignInManager<User>>();
 
             
-             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -74,7 +74,17 @@ namespace Storage.API
                     ValidateAudience = false
                 };
 
+           
 
+
+            });
+
+             services.AddAuthorization(options => 
+            {
+                options.AddPolicy("RequiredAdminRole", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
+                options.AddPolicy("VipOnly", policy => policy.RequireRole("VIP"));
+                
             });
 
             services.AddControllers(options =>

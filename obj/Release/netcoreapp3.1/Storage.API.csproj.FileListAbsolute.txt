@@ -513,3 +513,4 @@ C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Mi
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Microsoft.Extensions.Identity.Core.dll
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Data\SeedData.json
