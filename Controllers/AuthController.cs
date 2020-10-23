@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using Storage.API_CAN.DTOs;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Storage.API.Controllers
 {
@@ -22,13 +23,15 @@ namespace Storage.API.Controllers
     [AllowAnonymous]
     public class AuthController : ControllerBase
     {
-        
+
         private readonly IConfiguration _config;
         private readonly SignInManager<User> _signInmanager;
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
-        public AuthController(IConfiguration config, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInmanager)
+        private readonly DataContext _context;
+        public AuthController(DataContext context, IConfiguration config, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInmanager)
         {
+            _context = context;
             _mapper = mapper;
             _userManager = userManager;
             _signInmanager = signInmanager;
@@ -41,7 +44,9 @@ namespace Storage.API.Controllers
             var userToCreate = _mapper.Map<User>(userForRegisterDTO);
 
             var result = await _userManager.CreateAsync(userToCreate, userForRegisterDTO.Password);
-            
+
+            var role = await _userManager.AddToRoleAsync(userToCreate, "Member");
+
             if (result.Succeeded)
             {
                 return StatusCode(201);
@@ -71,6 +76,17 @@ namespace Storage.API.Controllers
             return Unauthorized();
 
         }
+
+        [HttpGet("user")]
+        public async Task<IActionResult> GetUserWithRoles(string Id)
+        {
+
+            var userList = await _context.Users.Include(p => p.UserPhoto).FirstOrDefaultAsync(u => u.UserName == Id);
+
+
+            return Ok(userList);
+        }
+
         private async Task<string> GenerateJwtToken(User user)
         {
             var claims = new List<Claim>

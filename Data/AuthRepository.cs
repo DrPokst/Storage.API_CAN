@@ -3,6 +3,7 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Storage.API.Models;
 using Microsoft.EntityFrameworkCore;
+using Storage.API_CAN.Models;
 
 namespace Storage.API.Data
 {
@@ -53,6 +54,20 @@ namespace Storage.API.Data
             return user;
 
         }
+        public async Task<UserPhoto> RegisterPhoto(UserPhoto userPhoto)
+        {
+            await _context.UserPhoto.AddAsync(userPhoto);
+            await _context.SaveChangesAsync();
+
+            return userPhoto;
+        }
+        public async Task<User> GetUser(int id)
+        {
+            var user = await _context.Users.Include(p => p.UserPhoto)
+                                                          .FirstOrDefaultAsync(u => u.Id == id);
+
+            return user;
+        }
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
@@ -61,6 +76,11 @@ namespace Storage.API.Data
                     passwordSalt = hmac.Key;  
                     passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
+        }
+        public async Task<UserPhoto> GetPhoto(int id)
+        {
+            var photo = await _context.UserPhoto.FirstOrDefaultAsync(p => p.Id == id);
+            return photo;
         }
 
         private object GetBytes(string password)

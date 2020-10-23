@@ -38,30 +38,38 @@ namespace Storage.API.Controllers
         public async Task<IActionResult> RegisterLocation(LocationForRegisterDto LocationForRegisterDto)
         {
 
-           var rxmsg = await _ledService.SetLedLocation();
-
-         
-           int Location = rxmsg.Msg[0] + ((rxmsg.ID - 1) * 30);
+          
            
            var ReelsFromRepo = await _repo.GetReel(LocationForRegisterDto.Id);
            var ComponentasFromRepo = await _srepo.GetCompCMnf(ReelsFromRepo.CMnf);
 
-           if (LocationForRegisterDto.QTY == 0) LocationForRegisterDto.QTY = ReelsFromRepo.QTY;
-           
-            //var secret = "super secret key";
-           // var TokenData = ReadJwtToken(LocationForRegisterDto, secret);
+           int likutis = ReelsFromRepo.QTY - LocationForRegisterDto.QTY;
 
-           var HistoryToCreate = new History
+           if (likutis <= 0)  return BadRequest("Rite tusčia, bandote padeti tuščia pakuotę, nurasote didesni kieki nei buvo uzregistruota riteje");
+
+
+            var rxmsg = await _ledService.SetLedLocation();
+            int Location = rxmsg.Msg[0] + ((rxmsg.ID - 1) * 30);
+
+
+            //var secret = "super secret key";
+            // var TokenData = ReadJwtToken(LocationForRegisterDto, secret);
+
+            var HistoryToCreate = new History
             {
                 Mnf = ReelsFromRepo.CMnf,
                 NewLocation = Location.ToString(),
-                NewQty = rxmsg.Msg[0],
+                NewQty = likutis,
                 OldLocation = ReelsFromRepo.Location,
-                OldQty = rxmsg.ID,
+                OldQty = ReelsFromRepo.QTY,
                 ComponentasId = ComponentasFromRepo.Id,
                 DateAdded = DateTime.Now,
-                ReelId = LocationForRegisterDto.Id
+                ReelId = LocationForRegisterDto.Id,
+                UserId = 1
            };
+
+
+           LocationForRegisterDto.QTY = likutis;
 
             var createHistory = await _srepo.RegisterHistory(HistoryToCreate);
             LocationForRegisterDto.Location = Location.ToString();

@@ -27,8 +27,8 @@ namespace Storage.API_CAN.Controllers
         [HttpGet("usersWithRoles")]
         public async Task<IActionResult> GetUserWithRoles()
         {
+            
             var userList = await _context.Users
-                .OrderBy(x => x.UserName)
                 .Select(user => new
                 {
                     Id = user.Id,
@@ -36,6 +36,7 @@ namespace Storage.API_CAN.Controllers
                     Created = user.Created,
                     Email = user.Email,
                     lastActive = user.LastActive,
+                    UserPhoto = user.UserPhoto,
                     Roles = (from userRole in user.UserRoles
                              join role in _context.Roles
                              on userRole.RoleId
@@ -47,6 +48,7 @@ namespace Storage.API_CAN.Controllers
 
             return Ok(userList);
         }
+
 
         [Authorize(Policy = "ModeratePhotoRole")]
         [HttpGet("photosForModeration")]

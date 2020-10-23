@@ -12,6 +12,7 @@ namespace Storage.API.Models
         public DateTime Created { get; set; }
         public ICollection<History> History { get; set; }
         public ICollection<UserRole> UserRoles { get; set; }
+        public ICollection<UserPhoto> UserPhoto { get; set; }
        
     }
 }

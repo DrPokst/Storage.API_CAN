@@ -4,7 +4,7 @@
     "Password": "password",
     "Created": "2017-05-15",
     "LastActive": "2017-05-15",
-    "Photos": [
+    "UserPhoto": [
       {
         "url": "https://randomuser.me/api/portraits/women/80.jpg",
         "isMain": true,
@@ -17,7 +17,7 @@
     "Password": "password",
     "Created": "2017-07-20",
     "LastActive": "2017-07-20",
-    "Photos": [
+    "UserPhoto": [
       {
         "url": "https://randomuser.me/api/portraits/women/69.jpg",
         "isMain": true,
@@ -30,7 +30,7 @@
     "Password": "password",
     "Created": "2017-03-19",
     "LastActive": "2017-03-19",
-    "Photos": [
+    "UserPhoto": [
       {
         "url": "https://randomuser.me/api/portraits/women/52.jpg",
         "isMain": true,
@@ -43,7 +43,7 @@
     "Password": "password",
     "Created": "2017-06-01",
     "LastActive": "2017-06-01",
-    "Photos": [
+    "UserPhoto": [
       {
         "url": "https://randomuser.me/api/portraits/women/17.jpg",
         "isMain": true,
@@ -56,7 +56,7 @@
     "Password": "password",
     "Created": "2017-08-08",
     "LastActive": "2017-08-08",
-    "Photos": [
+    "UserPhoto": [
       {
         "url": "https://randomuser.me/api/portraits/women/35.jpg",
         "isMain": true,

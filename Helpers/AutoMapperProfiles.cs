@@ -23,6 +23,7 @@ namespace Storage.API.Helpers
              CreateMap<History, HistoryForListDto>();
              CreateMap<User, UserForListDto>();
              CreateMap<UserForRegisterDTO, User>();
+             CreateMap<User, UserForListAdminDto>();
         }
     }
 } 

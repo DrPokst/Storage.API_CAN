@@ -18,6 +18,7 @@ namespace Storage.API.Data
         public DbSet<Componentas> Componentass { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Photo2> Photos2 { get; set; }
+        public DbSet<UserPhoto> UserPhoto { get; set; }
         public DbSet<Reel> Reels { get; set; }
         public DbSet<History> History { get; set; }
 

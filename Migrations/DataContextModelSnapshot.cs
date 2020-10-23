@@ -134,9 +134,6 @@ namespace Storage.API.Migrations
                     b.Property<string>("Nominal")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int?>("ReelId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Size")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
@@ -144,8 +141,6 @@ namespace Storage.API.Migrations
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ReelId");
 
                     b.ToTable("Componentass");
                 });
@@ -265,6 +260,9 @@ namespace Storage.API.Migrations
                     b.Property<string>("CMnf")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<int>("ComponentasId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Location")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
@@ -272,6 +270,8 @@ namespace Storage.API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ComponentasId");
 
                     b.ToTable("Reels");
                 });
@@ -391,6 +391,37 @@ namespace Storage.API.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
+            modelBuilder.Entity("Storage.API_CAN.Models.UserPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserPhoto");
+                });
+
             modelBuilder.Entity("Storage.API_CAN.Models.UserRole", b =>
                 {
                     b.Property<int>("UserId")
@@ -442,13 +473,6 @@ namespace Storage.API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Storage.API.Models.Componentas", b =>
-                {
-                    b.HasOne("Storage.API.Models.Reel", null)
-                        .WithMany("Componentas")
-                        .HasForeignKey("ReelId");
-                });
-
             modelBuilder.Entity("Storage.API.Models.History", b =>
                 {
                     b.HasOne("Storage.API.Models.Componentas", null)
@@ -484,6 +508,24 @@ namespace Storage.API.Migrations
                     b.HasOne("Storage.API.Models.Reel", null)
                         .WithMany("Photos2")
                         .HasForeignKey("ReelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Storage.API.Models.Reel", b =>
+                {
+                    b.HasOne("Storage.API.Models.Componentas", null)
+                        .WithMany("Reels")
+                        .HasForeignKey("ComponentasId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Storage.API_CAN.Models.UserPhoto", b =>
+                {
+                    b.HasOne("Storage.API.Models.User", null)
+                        .WithMany("UserPhoto")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Storage.API_CAN.Models;
 
 namespace Storage.API_CAN.DTOs
 {
@@ -7,5 +9,6 @@ namespace Storage.API_CAN.DTOs
         public int Id { get; set; }
         public string Username { get; set; }
         public DateTime LastActive { get; set; }
+        public ICollection<UserPhoto> UserPhoto { get; set; }
     }
 }

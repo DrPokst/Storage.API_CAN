@@ -23,38 +23,12 @@ namespace Storage.API.Data
              _context.Remove(entity);
         }
 
-        public async Task<Reel[]> GetCompare(int id)
+        public async Task<IQueryable<Reel>> GetCompare(int id)
         {   
-            int a = 0;
-            Reel[] y = new Reel[0];
-            Reel[] d = new Reel[0];
-
             var componentass = await _context.Componentass.FirstOrDefaultAsync(u => u.Id == id);
+            var reels = _context.Reels.Include(p => p.Photos2).Where(u => u.CMnf == componentass.Mnf).AsQueryable();
 
-
-            for (int i = 1; i < 500; i++)
-            {
-                var reel = await _context.Reels.Include(p => p.Photos2).FirstOrDefaultAsync(u => u.Id == i);
-
-                if (reel != null)
-                {
-                    y = y.Concat(new Reel[] { reel }).ToArray();
-                }
-                
-
-            }
-            for (int k = 0; k < y.Length; k++)
-            {
-
-                if (y[k].CMnf == componentass.Mnf)
-                    {
-                    d = d.Concat(new Reel[] { y[k] }).ToArray();
-                }
-            }
-            
-
-
-            return d;
+            return reels; 
         }
 
         public async Task<Photo2> GetPhoto(int Rid)

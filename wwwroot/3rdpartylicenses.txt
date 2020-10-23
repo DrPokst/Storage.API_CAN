@@ -1047,6 +1047,8 @@ ngx-bootstrap/component-loader
 
 ngx-bootstrap/dropdown
 
+ngx-bootstrap/modal
+
 ngx-bootstrap/pagination
 
 ngx-bootstrap/positioning
