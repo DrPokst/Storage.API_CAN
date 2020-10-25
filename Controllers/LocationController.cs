@@ -38,8 +38,6 @@ namespace Storage.API.Controllers
         public async Task<IActionResult> RegisterLocation(LocationForRegisterDto LocationForRegisterDto)
         {
 
-          
-           
            var ReelsFromRepo = await _repo.GetReel(LocationForRegisterDto.Id);
            var ComponentasFromRepo = await _srepo.GetCompCMnf(ReelsFromRepo.CMnf);
 
@@ -48,7 +46,7 @@ namespace Storage.API.Controllers
            if (likutis <= 0)  return BadRequest("Rite tusčia, bandote padeti tuščia pakuotę, nurasote didesni kieki nei buvo uzregistruota riteje");
 
 
-            var rxmsg = await _ledService.SetLedLocation();
+            var rxmsg = await _ledService.SetReelLocation();
             int Location = rxmsg.Msg[0] + ((rxmsg.ID - 1) * 30);
 
 
@@ -82,7 +80,20 @@ namespace Storage.API.Controllers
              return BadRequest("Could notregister location");
         }
 
-  
+        [HttpPost("{id}")]
+        public async Task<IActionResult> TakeOutReel(int id)
+        {   
+            var reelFromRepo = await _repo.GetReel(id);
+            int result = Int32.Parse(reelFromRepo.Location);
+            var reel = await _ledService.TurnOnLed(result);
+
+            var taked = _ledService.TakeOutReel(id);
+
+            
+            
+            return Ok(reel);
+        }
+
 
         [HttpGet("history")]
         public async Task<IActionResult> GetHistory([FromQuery]HistoryParams historyParams)

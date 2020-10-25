@@ -9,7 +9,10 @@ namespace Storage.API.Services
     public interface ILedService
     {
         Task<bool> TurnOnLed(int id);
-        Task<bool> TurnOff(int id);
-        Task<Rxmsg> SetLedLocation();
+        Task<bool> TurnOffLed(int id);
+        Task<Rxmsg> SetReelLocation();
+        Task<bool> TakeOutReel(int id);
+        Task<bool> TurnOnAll();
+        Task<bool> TurnOffAll();
     }
 }

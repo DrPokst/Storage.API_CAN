@@ -19,85 +19,106 @@ namespace Storage.API.Services
 {
     public class LedService : ILedService
     {
-       
+
         public async Task<bool> TurnOnLed(int id)
         {
-            // var settings = Settings.CreateDefaultSettings();
-
-            // settings.Channel_1 = new Channel(20, 18, 255, false, StripType.WS2812_STRIP);
-
-            // using (var controller = new WS281x(settings))
-            // {
-            //     controller.SetLEDColor(0, id, Color.Red);
-            //     controller.Render();
-            // }
-            
-            // return true;
-
-            Run2(id);
-
-            // var device = new Ws2812b(spi, 75);
-    
-
-            // // Display basic colors for 5 sec
-            // BitmapImage img = device.Image;
-            // img.Clear();
-            // img.SetPixel(id-1, 0, Color.Blue);
-            // device.Update();
-            return true;
-            
-        }
-
-        public async Task<bool> TurnOff(int id)
-        {
-            return true;
-        }
-        
-        public async Task<Rxmsg> SetLedLocation()
-        {   
-            
             using (Mcp25xxx mcp25xxx = GetMcp25xxxDevice())
             {
-                
+                InitMcp();
+
+                int tarpinis = (id / 30) + 1;
+                int slotNr = id - ((tarpinis - 1) * 30);
+                byte ID = Convert.ToByte(tarpinis);
+
+                byte[] data = new byte[] {ID, (byte)slotNr, 0x00, 0xFF, 0x00, 0xFF, 0x00 };
+                TransmitMessage(mcp25xxx, data);
+            }
+
+            return true;
+        }
+        public async Task<bool> TurnOnAll()
+        {
+            using (Mcp25xxx mcp25xxx = GetMcp25xxxDevice())
+            {
+                InitMcp();
+                byte[] data = new byte[] {0, 0, 0x00, 0xFF, 0x00, 0xFF, 0x00 };
+                TransmitMessage(mcp25xxx, data);
+            }
+
+            return true;
+        }
+        public async Task<bool> TurnOffAll()
+        {
+            using (Mcp25xxx mcp25xxx = GetMcp25xxxDevice())
+            {
+                InitMcp();
+                byte[] data = new byte[] {0, 0, 0x00, 0xFF, 0x00, 0xFF, 0x00 };
+                TransmitMessage(mcp25xxx, data);
+            }
+
+            return true;
+        }
+        public async Task<bool> TurnOffLed(int id)
+        {
+             using (Mcp25xxx mcp25xxx = GetMcp25xxxDevice())
+            {
+                InitMcp();
+
+                int tarpinis = (id / 30) + 1;
+                int slotNr = id - ((tarpinis - 1) * 30);
+                byte ID = Convert.ToByte(tarpinis);
+
+                byte[] data = new byte[] {ID, (byte)slotNr, 0xFF, 0x00, 0x00, 0xFF, 0x00 };
+                TransmitMessage(mcp25xxx, data);
+            }
+
+            return true;
+        }
+        public async Task<Rxmsg> SetReelLocation()
+        {
+
+            using (Mcp25xxx mcp25xxx = GetMcp25xxxDevice())
+            {
+
                 // Reset(mcp25xxx);
-                mcp25xxx.Write(Address.Cnf1, new byte [] { 0b0000_0000 });
-                mcp25xxx.Write(Address.Cnf2, new byte [] { 0b1001_0001 });
-                mcp25xxx.Write(Address.Cnf3, new byte [] { 0b0000_0001 });
-                
+                mcp25xxx.Write(Address.Cnf1, new byte[] { 0b0000_0000 });
+                mcp25xxx.Write(Address.Cnf2, new byte[] { 0b1001_0001 });
+                mcp25xxx.Write(Address.Cnf3, new byte[] { 0b0000_0001 });
+
                 //Rx buferio parametrai 
-                mcp25xxx.Write(Address.RxB0Ctrl, new byte [] { 0b0110_0000 });
-                mcp25xxx.Write(Address.RxB1Ctrl, new byte [] { 0b0110_0000 });
+                mcp25xxx.Write(Address.RxB0Ctrl, new byte[] { 0b0110_0000 });
+                mcp25xxx.Write(Address.RxB1Ctrl, new byte[] { 0b0110_0000 });
 
                 //isvalau rx bufferius 
-                mcp25xxx.Write(Address.CanIntF, new byte [] { 0b0000_0000 });
+                mcp25xxx.Write(Address.CanIntF, new byte[] { 0b0000_0000 });
 
                 //issiunciu msg, kad lauksiu rites location
-                byte[] da = new byte[] {0x0F, 0xF0};
-               TransmitMessage(mcp25xxx, da);
+                byte[] da = new byte[] { 0x0F, 0xF0 };
+                TransmitMessage(mcp25xxx, da);
 
 
                 var CANINTF = new BitArray(BitConverter.GetBytes(mcp25xxx.Read(Address.CanIntF)).ToArray());
 
-                
+
                 while (CANINTF[0] == false)
                 {
-                       CANINTF = new BitArray(BitConverter.GetBytes(mcp25xxx.Read(Address.CanIntF)).ToArray());
+                    CANINTF = new BitArray(BitConverter.GetBytes(mcp25xxx.Read(Address.CanIntF)).ToArray());
                 }
-                
 
-                
+
+
                 var CANINTE = new BitArray(BitConverter.GetBytes(mcp25xxx.Read(Address.CanIntE)).ToArray());
-                 
+
                 byte[] data1 = mcp25xxx.ReadRxBuffer(RxBufferAddressPointer.RxB0D0, 8);
                 byte[] data2 = mcp25xxx.ReadRxBuffer(RxBufferAddressPointer.RxB1D0, 8);
 
-                
 
-                             
+
+
                 byte STID0 = mcp25xxx.Read(Address.RxB0Sidh);
                 byte STID1 = mcp25xxx.Read(Address.RxB0Sidl);
-                
-                
+
+
 
                 //Nuskaito registrus ID paieskai ir konvertuoja i bitu masyva. 
                 var bits1 = new BitArray(BitConverter.GetBytes(mcp25xxx.Read(Address.RxB0Sidh)).ToArray());
@@ -105,93 +126,60 @@ namespace Storage.API.Services
 
 
                 var RxB0Dlc = new BitArray(BitConverter.GetBytes(mcp25xxx.Read(Address.RxB0Dlc)).ToArray());
-                RxB0Dlc[6]=false;
-                RxB0Dlc[5]=false;
-                RxB0Dlc[4]=false;
+                RxB0Dlc[6] = false;
+                RxB0Dlc[5] = false;
+                RxB0Dlc[4] = false;
 
                 int DLC = getIntFromBitArray(RxB0Dlc);
 
 
                 //surasau bitus is dvieju skirtingu adresu i viena masyva
                 bool[] bits3 = new bool[11] { bits2[5], bits2[6], bits2[7], bits1[0], bits1[1], bits1[2], bits1[3], bits1[4], bits1[5], bits1[6], bits1[7] };
-                
-                BitArray myBA2 = new BitArray( bits3 );
-                
+
+                BitArray myBA2 = new BitArray(bits3);
+
                 //bitu masyva pakeiciu i integer skaiciu kuris parodo atejusio CAN paketo ID 
                 int ID = getIntFromBitArray(myBA2);
 
-                Rxmsg msg = new Rxmsg {
-                    DLC  = DLC,
+                Rxmsg msg = new Rxmsg
+                {
+                    DLC = DLC,
                     ID = ID,
                     Msg = data1
                 };
-               
-               
-                Console.WriteLine("RxB0D0 pirmas bytes DEC: " + data1[0]);
-                Console.WriteLine("RxB1D0 pirmas bytes DEC: " + data2[0]);
-                Console.WriteLine("RxB1Sidh: " + STID0);
-                Console.WriteLine("RxB1Sidl: " + STID1);
-                Console.WriteLine("DLC: " + DLC);
-                Console.WriteLine("ID: " + ID);
+
+
+                /*  Console.WriteLine("RxB0D0 pirmas bytes DEC: " + data1[0]);
+                 Console.WriteLine("RxB1D0 pirmas bytes DEC: " + data2[0]);
+                 Console.WriteLine("RxB1Sidh: " + STID0);
+                 Console.WriteLine("RxB1Sidl: " + STID1);
+                 Console.WriteLine("DLC: " + DLC);
+                 Console.WriteLine("ID: " + ID);
+                  */
 
 
                 return msg;
             }
 
         }
-        private static int getIntFromBitArray(BitArray bitArray)
-                {
-
-                if (bitArray.Length > 32)
-                     throw new ArgumentException("Argument length shall be at most 32 bits.");
-
-                int[] array = new int[1];
-                bitArray.CopyTo(array, 0);
-                return array[0];
-
-                }
-
-
-        private static void Run2(int id)
+        public async Task<bool> TakeOutReel(int id)
         {
-            Console.WriteLine("Hello Mcp25xxx Sample!");
-
             using (Mcp25xxx mcp25xxx = GetMcp25xxxDevice())
             {
-                //Reset(mcp25xxx);
 
-                mcp25xxx.Write(Address.Cnf1, new byte [] { 0b0000_0000 });
-                mcp25xxx.Write(Address.Cnf2, new byte [] { 0b1001_0001 });
-                mcp25xxx.Write(Address.Cnf3, new byte [] { 0b0000_0001 });
+                InitMcp();
 
-                int tarpinis = (id / 30) + 1 ;
-                int id2 = id - ((tarpinis - 1)* 30);
+                int tarpinis = (id / 30) + 1;
+                int slotNr = id - ((tarpinis - 1) * 30);
                 byte ID = Convert.ToByte(tarpinis);
 
-                byte[] data = new byte[] { ID, (byte)id2, 0x00, 0xFF, 0x00, 0x01};
+                byte[] data = new byte[] { ID, (byte)slotNr, 0xF0, 0x0F, 0x00, 0xFF, 0x00 };
                 TransmitMessage(mcp25xxx, data);
-               
-                
 
-               
-                
-                //ReadAllRegisters(mcp25xxx);
-                //ReadAllRegistersWithDetails(mcp25xxx);
-                //ReadRxBuffer(mcp25xxx);
-                //Write(mcp25xxx);
-                //LoadTxBuffer(mcp25xxx);
-                //RequestToSend(mcp25xxx);
-                //ReadStatus(mcp25xxx);
-                //RxStatus(mcp25xxx);
-                //BitModify(mcp25xxx);
-                
-                //LoopbackMode(mcp25xxx);
-                //Write(mcp25xxx);
-                //ReadAllRegisters(mcp25xxx);
-
-                //mcp25xxx.Write(Address.CanCtrl, new byte[] { 0b1001_1111 });
 
             }
+
+            return true;
         }
         private static Mcp25xxx GetMcp25xxxDevice()
         {
@@ -204,13 +192,16 @@ namespace Storage.API.Services
             var spiDevice = SpiDevice.Create(settings);
             return new Mcp25625(spiDevice);
         }
-        private static void Reset(Mcp25xxx mcp25xxx)
+        private static void InitMcp()
         {
-            Console.WriteLine("Reset Instruction");
-            mcp25xxx.Reset();
+            using (Mcp25xxx mcp25xxx = GetMcp25xxxDevice())
+            {
+                mcp25xxx.Write(Address.Cnf1, new byte[] { 0b0000_0000 });
+                mcp25xxx.Write(Address.Cnf2, new byte[] { 0b1001_0001 });
+                mcp25xxx.Write(Address.Cnf3, new byte[] { 0b0000_0001 });
+            }
         }
-
-        private static void TransmitMessage(Mcp25xxx mcp25xxx,  byte[] data)
+        private static void TransmitMessage(Mcp25xxx mcp25xxx, byte[] data)
         {
             Console.WriteLine("Transmit Message");
 
@@ -234,6 +225,16 @@ namespace Storage.API.Services
             // Send with TxB0 buffer.
             mcp25xxx.RequestToSend(true, false, false);
         }
+        private static int getIntFromBitArray(BitArray bitArray)
+        {
 
+            if (bitArray.Length > 32)
+                throw new ArgumentException("Argument length shall be at most 32 bits.");
+
+            int[] array = new int[1];
+            bitArray.CopyTo(array, 0);
+            return array[0];
+
+        }
     }
 }
