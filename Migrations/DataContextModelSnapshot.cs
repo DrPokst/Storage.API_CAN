@@ -269,9 +269,14 @@ namespace Storage.API.Migrations
                     b.Property<int>("QTY")
                         .HasColumnType("int");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ComponentasId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reels");
                 });
@@ -517,6 +522,12 @@ namespace Storage.API.Migrations
                     b.HasOne("Storage.API.Models.Componentas", null)
                         .WithMany("Reels")
                         .HasForeignKey("ComponentasId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Storage.API.Models.User", null)
+                        .WithMany("Reels")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

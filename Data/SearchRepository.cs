@@ -31,6 +31,7 @@ namespace Storage.API.Data
         {
             var componentass = await _context.Componentass.Include(p => p.Photos)
                                                           .Include(b => b.History)
+                                                          .Include(r => r.Reels)
                                                           .FirstOrDefaultAsync(u => u.Id == id);
 
             return componentass;

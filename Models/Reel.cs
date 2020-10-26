@@ -14,5 +14,6 @@ namespace Storage.API.Models
         public string? Location { get; set; }
         public ICollection<History> History { get; set; }
         public int ComponentasId { get; set; }
+        public int? UserId { get; set; }
     }
 }

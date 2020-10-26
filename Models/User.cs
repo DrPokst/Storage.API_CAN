@@ -13,6 +13,7 @@ namespace Storage.API.Models
         public ICollection<History> History { get; set; }
         public ICollection<UserRole> UserRoles { get; set; }
         public ICollection<UserPhoto> UserPhoto { get; set; }
+        public ICollection<Reel> Reels { get; set; }
        
     }
 }

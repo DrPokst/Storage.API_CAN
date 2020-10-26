@@ -23,7 +23,7 @@ namespace Storage.API.Data
              _context.Remove(entity);
         }
 
-        public async Task<IQueryable<Reel>> GetCompare(int id)
+        public async Task<IQueryable<Reel>> GetReelByMnf(int id)
         {   
             var componentass = await _context.Componentass.FirstOrDefaultAsync(u => u.Id == id);
             var reels = _context.Reels.Include(p => p.Photos2).Where(u => u.CMnf == componentass.Mnf).AsQueryable();

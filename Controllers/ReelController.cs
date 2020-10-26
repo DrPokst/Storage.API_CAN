@@ -134,7 +134,6 @@ namespace Storage.API.Controllers
 
             throw new Exception($"Updating user {id} failed on save");
         }
-
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReel(int id)
         {

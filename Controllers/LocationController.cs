@@ -15,6 +15,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Storage.API.Controllers
 {
@@ -22,33 +23,34 @@ namespace Storage.API.Controllers
     [ApiController]
     public class LocationController : ControllerBase
     {
-         private readonly IReelRepository _repo;
+        private readonly IReelRepository _repo;
         private readonly ISearchRepository _srepo;
         private readonly IMapper _mapper;
-        private readonly ILedService  _ledService;
-        public LocationController(ILedService ledService, IReelRepository repo, ISearchRepository srepo, IMapper mapper)
+        private readonly ILedService _ledService;
+        private readonly UserManager<User> _userManager;
+        public LocationController(ILedService ledService, IReelRepository repo, ISearchRepository srepo, IMapper mapper, UserManager<User> userManager)
         {
+            _userManager = userManager;
             _srepo = srepo;
             _mapper = mapper;
             _repo = repo;
             _ledService = ledService;
         }
 
+
         [HttpPost("put")]
         public async Task<IActionResult> RegisterLocation(LocationForRegisterDto LocationForRegisterDto)
         {
 
-          
-           
-           var ReelsFromRepo = await _repo.GetReel(LocationForRegisterDto.Id);
-           var ComponentasFromRepo = await _srepo.GetCompCMnf(ReelsFromRepo.CMnf);
+            var ReelsFromRepo = await _repo.GetReel(LocationForRegisterDto.Id);
+            var ComponentasFromRepo = await _srepo.GetCompCMnf(ReelsFromRepo.CMnf);
 
-           int likutis = ReelsFromRepo.QTY - LocationForRegisterDto.QTY;
+            int likutis = ReelsFromRepo.QTY - LocationForRegisterDto.QTY;
 
-           if (likutis <= 0)  return BadRequest("Rite tusčia, bandote padeti tuščia pakuotę, nurasote didesni kieki nei buvo uzregistruota riteje");
+            if (likutis <= 0) return BadRequest("Rite tusčia, bandote padeti tuščia pakuotę, nurasote didesni kieki nei buvo uzregistruota riteje");
 
 
-            var rxmsg = await _ledService.SetLedLocation();
+            var rxmsg = await _ledService.SetReelLocation();
             int Location = rxmsg.Msg[0] + ((rxmsg.ID - 1) * 30);
 
 
@@ -66,10 +68,10 @@ namespace Storage.API.Controllers
                 DateAdded = DateTime.Now,
                 ReelId = LocationForRegisterDto.Id,
                 UserId = 1
-           };
+            };
 
 
-           LocationForRegisterDto.QTY = likutis;
+            LocationForRegisterDto.QTY = likutis;
 
             var createHistory = await _srepo.RegisterHistory(HistoryToCreate);
             LocationForRegisterDto.Location = Location.ToString();
@@ -77,15 +79,53 @@ namespace Storage.API.Controllers
 
             if (await _repo.SaveAll())
                 return NoContent();
-            
-            else 
-             return BadRequest("Could notregister location");
+
+            else
+                return BadRequest("Could notregister location");
         }
 
-  
+        [HttpPost]
+        public async Task<IActionResult> TakeOutReel(ReelForTakeDto reelForTakeDto)
+        {
+            var reelFromRepo = await _repo.GetReel(reelForTakeDto.ReelId);
+            var ComponentasFromRepo = await _srepo.GetCompCMnf(reelFromRepo.CMnf);
+            var user = await _userManager.FindByNameAsync(reelForTakeDto.Username);
+
+            int result = Int32.Parse(reelFromRepo.Location);
+
+            var take = _ledService.TakeOutReel(result);
+
+            var HistoryToCreate = new History
+            {
+                Mnf = reelFromRepo.CMnf,
+                NewLocation = reelForTakeDto.Username,
+                NewQty = reelFromRepo.QTY,
+                OldLocation = reelFromRepo.Location,
+                OldQty = reelFromRepo.QTY,
+                ComponentasId = ComponentasFromRepo.Id,
+                DateAdded = DateTime.Now,
+                ReelId = reelFromRepo.Id,
+                UserId = user.Id
+            };
+
+            reelForTakeDto.Location = reelForTakeDto.Username;
+
+            var createHistory = await _srepo.RegisterHistory(HistoryToCreate);
+            
+            _mapper.Map(reelForTakeDto, reelFromRepo);
+
+
+            if (await _repo.SaveAll())
+                return NoContent();
+
+            else
+                return BadRequest("Could notregister location");
+
+        }
+
 
         [HttpGet("history")]
-        public async Task<IActionResult> GetHistory([FromQuery]HistoryParams historyParams)
+        public async Task<IActionResult> GetHistory([FromQuery] HistoryParams historyParams)
         {
             var history = await _srepo.GetHistory(historyParams);
             var historyToReturn = _mapper.Map<IEnumerable<HistoryForListDto>>(history);

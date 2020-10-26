@@ -20,10 +20,11 @@ namespace Storage.API.Helpers
                 .ForMember(dest => dest.PhotoUrl2, opt => opt.MapFrom(s => s.Photos2.FirstOrDefault(p => p.IsMain).Url));
             CreateMap<Photo, PhotosForReturnDto>();
             CreateMap<PhotosForCreationDto, Photo>();
-             CreateMap<History, HistoryForListDto>();
-             CreateMap<User, UserForListDto>();
-             CreateMap<UserForRegisterDTO, User>();
-             CreateMap<User, UserForListAdminDto>();
+            CreateMap<History, HistoryForListDto>();
+            CreateMap<User, UserForListDto>();
+            CreateMap<UserForRegisterDTO, User>();
+            CreateMap<User, UserForListAdminDto>();
+            CreateMap<ReelForTakeDto, Reel>();
         }
     }
 } 

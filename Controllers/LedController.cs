@@ -23,22 +23,39 @@ namespace Storage.API.Controllers
             _repo = repo;
         }
 
-        [HttpGet("{id}")]
+        [HttpPut("on/{id}")]
         public async Task<IActionResult> TurnOnLed(int id)
         {   
             var reelFromRepo = await _repo.GetReel(id);
             int result = Int32.Parse(reelFromRepo.Location);
             var reel = await _ledService.TurnOnLed(result);
-
+            
             return Ok(reel);
         }
-        [HttpGet]
-        public async Task<IActionResult> TurnOff(int id)
+        [HttpPut("off/{id}")]
+        public async Task<IActionResult> TurnOffLed(int id)
         {
-            var reel = await _ledService.TurnOff(id);
+            var reelFromRepo = await _repo.GetReel(id);
+            int result = Int32.Parse(reelFromRepo.Location);
+            var reel = await _ledService.TurnOffLed(id);
 
             return Ok(reel);
         }
 
+        [Authorize(Policy = "RequiredAdminRole")]
+        [HttpPut("on/all")]
+        public async Task<IActionResult> TurnOnAll()
+        {   
+            var reel = await _ledService.TurnOnAll();
+            return Ok();
+        }
+        
+        [Authorize(Policy = "RequiredAdminRole")]
+        [HttpPut("off/all")]
+        public async Task<IActionResult> TurnOffAll()
+        {   
+            var reel = await _ledService.TurnOffAll();
+            return Ok();
+        }
     }
 }
