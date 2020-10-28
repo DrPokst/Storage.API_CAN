@@ -269,7 +269,7 @@ namespace Storage.API.Migrations
                     b.Property<int>("QTY")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -394,6 +394,68 @@ namespace Storage.API.Migrations
                         .HasName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Storage.API_CAN.Models.BomList", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("BomNameId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BuhNr")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("ComponentasId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Qty")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BomNameId");
+
+                    b.ToTable("BomList");
+                });
+
+            modelBuilder.Entity("Storage.API_CAN.Models.BomName", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BomName");
+                });
+
+            modelBuilder.Entity("Storage.API_CAN.Models.PnP", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("BlogasFootprintas")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("GerasFootprintas")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PnP");
                 });
 
             modelBuilder.Entity("Storage.API_CAN.Models.UserPhoto", b =>
@@ -527,7 +589,14 @@ namespace Storage.API.Migrations
 
                     b.HasOne("Storage.API.Models.User", null)
                         .WithMany("Reels")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Storage.API_CAN.Models.BomList", b =>
+                {
+                    b.HasOne("Storage.API_CAN.Models.BomName", null)
+                        .WithMany("BomList")
+                        .HasForeignKey("BomNameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

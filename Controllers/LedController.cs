@@ -37,12 +37,11 @@ namespace Storage.API.Controllers
         {
             var reelFromRepo = await _repo.GetReel(id);
             int result = Int32.Parse(reelFromRepo.Location);
-            var reel = await _ledService.TurnOffLed(id);
+            var reel = await _ledService.TurnOffLed(result);
 
             return Ok(reel);
         }
 
-        [Authorize(Policy = "RequiredAdminRole")]
         [HttpPut("on/all")]
         public async Task<IActionResult> TurnOnAll()
         {   
@@ -50,7 +49,6 @@ namespace Storage.API.Controllers
             return Ok();
         }
         
-        [Authorize(Policy = "RequiredAdminRole")]
         [HttpPut("off/all")]
         public async Task<IActionResult> TurnOffAll()
         {   

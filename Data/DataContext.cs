@@ -21,6 +21,9 @@ namespace Storage.API.Data
         public DbSet<UserPhoto> UserPhoto { get; set; }
         public DbSet<Reel> Reels { get; set; }
         public DbSet<History> History { get; set; }
+        public DbSet<BomList> BomList { get; set; }
+        public DbSet<BomName> BomName { get; set; }
+        public DbSet<PnP> PnP { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

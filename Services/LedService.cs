@@ -38,7 +38,7 @@ namespace Storage.API.Services
                 mcp25xxx.Write(Address.CanIntF, new byte[] { 0b0000_0000 });
 
                 //issiunciu msg, kad lauksiu rites location
-                byte[] da = new byte[] { 0x0F, 0xF0 };
+                byte[] da = new byte[] { 0x00, 0x00, 0x0F, 0xF0 };
                 TransmitMessage(mcp25xxx, da);
 
 
@@ -118,7 +118,7 @@ namespace Storage.API.Services
                 int slotNr = id - ((tarpinis - 1) * 30);
                 byte ID = Convert.ToByte(tarpinis);
 
-                byte[] data = new byte[] { ID, (byte)slotNr, 0xF0, 0x0F, 0x00, 0xFF, 0x00 };
+                byte[] data = new byte[] { ID, (byte)slotNr, 0xF0, 0x0F, 0x00, 0xFF, 0x00, 0xFF };
                 TransmitMessage(mcp25xxx, data);
 
 
@@ -136,7 +136,7 @@ namespace Storage.API.Services
                 int slotNr = id - ((tarpinis - 1) * 30);
                 byte ID = Convert.ToByte(tarpinis);
 
-                byte[] data = new byte[] {ID, (byte)slotNr, 0x00, 0xFF, 0x00, 0xFF, 0x00 };
+                byte[] data = new byte[] {ID, (byte)slotNr, 0x00, 0xFF, 0x00, 0x00, 0xFF, 0xFF };
                 TransmitMessage(mcp25xxx, data);
             }
 
@@ -144,7 +144,7 @@ namespace Storage.API.Services
         }
         public async Task<bool> TurnOffLed(int id)
         {
-             using (Mcp25xxx mcp25xxx = GetMcp25xxxDevice())
+            using (Mcp25xxx mcp25xxx = GetMcp25xxxDevice())
             {
                 InitMcp();
 
@@ -152,7 +152,7 @@ namespace Storage.API.Services
                 int slotNr = id - ((tarpinis - 1) * 30);
                 byte ID = Convert.ToByte(tarpinis);
 
-                byte[] data = new byte[] {ID, (byte)slotNr, 0xFF, 0x00, 0x00, 0xFF, 0x00 };
+                byte[] data = new byte[] {ID, (byte)slotNr, 0xFF, 0x00, 0x00, 0xFF, 0xFF, 0xFF };
                 TransmitMessage(mcp25xxx, data);
             }
 
@@ -163,7 +163,7 @@ namespace Storage.API.Services
             using (Mcp25xxx mcp25xxx = GetMcp25xxxDevice())
             {
                 InitMcp();
-                byte[] data = new byte[] {0, 0, 0xFF, 0xFF, 0x00, 0xFF, 0x00 };
+                byte[] data = new byte[] {0, 0, 0xFF, 0xFF, 0x00, 0xFF, 0x00, 0xFF };
                 TransmitMessage(mcp25xxx, data);
             }
 
@@ -174,7 +174,7 @@ namespace Storage.API.Services
             using (Mcp25xxx mcp25xxx = GetMcp25xxxDevice())
             {
                 InitMcp();
-                byte[] data = new byte[] {0, 0, 0xFF, 0xFF, 0x00, 0xFF, 0x00 };
+                byte[] data = new byte[] {0, 0, 0x00, 0x00, 0x00, 0xFF, 0x00, 0xFF };
                 TransmitMessage(mcp25xxx, data);
             }
 

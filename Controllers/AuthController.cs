@@ -31,6 +31,7 @@ namespace Storage.API.Controllers
         private readonly DataContext _context;
         public AuthController(DataContext context, IConfiguration config, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInmanager)
         {
+         
             _context = context;
             _mapper = mapper;
             _userManager = userManager;
@@ -45,7 +46,7 @@ namespace Storage.API.Controllers
 
             var result = await _userManager.CreateAsync(userToCreate, userForRegisterDTO.Password);
 
-            var role = await _userManager.AddToRoleAsync(userToCreate, "Member");
+            var role = await _userManager.AddToRoleAsync(userToCreate, "Admin");
 
             if (result.Succeeded)
             {
@@ -86,7 +87,15 @@ namespace Storage.API.Controllers
 
             return Ok(userList);
         }
+        [HttpGet("user/info/{userName}")]
+        public async Task<IActionResult> GetUser(string userName)
+        {
+            var user = await _userManager.Users.Include(a => a.UserPhoto).Include(a => a.History).Include(a => a.Reels).FirstOrDefaultAsync(u => u.UserName == userName);
+           
+            var componentsToReturn = _mapper.Map<UserForListDto>(user);
 
+            return Ok(componentsToReturn);
+        }
         private async Task<string> GenerateJwtToken(User user)
         {
             var claims = new List<Claim>

@@ -10,6 +10,8 @@ namespace Storage.API.Helpers
     {
         public AutoMapperProfiles()
         {
+            CreateMap<User, UserForListDto>()
+                .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(s => s.UserPhoto.FirstOrDefault(p => p.IsMain).Url));;
             CreateMap<Componentas, ComponetsForListDto>()
                 .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(s => s.Photos.FirstOrDefault(p => p.IsMain).Url));
             CreateMap<Photo, PhotosForDto>();
@@ -21,7 +23,6 @@ namespace Storage.API.Helpers
             CreateMap<Photo, PhotosForReturnDto>();
             CreateMap<PhotosForCreationDto, Photo>();
             CreateMap<History, HistoryForListDto>();
-            CreateMap<User, UserForListDto>();
             CreateMap<UserForRegisterDTO, User>();
             CreateMap<User, UserForListAdminDto>();
             CreateMap<ReelForTakeDto, Reel>();
