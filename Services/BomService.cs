@@ -2,8 +2,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
+using System.Linq;
 using ExcelDataReader;
+using Storage.API_CAN.Models;
 
 namespace Storage.API_CAN.Services
 {
@@ -104,5 +107,46 @@ namespace Storage.API_CAN.Services
              */
             return mnfNumbers;
         }
+
+        public List<BomList> GetDataFromFile(Stream stream)
+        {  
+            var empList = new List<BomList>();  
+            try  
+            {  
+                using (var reader = ExcelReaderFactory.CreateReader(stream))  
+                {  
+                    var dataSet = reader.AsDataSet(new ExcelDataSetConfiguration  
+                    {  
+                        ConfigureDataTable = _ => new ExcelDataTableConfiguration  
+                        {  
+                            UseHeaderRow = true // To set First Row As Column Names  
+                        }  
+                    });  
+  
+                    if (dataSet.Tables.Count > 0)  
+                    {  
+                        var dataTable = dataSet.Tables[0];  
+                        foreach (DataRow objDataRow in dataTable.Rows)  
+                        {  
+                            if (objDataRow.ItemArray.All(x => string.IsNullOrEmpty(x?.ToString()))) continue;  
+                            empList.Add(new BomList()  
+                            {  
+                                
+                                BuhNr = objDataRow["Buh. Nr."].ToString(),  
+                                Qty = (int) objDataRow["QTY"]
+                            });  
+                        }  
+                    }  
+  
+                }  
+            }  
+            catch (Exception)  
+            {  
+                throw;  
+            }  
+              
+            return empList;  
+        }
+
     }
 }

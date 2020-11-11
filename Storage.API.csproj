@@ -5,6 +5,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="CloudinaryDotNet" Version="1.10.0" />
+    <PackageReference Include="EPPlus" Version="5.4.1" />
     <PackageReference Include="ExcelDataReader" Version="3.6.0" />
     <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
     <PackageReference Include="Iot.Device.Bindings" Version="1.0.0" />

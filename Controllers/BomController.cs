@@ -2,11 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using ExcelDataReader;
 using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
 using Storage.API.DTOs;
+using Storage.API_CAN.Data;
+using Storage.API_CAN.Models;
 using Storage.API_CAN.Services;
 
 namespace Storage.API_CAN.Controllers
@@ -15,66 +20,81 @@ namespace Storage.API_CAN.Controllers
     [ApiController]
     public class BomController : ControllerBase
     {
-        private readonly IBomService _repo;
-        public BomController(IBomService repo)
+        
+        private readonly IBomRepository _repo;
+
+        public BomController(IBomRepository repo)
         {
             _repo = repo;
+            
 
         }
 
         [HttpPost]
         public async Task<IActionResult> AddBom([FromForm] BomForCreationDto bomForCreationDto)
         {
-            int lookForMnf = 0;
-            int lookForMnfQuantity = 7;
-            var fileName = bomForCreationDto.File.FileName;
 
-            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-            var mnfNumbers = _repo.GetPartNumber(fileName, lookForMnf);
-            var mnfPartQuantity = _repo.GetNumber(fileName, lookForMnfQuantity);
+            var formFile = bomForCreationDto.File;
 
-            return Ok(mnfPartQuantity);
+            var listas = new List<BomList>();
 
-
-
-
-            /*
-            int lookForMnf = 0;
-            int lookForMnfQuantity = 7;
-            var file = bomForCreationDto.File;
-
-            var filePath = Path.GetTempFileName();
-            
-            if (file.Length > 0)
+            if (formFile == null || formFile.Length <= 0)
             {
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                return BadRequest("formfile is empty");
+            }
+
+            if (!Path.GetExtension(formFile.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+            {
+                return BadRequest("Not Support file extension");
+            }
+
+            try
+            {
+                using (var stream = new MemoryStream())
+            {
+                await formFile.CopyToAsync(stream);
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+                    using (var package = new ExcelPackage(stream))
                 {
-                    await file.CopyToAsync(stream);
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                    var rowCount = worksheet.Dimension.Rows;
+
+                    var name = worksheet.Cells[1, 1].Value.ToString().Trim();
+
+                    var tikrinimas = await _repo.GetBomName(name);
+                    if (tikrinimas != null) return BadRequest("Toks bomas jau yra ikeltas");
+
+                    var bomName = new BomName
+                        {
+                            Name = name,
+                            DateAdded = DateTime.Now,
+                            LastModified = DateTime.Now
+                        };
+
+                    var result = await _repo.RegisterBomName(bomName);
+
+                    for (int row = 3; row <= rowCount; row++)
+                    {
+                       
+                       listas.Add(new BomList
+                                {
+                                    BuhNr = worksheet.Cells[row, 1].Value.ToString().Trim(),
+                                    Qty = int.Parse(worksheet.Cells[row, 5].Value.ToString().Trim()),
+                                    BomNameId = result.Id
+                                    
+                                });
+                    }
+                            
+                    var reg = await _repo.RegisterBomList(listas);
                 }
             }
-
-            List<string> mnfNumbers = _repo.GetPartNumber(filePath, lookForMnf);
-            List<string> mnfPartQuantity = _repo.GetNumber(filePath, lookForMnfQuantity);
-
-            return Ok("viskas ok");
-            */
-
-            /* photoForCreationDto.PublicId = uploadResult.PublicId;
-
-            var photo = _mapper.Map<Photo>(photoForCreationDto);
-
-            if (!componentsFromRepo.Photos.Any(u => u.IsMain))
-                photo.IsMain = true;
-            componentsFromRepo.Photos.Add(photo);
-
-            if(await _repo.SaveAll())
-            {
-                
-                var photoToReturn = _mapper.Map<PhotosForReturnDto>(photo);
-                return CreatedAtRoute("GetPhoto", new { componentId = componentId, id = photo.Id}, photoToReturn);
             }
-                
-            return BadRequest("Could not add the photo"); */
+            catch (System.Exception)
+            {
+                throw;
+            }
+            return Ok(listas);
         }
     }
 }

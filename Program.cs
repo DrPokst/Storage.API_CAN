@@ -34,7 +34,7 @@ namespace Storage.API
                     var logger = services.GetRequiredService<ILogger<Program>>();
                     logger.LogError(ex, "erroras darant migrations");
                 }
-
+            
             }
             host.Run();
         }
