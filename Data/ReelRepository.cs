@@ -101,6 +101,11 @@ namespace Storage.API.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
-       
+        public async Task<Reel> GetByLocation(string Location)
+        {
+            var reel = await _context.Reels.FirstOrDefaultAsync(u => u.Location == Location);
+
+            return reel;
+        }
     }
 }

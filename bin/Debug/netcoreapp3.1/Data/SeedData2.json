@@ -1,0 +1,32 @@
+[
+  {
+    "BuhNr": "EL000111",
+    "Qty": "2",
+    "BomNameId": "1",
+    "ComponentasId": "1"
+  },
+  {
+    "BuhNr": "EL000222",
+    "Qty": "2",
+    "BomNameId": "1",
+    "ComponentasId": "1"
+  },
+  {
+    "BuhNr": "EL000333",
+    "Qty": "2",
+    "BomNameId": "1",
+    "ComponentasId": "1"
+  },
+  {
+    "BuhNr": "EL000444",
+    "Qty": "2",
+    "BomNameId": "1",
+    "ComponentasId": "1"
+  },
+  {
+    "BuhNr": "EL000555",
+    "Qty": "2",
+    "BomNameId": "1",
+    "ComponentasId": "1"
+  }
+]

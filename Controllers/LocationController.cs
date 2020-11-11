@@ -46,14 +46,17 @@ namespace Storage.API.Controllers
             var ComponentasFromRepo = await _srepo.GetCompCMnf(ReelsFromRepo.CMnf);
 
             int likutis = ReelsFromRepo.QTY - LocationForRegisterDto.QTY;
-
             if (likutis <= 0) return BadRequest("Rite tusčia, bandote padeti tuščia pakuotę, nurasote didesni kieki nei buvo uzregistruota riteje");
 
+            int result = Int32.Parse(ReelsFromRepo.Location);
+            if (result > 0) return BadRequest("Ši ritė turėtų būti padėta į " + ReelsFromRepo.Location + " slotą !!!!!");
 
-            var rxmsg = await _ledService.SetReelLocation();
-            int Location = rxmsg.Msg[1] + ((rxmsg.Msg[0] - 1) * 30);
-
-
+             var rxmsg = await _ledService.SetReelLocation();
+             int Location = rxmsg.Msg[1] + ((rxmsg.Msg[0] - 1) * 30);
+            
+            var reelByLocation = await _repo.GetByLocation(Location.ToString());
+            
+            if (reelByLocation != null) return BadRequest("Ritės vieta jau užimta");
             //var secret = "super secret key";
             // var TokenData = ReadJwtToken(LocationForRegisterDto, secret);
 

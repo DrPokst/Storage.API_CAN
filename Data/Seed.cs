@@ -17,6 +17,7 @@ namespace Storage.API_CAN.Data
                 var userData = System.IO.File.ReadAllText("Data/SeedData.json");
                 var users = JsonConvert.DeserializeObject<List<User>>(userData);
 
+                
                 //roles for app
                 var roles = new List<AppRole>
                 {
@@ -52,6 +53,8 @@ namespace Storage.API_CAN.Data
                 }
 
             }
+
+            
         }
     }
 }

@@ -19,7 +19,9 @@ using Storage.API.Data;
 using Storage.API.Helpers;
 using Storage.API.Models;
 using Storage.API.Services;
+using Storage.API_CAN.Data;
 using Storage.API_CAN.Models;
+using Storage.API_CAN.Services;
 using Storage.API_CAN.SignalR;
 
 namespace Storage.API
@@ -104,7 +106,9 @@ namespace Storage.API
             services.AddScoped<ISearchRepository, SearchRepository>();
             services.AddScoped<IReelRepository, ReelRepository>();
             services.AddScoped<ILedService, LedService>();
-           
+            services.AddScoped<IBomService, BomService>();
+            services.AddScoped<IBomRepository, BomRepository>();
+            
             services.AddSignalR();
         }
 

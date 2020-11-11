@@ -50,6 +50,14 @@
               "target": "Package",
               "version": "[1.10.0, )"
             },
+            "ExcelDataReader": {
+              "target": "Package",
+              "version": "[3.6.0, )"
+            },
+            "ExcelDataReader.DataSet": {
+              "target": "Package",
+              "version": "[3.6.0, )"
+            },
             "Iot.Device.Bindings": {
               "target": "Package",
               "version": "[1.0.0, )"
