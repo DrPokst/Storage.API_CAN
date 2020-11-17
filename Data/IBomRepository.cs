@@ -9,6 +9,9 @@ namespace Storage.API_CAN.Data
         Task<List<BomList>> RegisterBomList (List<BomList> bomList);
         Task<BomName> RegisterBomName (BomName bomName);
         Task<BomName> GetBomName (string name);
+        Task<IEnumerable<BomName>> GetBomNames();
+        Task<IEnumerable<BomList>> GetBomList(string name);
+        Task<IEnumerable<BomList>> GetBomListXQty( int xQty, string name);
 
     }
 }

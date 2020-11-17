@@ -201,5 +201,11 @@ namespace Storage.API.Data
             return false;
 
         }
+
+        public async Task<Componentas> GetComponentBuhNr(string buhNr)
+        {
+            var comp = await _context.Componentass.Where(u => u.BuhNr == buhNr).FirstOrDefaultAsync();
+            return comp;
+        }
     }
 }
