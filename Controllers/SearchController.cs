@@ -6,16 +6,14 @@ using AutoMapper;
 using Storage.API.Data;
 using Storage.API.DTOs;
 using Storage.API.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Storage.API.Helpers;
 using System.ComponentModel;
 using CloudinaryDotNet.Actions;
 using CloudinaryDotNet;
 using Microsoft.Extensions.Options;
-using System.Linq;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.Http;
+using OfficeOpenXml;
+using System.IO;
 
 namespace Storage.API.Controllers
 {
@@ -150,7 +148,86 @@ namespace Storage.API.Controllers
 
             return StatusCode(201);
         }
+        [HttpPost("registercomponent/all")]
+        public async Task<IActionResult> AddBom([FromForm] BomForCreationDto bomForCreationDto)
+        {
 
+            var formFile = bomForCreationDto.File;
+
+            if (formFile == null || formFile.Length <= 0)
+            {
+                return BadRequest("formfile is empty");
+            }
+
+            if (!Path.GetExtension(formFile.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+            {
+                return BadRequest("Not Support file extension");
+            }
+
+            try
+            {
+                using (var stream = new MemoryStream())
+            {
+                await formFile.CopyToAsync(stream);
+                ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+
+                    using (var package = new ExcelPackage(stream))
+                {
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                    var rowCount = worksheet.Dimension.Rows;
+                    var colCount = worksheet.Dimension.Columns;
+
+                    
+                    for (int row = 1; row <= rowCount; row++)
+                    {
+
+                        var buhnr = worksheet.Cells[row, 1].Value.ToString().Trim();
+                        var manufacturer = worksheet.Cells[row, 3].Value.ToString().Trim();
+                        var mnf = worksheet.Cells[row, 4].Value.ToString().Trim();
+                        var type = worksheet.Cells[row, 5].Value.ToString().Trim();
+                        var detdes = worksheet.Cells[row, 6].Value.ToString().Trim();
+                        var size = worksheet.Cells[row, 7].Value.ToString().Trim();
+                        var nominal = worksheet.Cells[row, 8].Value.ToString().Trim();
+                        var publicid = worksheet.Cells[row, 9].Value.ToString().Trim();
+                        var url = worksheet.Cells[row, 10].Value.ToString().Trim();   
+
+                        var ComponentasToCreate = new Componentas
+                        {
+                            Mnf = mnf,
+                            Manufacturer = manufacturer,
+                            Detdescription = detdes,
+                            BuhNr = buhnr,
+                            Size = size,
+                            Type = type,
+                            Nominal = nominal,
+                            Created = DateTime.Now
+                        };
+
+                        var createComponent = await _repo.RegisterComponents(ComponentasToCreate);
+
+                        var PhotoToCreate = new Photo
+                        {
+                            PublicId = publicid,
+                            IsMain = true,
+                            Url = url,
+                            ComponentasId = createComponent.Id
+
+                        };
+
+                        var createPhoto = await _repo.RegisterPhoto(PhotoToCreate);
+                    
+                    
+                    }
+                            
+                }
+            }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+            return Ok();
+        }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteComponent(int id)
         {

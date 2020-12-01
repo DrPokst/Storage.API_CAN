@@ -90,7 +90,7 @@ namespace Storage.API.Controllers
             return BadRequest("Could not add the photo");
         }
      
-
+    
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePhoto(int componentId, int id)
         {

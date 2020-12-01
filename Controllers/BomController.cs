@@ -16,6 +16,7 @@ using Storage.API_CAN.Data;
 using Storage.API_CAN.DTOs;
 using Storage.API_CAN.Models;
 using Storage.API_CAN.Services;
+using Storage.API.Services;
 
 namespace Storage.API_CAN.Controllers
 {
@@ -27,9 +28,11 @@ namespace Storage.API_CAN.Controllers
         private readonly IBomRepository _repo;
         private readonly ISearchRepository _search;
         private readonly DataContext _context;
+        private readonly ILedService _ledService;
 
-        public BomController(IBomRepository repo, ISearchRepository search, DataContext context)
+        public BomController(IBomRepository repo, ISearchRepository search, DataContext context, ILedService ledService)
         {
+            _ledService = ledService;
             _repo = repo;
             _search = search;
             _context = context;
@@ -179,6 +182,8 @@ namespace Storage.API_CAN.Controllers
                     foreach (var itemas in componentas.Reels)
                     {
                         suma = suma + itemas.QTY;
+                        int result = Int32.Parse(itemas.Location);
+                        var reel = await _ledService.TakeOutReel(result);
                     }
                 }
                 listas.Add(new BomListWithXQtyForListDto

@@ -514,3 +514,15 @@ C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Mi
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Microsoft.Extensions.Identity.Core.dll
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Data\SeedData.json
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Data\SeedData2.json
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\EPPlus.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\ExcelDataReader.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\ExcelDataReader.DataSet.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Microsoft.Extensions.Configuration.Json.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\System.Text.Encoding.CodePages.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\System.Xml.XPath.XmlDocument.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Text.Encoding.CodePages.dll

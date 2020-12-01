@@ -36,8 +36,7 @@ namespace Storage.API.Controllers
             _repo = repo;
             _ledService = ledService;
         }
-
-
+        
         [HttpPost("put")]
         public async Task<IActionResult> RegisterLocation(LocationForRegisterDto LocationForRegisterDto)
         {
@@ -51,8 +50,8 @@ namespace Storage.API.Controllers
             int result = Int32.Parse(ReelsFromRepo.Location);
             if (result > 0) return BadRequest("Ši ritė turėtų būti padėta į " + ReelsFromRepo.Location + " slotą !!!!!");
 
-             var rxmsg = await _ledService.SetReelLocation();
-             int Location = rxmsg.Msg[1] + ((rxmsg.Msg[0] - 1) * 30);
+            var rxmsg = await _ledService.SetReelLocation();
+            int Location = rxmsg.Msg[1] + ((rxmsg.Msg[0] - 1) * 30);
             
             var reelByLocation = await _repo.GetByLocation(Location.ToString());
             

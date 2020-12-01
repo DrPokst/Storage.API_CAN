@@ -118,7 +118,7 @@ namespace Storage.API.Services
                 int slotNr = id - ((tarpinis - 1) * 30);
                 byte ID = Convert.ToByte(tarpinis);
 
-                byte[] data = new byte[] { ID, (byte)slotNr, 0xF0, 0x0F, 0x00, 0xFF, 0x00, 0xFF };
+                byte[] data = new byte[] { ID, (byte)slotNr, 0xF0, 0x0F, 0x00, 0x00, 0xFF, 0xFF };
                 TransmitMessage(mcp25xxx, data);
 
 

@@ -534,3 +534,12 @@ C:\Users\Dolce\PycharmProjects\HelloWord\Storage.API_CAN\bin\Debug\netcoreapp3.1
 C:\Users\Dolce\PycharmProjects\HelloWord\Storage.API_CAN\bin\Debug\netcoreapp3.1\System.Text.Encoding.CodePages.dll
 C:\Users\Dolce\PycharmProjects\HelloWord\Storage.API_CAN\bin\Debug\netcoreapp3.1\System.Xml.XPath.XmlDocument.dll
 C:\Users\Dolce\PycharmProjects\HelloWord\Storage.API_CAN\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Text.Encoding.CodePages.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\EPPlus.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Json.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\System.Text.Encoding.CodePages.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\System.Xml.XPath.XmlDocument.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Text.Encoding.CodePages.dll
