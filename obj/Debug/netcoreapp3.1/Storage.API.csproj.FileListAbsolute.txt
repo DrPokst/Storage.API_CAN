@@ -170,7 +170,6 @@ C:\Users\domantass\AllSystem\AllSystem\storage.api\obj\Debug\netcoreapp3.1\Stora
 C:\Users\domantass\AllSystem\AllSystem\storage.api\obj\Debug\netcoreapp3.1\Storage.API.pdb
 C:\Users\domantass\AllSystem\AllSystem\storage.api\obj\Debug\netcoreapp3.1\Storage.API.genruntimeconfig.cache
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\appsettings.json
-C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\appsettings.Development.json
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Storage.API.exe
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Storage.API.deps.json
@@ -543,3 +542,9 @@ C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Micr
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\System.Text.Encoding.CodePages.dll
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\System.Xml.XPath.XmlDocument.dll
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Text.Encoding.CodePages.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Microsoft.OpenApi.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\obj\Debug\netcoreapp3.1\Storage.API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\obj\Debug\netcoreapp3.1\scopedcss\bundle\Storage.API.styles.css
