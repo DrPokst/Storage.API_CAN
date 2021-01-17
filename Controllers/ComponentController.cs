@@ -61,7 +61,14 @@ namespace Storage.API.Controllers
             return Ok(componentsToReturn);
         }
 
+        [HttpGet("mnf/{Mnf}")]
+        public async Task<IActionResult> GetComponentsMnf(string Mnf)
+        {
+            var components = await _repo.GetCompCMnf(Mnf);
+            var componentsToReturn = _mapper.Map<ComponetsForListDto>(components);
 
+            return Ok(componentsToReturn);
+        }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetComponents(int id)
