@@ -23,7 +23,12 @@ namespace Storage.API.Data
         public DbSet<BomList> BomList { get; set; }
         public DbSet<BomName> BomName { get; set; }
         public DbSet<PnP> PnP { get; set; }
+        public DbSet<TaskList> TaskList { get; set; }
+        public DbSet<TaskName> TaskName { get; set; }
+        public DbSet<TaskHistory> TaskHistory { get; set; }
 
+
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
