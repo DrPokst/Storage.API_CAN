@@ -108,7 +108,8 @@ namespace Storage.API
             services.AddScoped<ILedService, LedService>();
             services.AddScoped<IBomService, BomService>();
             services.AddScoped<IBomRepository, BomRepository>();
-            
+            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddSwaggerGen();
             services.AddSignalR();
         }
 
@@ -136,6 +137,12 @@ namespace Storage.API
             }
 
             //app.UseHttpsRedirection();
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
+            });
 
             app.UseRouting();
 
@@ -146,6 +153,8 @@ namespace Storage.API
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            
+
             app.UseEndpoints(endpoints =>
             {
              endpoints.MapControllerRoute(

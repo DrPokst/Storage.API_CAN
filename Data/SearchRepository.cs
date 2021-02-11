@@ -44,7 +44,10 @@ namespace Storage.API.Data
         }
         public async Task<Componentas> GetCompCMnf(string cMnf)
         {
-            var reel = await _context.Componentass.FirstOrDefaultAsync(u => u.Mnf == cMnf);
+            var reel = await _context.Componentass.Include(p => p.Photos)
+                                                  .Include(b => b.History)
+                                                  .Include(r => r.Reels)
+                                                  .FirstOrDefaultAsync(u => u.Mnf == cMnf);
 
             return reel;
         }

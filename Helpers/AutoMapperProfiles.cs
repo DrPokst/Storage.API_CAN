@@ -3,6 +3,7 @@ using AutoMapper;
 using Storage.API.DTOs;
 using Storage.API.Models;
 using Storage.API_CAN.DTOs;
+using Storage.API_CAN.Models;
 
 namespace Storage.API.Helpers
 {
@@ -26,6 +27,8 @@ namespace Storage.API.Helpers
             CreateMap<UserForRegisterDTO, User>();
             CreateMap<User, UserForListAdminDto>();
             CreateMap<ReelForTakeDto, Reel>();
+            CreateMap<PhotosForCreationDto, UserPhoto>();
+            CreateMap<UserPhoto, PhotosForReturnDto>();
         }
     }
 } 
