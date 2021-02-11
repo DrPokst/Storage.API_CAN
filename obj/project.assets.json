@@ -10222,23 +10222,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\domantass\\.nuget\\packages\\": {},
+    "C:\\Users\\Dolce\\.nuget\\packages\\": {},
     "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\domantass\\Documents\\GitHub\\Storage.API_CAN\\Storage.API.csproj",
+      "projectUniqueName": "C:\\Users\\Dolce\\PycharmProjects\\HelloWord\\Storage.API_CAN\\Storage.API.csproj",
       "projectName": "Storage.API",
-      "projectPath": "C:\\Users\\domantass\\Documents\\GitHub\\Storage.API_CAN\\Storage.API.csproj",
-      "packagesPath": "C:\\Users\\domantass\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\domantass\\Documents\\GitHub\\Storage.API_CAN\\obj\\",
+      "projectPath": "C:\\Users\\Dolce\\PycharmProjects\\HelloWord\\Storage.API_CAN\\Storage.API.csproj",
+      "packagesPath": "C:\\Users\\Dolce\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Dolce\\PycharmProjects\\HelloWord\\Storage.API_CAN\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\domantass\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Dolce\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
