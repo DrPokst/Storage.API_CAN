@@ -42,22 +42,31 @@ namespace Storage.API.Controllers
         {
 
             var ReelsFromRepo = await _repo.GetReel(LocationForRegisterDto.Id);
+            if (ReelsFromRepo == null) return BadRequest("Pagal pateikta ID ritė nerasta");
+            
             var ComponentasFromRepo = await _srepo.GetCompCMnf(ReelsFromRepo.CMnf);
 
             int likutis = ReelsFromRepo.QTY - LocationForRegisterDto.QTY;
             if (likutis <= 0) return BadRequest("Rite tusčia, bandote padeti tuščia pakuotę, nurasote didesni kieki nei buvo uzregistruota riteje");
 
-            int result = Int32.Parse(ReelsFromRepo.Location);
-            if (result > 0) return BadRequest("Ši ritė turėtų būti padėta į " + ReelsFromRepo.Location + " slotą !!!!!");
 
+            var res = Int32.TryParse(ReelsFromRepo.Location, out _);
+            if (res == true)
+            {
+                int result = Int32.Parse(ReelsFromRepo.Location);
+                if (result > 0) return BadRequest("Ši ritė turėtų būti padėta į " + ReelsFromRepo.Location + " slotą !!!!!");
+            
+            }
+            
             var rxmsg = await _ledService.SetReelLocation();
+
             int Location = rxmsg.Msg[1] + ((rxmsg.Msg[0] - 1) * 30);
             
+
+
             var reelByLocation = await _repo.GetByLocation(Location.ToString());
             
             if (reelByLocation != null) return BadRequest("Ritės vieta jau užimta");
-            //var secret = "super secret key";
-            // var TokenData = ReadJwtToken(LocationForRegisterDto, secret);
 
             var HistoryToCreate = new History
             {
@@ -71,12 +80,16 @@ namespace Storage.API.Controllers
                 ReelId = LocationForRegisterDto.Id,
                 UserId = 1
             };
+            var createHistory = await _srepo.RegisterHistory(HistoryToCreate);
 
 
             LocationForRegisterDto.QTY = likutis;
-
-            var createHistory = await _srepo.RegisterHistory(HistoryToCreate);
+            LocationForRegisterDto.UserId = null;
             LocationForRegisterDto.Location = Location.ToString();
+
+
+            
+            
             _mapper.Map(LocationForRegisterDto, ReelsFromRepo);
 
             if (await _repo.SaveAll())
@@ -110,7 +123,7 @@ namespace Storage.API.Controllers
                 UserId = user.Id
             };
 
-            reelForTakeDto.Location = "0";
+            reelForTakeDto.Location = user.UserName;
             reelForTakeDto.UserId = user.Id;
 
             var createHistory = await _srepo.RegisterHistory(HistoryToCreate);

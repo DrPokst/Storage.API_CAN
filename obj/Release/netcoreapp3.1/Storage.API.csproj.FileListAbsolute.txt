@@ -341,7 +341,6 @@ C:\Users\domantass\Documents\GitHub\Storage.API\obj\Release\netcoreapp3.1\Storag
 C:\Users\domantass\Documents\GitHub\Storage.API\obj\Release\netcoreapp3.1\Storage.API.genruntimeconfig.cache
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\appsettings.Development.json
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\appsettings.json
-C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Properties\launchSettings.json
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Storage.API.exe
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Storage.API.deps.json
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Storage.API.runtimeconfig.json
@@ -514,7 +513,6 @@ C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Mi
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Microsoft.Extensions.Identity.Core.dll
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Data\SeedData.json
-C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Data\SeedData2.json
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\EPPlus.dll
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\ExcelDataReader.dll
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\ExcelDataReader.DataSet.dll
@@ -526,3 +524,9 @@ C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Mi
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\System.Text.Encoding.CodePages.dll
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\System.Xml.XPath.XmlDocument.dll
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Text.Encoding.CodePages.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Microsoft.OpenApi.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\obj\Release\netcoreapp3.1\Storage.API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\obj\Release\netcoreapp3.1\scopedcss\bundle\Storage.API.styles.css

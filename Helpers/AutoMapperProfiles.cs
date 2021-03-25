@@ -29,6 +29,7 @@ namespace Storage.API.Helpers
             CreateMap<ReelForTakeDto, Reel>();
             CreateMap<PhotosForCreationDto, UserPhoto>();
             CreateMap<UserPhoto, PhotosForReturnDto>();
+            CreateMap<TaskForUpdateDto, TaskName>();
         }
     }
 } 

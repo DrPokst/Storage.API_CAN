@@ -109,6 +109,7 @@ namespace Storage.API
             services.AddScoped<IBomService, BomService>();
             services.AddScoped<IBomRepository, BomRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddSwaggerGen();
             services.AddSignalR();
         }

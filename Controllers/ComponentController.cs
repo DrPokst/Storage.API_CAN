@@ -156,6 +156,7 @@ namespace Storage.API.Controllers
             return StatusCode(201);
         }
         [HttpPost("registercomponent/all")]
+        
         public async Task<IActionResult> AddBom([FromForm] BomForCreationDto bomForCreationDto)
         {
 

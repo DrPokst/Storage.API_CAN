@@ -64,7 +64,7 @@ namespace Storage.API.Controllers
                     var uploadParams = new ImageUploadParams()
                     {
                         File = new FileDescription(file.Name, stream),
-                        Transformation = new Transformation().Width(300).Height(300).Crop("fill").Gravity("face")
+                        Transformation = new Transformation().Width(300).Height(300).Crop("fill")
                     };
 
                     uploadResult = _cloudinary.Upload(uploadParams);

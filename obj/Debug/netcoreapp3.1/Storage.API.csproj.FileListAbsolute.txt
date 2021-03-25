@@ -518,7 +518,6 @@ C:\Users\Dolce\PycharmProjects\HelloWord\Storage.API_CAN\obj\Debug\netcoreapp3.1
 C:\Users\Dolce\PycharmProjects\HelloWord\Storage.API_CAN\obj\Debug\netcoreapp3.1\Storage.API.dll
 C:\Users\Dolce\PycharmProjects\HelloWord\Storage.API_CAN\obj\Debug\netcoreapp3.1\Storage.API.pdb
 C:\Users\Dolce\PycharmProjects\HelloWord\Storage.API_CAN\obj\Debug\netcoreapp3.1\Storage.API.genruntimeconfig.cache
-C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\Data\SeedData2.json
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\ExcelDataReader.dll
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Debug\netcoreapp3.1\ExcelDataReader.DataSet.dll
 C:\Users\Dolce\PycharmProjects\HelloWord\Storage.API_CAN\bin\Debug\netcoreapp3.1\Data\SeedData2.json

@@ -78,7 +78,7 @@ namespace Storage.API.Controllers
 
             if (reelForRegisterDto.CMnf == null) return BadRequest("No manufacturer number ");    // pratestuoti paskui ar viskas ok, ne veliau bus ikelta 
 
-            if (file.Length > 0)
+            if (file != null)
             {
                 using (var stream = file.OpenReadStream())
                 {
@@ -91,6 +91,17 @@ namespace Storage.API.Controllers
                     uploadResult = _cloudinary.Upload(uploadParams);
                 }
             }
+            if (reelForRegisterDto.URL != null)
+            {
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(@"data:image/png;base64," + reelForRegisterDto.URL),
+                    Transformation = new Transformation().Width(500).Height(300).Crop("fill").Gravity("face")
+                };
+
+                uploadResult = _cloudinary.Upload(uploadParams);
+            }
+
 
             reelForRegisterDto.PublicId = uploadResult.PublicId;
 
@@ -100,7 +111,8 @@ namespace Storage.API.Controllers
             {
                 CMnf = reelForRegisterDto.CMnf,
                 QTY = reelForRegisterDto.QTY,
-                ComponentasId =componentass.Id
+                ComponentasId =componentass.Id,
+                Location = "0"
             };
 
             var CreateReel = await _repo.RegisterReel(ReelToCreate);
