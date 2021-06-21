@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "CAn98QRPmmM738j9y1LSHcbuAFO46elaMBiZAiQHb3IdAkp10tupD7nLbwI9KIDPJ/mcBFPnyFa6DPcuDBs0ew==",
+  "dgSpecHash": "4YJxcq981wfnoid6Ph8+EQ8eQa6IS7xz79jJ9f6JNl63rKii77V7paxMClC9ZU1oV2tuYpD+0ORGc//6JbhEYQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\domantass\\Documents\\GitHub\\Storage.API_CAN\\Storage.API.csproj",
   "expectedPackageFiles": [
@@ -213,7 +213,8 @@
     "C:\\Users\\domantass\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
     "C:\\Users\\domantass\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
     "C:\\Users\\domantass\\.nuget\\packages\\system.xml.xpath\\4.3.0\\system.xml.xpath.4.3.0.nupkg.sha512",
-    "C:\\Users\\domantass\\.nuget\\packages\\system.xml.xpath.xmldocument\\4.3.0\\system.xml.xpath.xmldocument.4.3.0.nupkg.sha512"
+    "C:\\Users\\domantass\\.nuget\\packages\\system.xml.xpath.xmldocument\\4.3.0\\system.xml.xpath.xmldocument.4.3.0.nupkg.sha512",
+    "C:\\Users\\domantass\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.13\\microsoft.netcore.app.host.win-x64.3.1.13.nupkg.sha512"
   ],
   "logs": [
     {
