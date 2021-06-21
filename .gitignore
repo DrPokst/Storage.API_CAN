@@ -1,4 +1,5 @@
-**/bin/Debug/
-**/bin/Release/
+bin/Debug/*
+bin/Release/*
 obj
 storageapp.db
+bin/Debug/netcoreapp3.1/appsettings.json
