@@ -7,8 +7,8 @@ C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\pu
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\publish\wwwroot\fontawesome-webfont.b06871f281fee6b241d6.ttf
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\publish\wwwroot\fontawesome-webfont.fee66e712a8a08eef580.woff
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\publish\wwwroot\index.html
-C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\publish\wwwroot\main-es2015.cb24fa20554925e74e77.js
-C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\publish\wwwroot\main-es5.cb24fa20554925e74e77.js
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\publish\wwwroot\main-es2015.6d4795549223bf9897b2.js
+C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\publish\wwwroot\main-es5.6d4795549223bf9897b2.js
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\publish\wwwroot\polyfills-es2015.ef92c28d9c16a52e11ff.js
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\publish\wwwroot\polyfills-es5.a2f48f788e0021e93cee.js
 C:\Users\domantass\Documents\GitHub\Storage.API_CAN\bin\Release\netcoreapp3.1\publish\wwwroot\runtime-es2015.79d42b7a0c689735b1b5.js
