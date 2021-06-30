@@ -80,14 +80,10 @@ namespace Storage.API.Controllers
             };
             var createHistory = await _srepo.RegisterHistory(HistoryToCreate);
 
-
             LocationForRegisterDto.QTY = likutis;
             LocationForRegisterDto.UserId = null;
             LocationForRegisterDto.Location = Location.ToString();
 
-
-            
-            
             _mapper.Map(LocationForRegisterDto, ReelsFromRepo);
 
             if (await _repo.SaveAll())
@@ -128,7 +124,6 @@ namespace Storage.API.Controllers
             
             _mapper.Map(reelForTakeDto, reelFromRepo);
 
-
             if (await _repo.SaveAll())
                 return NoContent();
 
@@ -143,10 +138,8 @@ namespace Storage.API.Controllers
         {
             var history = await _srepo.GetHistory(historyParams);
             var historyToReturn = _mapper.Map<IEnumerable<HistoryForListDto>>(history);
-            //var componentsToReturn = _mapper.Map<IEnumerable<ComponetsForListDto>>(components);
 
             Response.AddPagination(history.CurrentPage, history.PageSize, history.TotalCount, history.TotalPages);
-
 
             return Ok(historyToReturn);
         }

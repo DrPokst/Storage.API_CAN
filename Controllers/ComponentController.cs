@@ -81,9 +81,6 @@ namespace Storage.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateComponent(int id, ComponentForUpdateDto componentForUpdateDto)
         {
-            // if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-            //     return Unauthorized();
-
             var componentsFromRepo = await _repo.GetComponents(id);
 
             _mapper.Map(componentForUpdateDto, componentsFromRepo);
@@ -138,7 +135,6 @@ namespace Storage.API.Controllers
 
             var createComponent = await _repo.RegisterComponents(ComponentasToCreate);
 
-
             var PhotoToCreate = new Photo
             {
                 PublicId = ComponetsForRegisterDto.PublicId,
@@ -148,10 +144,7 @@ namespace Storage.API.Controllers
 
             };
 
-
             var createPhoto = await _repo.RegisterPhoto(PhotoToCreate);
-
-
 
             return StatusCode(201);
         }
@@ -237,12 +230,9 @@ namespace Storage.API.Controllers
                                 IsMain = true,
                                 Url = url,
                                 ComponentasId = createComponent.Id
-
                             };
 
                             var createPhoto = await _repo.RegisterPhoto(PhotoToCreate);
-
-
                         }
 
                     }

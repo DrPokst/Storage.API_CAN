@@ -22,7 +22,6 @@ using Storage.API.Services;
 using Storage.API_CAN.Data;
 using Storage.API_CAN.Models;
 using Storage.API_CAN.Services;
-using Storage.API_CAN.SignalR;
 
 namespace Storage.API
 {
@@ -163,7 +162,7 @@ namespace Storage.API
              pattern: "{controller=Fallback}/{action=Index}/{id?}");
         
              endpoints.MapFallbackToController("Index", "Fallback");
-             endpoints.MapHub<PresenceHub>("hubs/presence");
+             //endpoints.MapHub<PresenceHub>("hubs/presence");
             });
             
         }
