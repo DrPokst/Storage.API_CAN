@@ -20,14 +20,13 @@ namespace Storage.API_CAN.Controllers
         {
             _userManager = userManager;
             _context = context;
-
         }
 
         [Authorize(Policy = "RequiredAdminRole")]
         [HttpGet("usersWithRoles")]
         public async Task<IActionResult> GetUserWithRoles()
         {
-            
+
             var userList = await _context.Users
                 .Select(user => new
                 {
@@ -44,8 +43,6 @@ namespace Storage.API_CAN.Controllers
                              select role.Name).ToList()
                 }).ToListAsync();
 
-
-
             return Ok(userList);
         }
 
@@ -57,7 +54,6 @@ namespace Storage.API_CAN.Controllers
             return Ok("tik adminas ir moderatorius mato");
         }
 
-
         // nepamirsti atsatyti, kad galetu daryti tik admin[Authorize(Policy = "RequiredAdminRole")]
         [HttpPost("editRoles/{userName}")]
 
@@ -65,12 +61,12 @@ namespace Storage.API_CAN.Controllers
         {
             var user = await _userManager.FindByNameAsync(userName);
 
-            var userRoles = await _userManager.GetRolesAsync(user); 
+            var userRoles = await _userManager.GetRolesAsync(user);
 
             var selectedRoles = rolesEditDto.RoleNames;
 
             // jei selecteRooles nera 0 tada naudoti kaire puse ??,  o jei 0 tada naudoji desine puse ??
-            selectedRoles = selectedRoles ?? new string[] {};
+            selectedRoles = selectedRoles ?? new string[] { };
 
             var result = await _userManager.AddToRolesAsync(user, selectedRoles.Except(userRoles));
 
@@ -82,27 +78,5 @@ namespace Storage.API_CAN.Controllers
 
             return Ok(await _userManager.GetRolesAsync(user));
         }
-
-       /*  [Authorize(Policy = "RequiredAdminRole")]
-        [HttpPost("editRoles/{userName}")]
-
-        public async Task<IActionResult> EditRule(string userName, RoleEditDto roleEditDto)
-        {
-            var user = await _userManager.FindByNameAsync(userName);
-
-            var userRoles = await _userManager.GetRolesAsync(user); 
-
-            var selectedRoles = roleEditDto.RoleName;
-
-            var result = await _userManager.AddToRolesAsync(user, selectedRoles.Except(userRoles));
-
-            if (!result.Succeeded) return BadRequest("Failed to add to roles");
-
-            result = await _userManager.RemoveFromRolesAsync(user, userRoles.Except(selectedRoles));
-
-            if (!result.Succeeded) return BadRequest("Failed to remove the roles");
-
-            return Ok(await _userManager.GetRolesAsync(user));
-        } */
     }
 }

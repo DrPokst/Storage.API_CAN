@@ -31,7 +31,6 @@ namespace Storage.API.Controllers
         private readonly DataContext _context;
         public AuthController(DataContext context, IConfiguration config, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInmanager)
         {
-         
             _context = context;
             _mapper = mapper;
             _userManager = userManager;
@@ -59,8 +58,6 @@ namespace Storage.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDTO userForLoginDTO)
         {
-
-
             var user = await _userManager.FindByNameAsync(userForLoginDTO.Username);
             var result = await _signInmanager.CheckPasswordSignInAsync(user, userForLoginDTO.Password, false);
 
@@ -81,17 +78,15 @@ namespace Storage.API.Controllers
         [HttpGet("user")]
         public async Task<IActionResult> GetUserWithRoles(string Id)
         {
-
             var userList = await _context.Users.Include(p => p.UserPhoto).FirstOrDefaultAsync(u => u.UserName == Id);
-
-
+            
             return Ok(userList);
         }
+
         [HttpGet("user/info/{userName}")]
         public async Task<IActionResult> GetUser(string userName)
         {
             var user = await _userManager.Users.Include(a => a.UserPhoto).Include(a => a.History).Include(a => a.Reels).FirstOrDefaultAsync(u => u.UserName == userName);
-           
             var componentsToReturn = _mapper.Map<UserForListDto>(user);
 
             return Ok(componentsToReturn);
@@ -102,7 +97,6 @@ namespace Storage.API.Controllers
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.UserName)
-
             };
 
             var roles = await _userManager.GetRolesAsync(user);
@@ -115,16 +109,13 @@ namespace Storage.API.Controllers
             .GetBytes(_config.GetSection("AppSettings:Token").Value));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = creds
             };
-
             var tokenHandler = new JwtSecurityTokenHandler();
-
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);

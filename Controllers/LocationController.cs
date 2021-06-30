@@ -60,10 +60,8 @@ namespace Storage.API.Controllers
             
             var rxmsg = await _ledService.SetReelLocation();
 
-            int Location = rxmsg.Msg[1] + ((rxmsg.Msg[0] - 1) * 30);
+            int Location = rxmsg.Msg[1] + ((rxmsg.Msg[0] - 1) * 10);
             
-
-
             var reelByLocation = await _repo.GetByLocation(Location.ToString());
             
             if (reelByLocation != null) return BadRequest("Ritės vieta jau užimta");

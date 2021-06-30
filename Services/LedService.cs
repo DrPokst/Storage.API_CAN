@@ -114,8 +114,8 @@ namespace Storage.API.Services
 
                 InitMcp();
 
-                int tarpinis = (id / 30) + 1;
-                int slotNr = id - ((tarpinis - 1) * 30);
+                int tarpinis = (id / 10) + 1;
+                int slotNr = id - ((tarpinis - 1) * 10);
                 byte ID = Convert.ToByte(tarpinis);
 
                 byte[] data = new byte[] { ID, (byte)slotNr, 0xF0, 0x0F, 0x00, 0x00, 0xFF, 0xFF };
@@ -132,8 +132,8 @@ namespace Storage.API.Services
             {
                 InitMcp();
 
-                int tarpinis = (id / 30) + 1;
-                int slotNr = id - ((tarpinis - 1) * 30);
+                int tarpinis = (id / 10) + 1;
+                int slotNr = id - ((tarpinis - 1) * 10);
                 byte ID = Convert.ToByte(tarpinis);
 
                 byte[] data = new byte[] {ID, (byte)slotNr, 0x00, 0xFF, 0x00, 0x00, 0xFF, 0xFF };
@@ -148,8 +148,8 @@ namespace Storage.API.Services
             {
                 InitMcp();
 
-                int tarpinis = (id / 30) + 1;
-                int slotNr = id - ((tarpinis - 1) * 30);
+                int tarpinis = (id / 10) + 1;
+                int slotNr = id - ((tarpinis - 1) * 10);
                 byte ID = Convert.ToByte(tarpinis);
 
                 byte[] data = new byte[] {ID, (byte)slotNr, 0xFF, 0x00, 0x00, 0xFF, 0xFF, 0xFF };
@@ -163,7 +163,7 @@ namespace Storage.API.Services
             using (Mcp25xxx mcp25xxx = GetMcp25xxxDevice())
             {
                 InitMcp();
-                byte[] data = new byte[] {0, 0, 0xFF, 0xFF, 0x00, 0xFF, 0x00, 0xFF };
+                byte[] data = new byte[] {0, 0, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
                 TransmitMessage(mcp25xxx, data);
             }
 
