@@ -57,18 +57,12 @@ namespace Storage.API.Services
                 byte[] data1 = mcp25xxx.ReadRxBuffer(RxBufferAddressPointer.RxB0D0, 8);
                 byte[] data2 = mcp25xxx.ReadRxBuffer(RxBufferAddressPointer.RxB1D0, 8);
 
-
-
-
                 byte STID0 = mcp25xxx.Read(Address.RxB0Sidh);
                 byte STID1 = mcp25xxx.Read(Address.RxB0Sidl);
-
-
 
                 //Nuskaito registrus ID paieskai ir konvertuoja i bitu masyva. 
                 var bits1 = new BitArray(BitConverter.GetBytes(mcp25xxx.Read(Address.RxB0Sidh)).ToArray());
                 var bits2 = new BitArray(BitConverter.GetBytes(mcp25xxx.Read(Address.RxB0Sidl)).ToArray());
-
 
                 var RxB0Dlc = new BitArray(BitConverter.GetBytes(mcp25xxx.Read(Address.RxB0Dlc)).ToArray());
                 RxB0Dlc[6] = false;
@@ -76,7 +70,6 @@ namespace Storage.API.Services
                 RxB0Dlc[4] = false;
 
                 int DLC = getIntFromBitArray(RxB0Dlc);
-
 
                 //surasau bitus is dvieju skirtingu adresu i viena masyva
                 bool[] bits3 = new bool[11] { bits2[5], bits2[6], bits2[7], bits1[0], bits1[1], bits1[2], bits1[3], bits1[4], bits1[5], bits1[6], bits1[7] };

@@ -60,7 +60,7 @@ namespace Storage.API.Controllers
             
             var rxmsg = await _ledService.SetReelLocation();
 
-            int Location = rxmsg.Msg[1] + ((rxmsg.Msg[0] - 1) * 10);
+            int Location = rxmsg.Msg[1] + (rxmsg.Msg[0] * 10);
             
             var reelByLocation = await _repo.GetByLocation(Location.ToString());
             
