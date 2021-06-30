@@ -3,3 +3,4 @@ bin/Release/*
 obj
 storageapp.db
 bin/Debug/netcoreapp3.1/appsettings.json
+obj/Debug/netcoreapp3.1/Storage.API.AssemblyInfo.cs
