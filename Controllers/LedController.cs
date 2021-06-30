@@ -16,7 +16,6 @@ namespace Storage.API.Controllers
     {
         private readonly ILedService _ledService;
         private readonly IReelRepository _repo;
-
         public LedController(ILedService ledService, IReelRepository repo)
         {
             _ledService = ledService;

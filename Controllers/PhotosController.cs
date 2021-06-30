@@ -98,12 +98,6 @@ namespace Storage.API.Controllers
 
             var photoFromRepo = await _repo.GetPhoto(id);
 
-           /* if (photoFromRepo.IsMain)
-            {
-                return BadRequest("You cannot delete main photo");
-            }
-            */
-
             if (photoFromRepo.PublicId != null)
             {
                 var deleteParams = new DeletionParams(photoFromRepo.PublicId);

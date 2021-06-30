@@ -17,7 +17,6 @@ namespace Storage.API.Helpers
 			get { return pageSize; }
 			set { pageSize =  (value > MaxPageSize) ? MaxPageSize: value; }
 		}
-
 		public string CMnf { get; set; }
 		public string OrderBy { get; set; }
 	}
