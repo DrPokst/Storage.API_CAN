@@ -16,8 +16,7 @@ namespace Storage.API.Controllers
 {
     
     [Route("api/search/{componentId}/photos")]
-    [ApiController]
-    public class PhotosController : ControllerBase
+    [ApiController]    public class PhotosController : ControllerBase
     { 
         private readonly ISearchRepository _repo;
         private readonly IReelRepository _repo2;
@@ -65,7 +64,7 @@ namespace Storage.API.Controllers
                     var uploadParams = new ImageUploadParams()
                     {
                         File = new FileDescription(file.Name, stream),
-                        Transformation = new Transformation().Width(300).Height(300).Crop("fill").Gravity("face")
+                        Transformation = new Transformation().Width(300).Height(300).Crop("fill")
                     };
 
                     uploadResult = _cloudinary.Upload(uploadParams);
@@ -91,7 +90,7 @@ namespace Storage.API.Controllers
             return BadRequest("Could not add the photo");
         }
      
-
+    
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePhoto(int componentId, int id)
         {

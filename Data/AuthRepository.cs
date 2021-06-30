@@ -3,6 +3,7 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Storage.API.Models;
 using Microsoft.EntityFrameworkCore;
+using Storage.API_CAN.Models;
 
 namespace Storage.API.Data
 {
@@ -15,13 +16,13 @@ namespace Storage.API.Data
         }
         public async Task<User> Login(string username, string password)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Username == username);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
             if (user == null)
                 return null;
 
-            if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
-                return null; 
+           //if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+            //    return null; 
 
             return user; 
         }
@@ -45,14 +46,27 @@ namespace Storage.API.Data
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
+            
 
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
 
             return user;
 
+        }
+        public async Task<UserPhoto> RegisterPhoto(UserPhoto userPhoto)
+        {
+            await _context.UserPhoto.AddAsync(userPhoto);
+            await _context.SaveChangesAsync();
+
+            return userPhoto;
+        }
+        public async Task<User> GetUser(int id)
+        {
+            var user = await _context.Users.Include(p => p.UserPhoto)
+                                                          .FirstOrDefaultAsync(u => u.Id == id);
+
+            return user;
         }
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
@@ -63,6 +77,11 @@ namespace Storage.API.Data
                     passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }
+        public async Task<UserPhoto> GetPhoto(int id)
+        {
+            var photo = await _context.UserPhoto.FirstOrDefaultAsync(p => p.Id == id);
+            return photo;
+        }
 
         private object GetBytes(string password)
         {
@@ -71,7 +90,7 @@ namespace Storage.API.Data
 
         public async Task<bool> UserExists(string username)
         {
-            if (await _context.Users.AnyAsync(x => x.Username == username))
+            if (await _context.Users.AnyAsync(x => x.UserName == username))
                 return true;
             
             return false;

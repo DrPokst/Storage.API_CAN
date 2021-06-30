@@ -28,7 +28,7 @@ namespace Storage.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCompare(int id)  //surasti komponento visus reelus pagal MNF 
         {
-            var compare = await _repo.GetCompare(id);
+            var compare = await _repo.GetReelByMnf(id);
             var compareToReturn = _mapper.Map<IEnumerable<ReelsForListDto>>(compare);
             return Ok(compareToReturn);
         }

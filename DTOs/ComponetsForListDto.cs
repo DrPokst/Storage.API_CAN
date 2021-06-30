@@ -21,6 +21,7 @@ namespace Storage.API.DTOs
         public DateTime Created { get; set; }
         public ICollection<Photo> Photos { get; set; }
         public ICollection<History> History { get; set; }
+        public ICollection<Reel> Reels { get; set; }
 
     }
 }

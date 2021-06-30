@@ -9,82 +9,117 @@ using Storage.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using AutoMapper;
+using Storage.API_CAN.DTOs;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Storage.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthRepository _repo;
-        private readonly IConfiguration _config;
-        public AuthController(IAuthRepository repo, IConfiguration config)
-        {
-            _config = config;
-            _repo = repo;
 
+        private readonly IConfiguration _config;
+        private readonly SignInManager<User> _signInmanager;
+        private readonly UserManager<User> _userManager;
+        private readonly IMapper _mapper;
+        private readonly DataContext _context;
+        public AuthController(DataContext context, IConfiguration config, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInmanager)
+        {
+            _context = context;
+            _mapper = mapper;
+            _userManager = userManager;
+            _signInmanager = signInmanager;
+            _config = config;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDTO userForRegisterDTO)
         {
+            var userToCreate = _mapper.Map<User>(userForRegisterDTO);
 
-            userForRegisterDTO.Username = userForRegisterDTO.Username.ToLower();
+            var result = await _userManager.CreateAsync(userToCreate, userForRegisterDTO.Password);
 
-            if (await _repo.UserExists(userForRegisterDTO.Username))
-                return BadRequest("Username already taken");
+            var role = await _userManager.AddToRoleAsync(userToCreate, "Admin");
 
-            var userToCreate = new User
+            if (result.Succeeded)
             {
-                Username = userForRegisterDTO.Username
+                return StatusCode(201);
+            }
 
-            };
-
-            var createUser = await _repo.Register(userToCreate, userForRegisterDTO.Password);
-
-            return StatusCode(201);
+            return BadRequest(result.Errors);
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDTO userForLoginDTO)
-       { 
+        {
+            var user = await _userManager.FindByNameAsync(userForLoginDTO.Username);
+            var result = await _signInmanager.CheckPasswordSignInAsync(user, userForLoginDTO.Password, false);
 
-            
-            var userFromRepo = await _repo.Login(userForLoginDTO.Username, userForLoginDTO.Password);
-
-            if (userFromRepo == null)
-                return Unauthorized();
-
-            var claims = new[]
+            if (result.Succeeded)
             {
-                new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
-                new Claim(ClaimTypes.Name, userFromRepo.Username)
+                var appUser = _mapper.Map<UserForListDto>(user);
+                return Ok(new
+                {
+                    token = GenerateJwtToken(user).Result,
+                    user = appUser
+                });
+            }
 
-            };
+            return Unauthorized();
+
+        }
+
+        [HttpGet("user")]
+        public async Task<IActionResult> GetUserWithRoles(string Id)
+        {
+            var userList = await _context.Users.Include(p => p.UserPhoto).FirstOrDefaultAsync(u => u.UserName == Id);
             
+            return Ok(userList);
+        }
+
+        [HttpGet("user/info/{userName}")]
+        public async Task<IActionResult> GetUser(string userName)
+        {
+            var user = await _userManager.Users.Include(a => a.UserPhoto).Include(a => a.History).Include(a => a.Reels).FirstOrDefaultAsync(u => u.UserName == userName);
+            var componentsToReturn = _mapper.Map<UserForListDto>(user);
+
+            return Ok(componentsToReturn);
+        }
+        private async Task<string> GenerateJwtToken(User user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.UserName)
+            };
+
+            var roles = await _userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
             var key = new SymmetricSecurityKey(Encoding.UTF8
             .GetBytes(_config.GetSection("AppSettings:Token").Value));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = creds
             };
-
             var tokenHandler = new JwtSecurityTokenHandler();
-
             var token = tokenHandler.CreateToken(tokenDescriptor);
-          
-            return Ok(new{
-                token = tokenHandler.WriteToken(token)
-            });
-            
 
-            return StatusCode(201);
-            
+            return tokenHandler.WriteToken(token);
         }
     }
+
 }

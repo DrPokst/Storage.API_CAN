@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Storage.API.Data;
@@ -22,22 +23,37 @@ namespace Storage.API.Controllers
             _repo = repo;
         }
 
-        [HttpGet("{id}")]
+        [HttpPut("on/{id}")]
         public async Task<IActionResult> TurnOnLed(int id)
         {   
             var reelFromRepo = await _repo.GetReel(id);
             int result = Int32.Parse(reelFromRepo.Location);
             var reel = await _ledService.TurnOnLed(result);
-
+            
             return Ok(reel);
         }
-        [HttpGet]
-        public async Task<IActionResult> TurnOff(int id)
+        [HttpPut("off/{id}")]
+        public async Task<IActionResult> TurnOffLed(int id)
         {
-            var reel = await _ledService.TurnOff(id);
+            var reelFromRepo = await _repo.GetReel(id);
+            int result = Int32.Parse(reelFromRepo.Location);
+            var reel = await _ledService.TurnOffLed(result);
 
             return Ok(reel);
         }
 
+        [HttpPut("on/all")]
+        public async Task<IActionResult> TurnOnAll()
+        {   
+            var reel = await _ledService.TurnOnAll();
+            return Ok();
+        }
+        
+        [HttpPut("off/all")]
+        public async Task<IActionResult> TurnOffAll()
+        {   
+            var reel = await _ledService.TurnOffAll();
+            return Ok();
+        }
     }
 }

@@ -8,5 +8,6 @@ namespace Storage.API.DTOs
         public int QTY { get; set; }
         public string PublicId { get; set; }
         public IFormFile file { get; set; }
+        public string URL { get; set; }
     }
 }

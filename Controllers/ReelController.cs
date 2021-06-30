@@ -12,21 +12,24 @@ using Storage.API.Helpers;
 using CloudinaryDotNet.Actions;
 using Microsoft.Extensions.Options;
 using CloudinaryDotNet;
+using Microsoft.EntityFrameworkCore;
 
 namespace Storage.API.Controllers
-{   
+{
     [Route("api/[controller]")]
     [ApiController]
     public class ReelController : ControllerBase
-    {   
-        
+    {
+
         private readonly IReelRepository _repo;
         private readonly IMapper _mapper;
         private readonly IOptions<CloudinarySettings> _cloudinaryConfig;
         private Cloudinary _cloudinary;
+        private readonly DataContext _context;
 
-        public ReelController(IReelRepository repo, IMapper mapper, IOptions<CloudinarySettings> cloudinaryConfig)
+        public ReelController(DataContext context, IReelRepository repo, IMapper mapper, IOptions<CloudinarySettings> cloudinaryConfig)
         {
+            _context = context;
             _mapper = mapper;
             _cloudinaryConfig = cloudinaryConfig;
             _repo = repo;
@@ -39,12 +42,12 @@ namespace Storage.API.Controllers
 
             _cloudinary = new Cloudinary(acc);
         }
-        
+
         [HttpGet]
-        public async Task<IActionResult> GetReels([FromQuery]ReelParams reelParams)
+        public async Task<IActionResult> GetReels([FromQuery] ReelParams reelParams)
         {
             var reels = await _repo.GetReels(reelParams);
-            var reelsToReturn= _mapper.Map<IEnumerable<ReelsForListDto>>(reels);
+            var reelsToReturn = _mapper.Map<IEnumerable<ReelsForListDto>>(reels);
 
             Response.AddPagination(reels.CurrentPage, reels.PageSize, reels.TotalCount, reels.TotalPages);
 
@@ -54,18 +57,28 @@ namespace Storage.API.Controllers
         public async Task<IActionResult> GetReel(int id)
         {
             var reel = await _repo.GetReel(id);
-            var reelToReturn= _mapper.Map<ReelsForListDto>(reel);
+            var reelToReturn = _mapper.Map<ReelsForListDto>(reel);
+
+            return Ok(reelToReturn);
+        }
+        [HttpGet("PagalMnf/{Mnf}")]
+        public async Task<IActionResult> GetReelCMnf(string Mnf)
+        {
+            var reel = await _repo.GetReelCMnf(Mnf);
+            var reelToReturn = _mapper.Map<ReelsForListDto>(reel);
 
             return Ok(reelToReturn);
         }
         [HttpPost("registerreel")]
-        public async Task<IActionResult> RegisterReel([FromForm]ReelForRegisterDto reelForRegisterDto)
+        public async Task<IActionResult> RegisterReel([FromForm] ReelForRegisterDto reelForRegisterDto)
         {
             var file = reelForRegisterDto.file;
 
             var uploadResult = new ImageUploadResult();
 
-            if (file.Length > 0)
+            if (reelForRegisterDto.CMnf == null) return BadRequest("No manufacturer number ");    // pratestuoti paskui ar viskas ok, ne veliau bus ikelta 
+
+            if (file != null)
             {
                 using (var stream = file.OpenReadStream())
                 {
@@ -78,13 +91,28 @@ namespace Storage.API.Controllers
                     uploadResult = _cloudinary.Upload(uploadParams);
                 }
             }
+            if (reelForRegisterDto.URL != null)
+            {
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(@"data:image/png;base64," + reelForRegisterDto.URL),
+                    Transformation = new Transformation().Width(500).Height(300).Crop("fill").Gravity("face")
+                };
+
+                uploadResult = _cloudinary.Upload(uploadParams);
+            }
+
 
             reelForRegisterDto.PublicId = uploadResult.PublicId;
+
+            var componentass = await _context.Componentass.FirstOrDefaultAsync(u => u.Mnf == reelForRegisterDto.CMnf);
 
             var ReelToCreate = new Reel
             {
                 CMnf = reelForRegisterDto.CMnf,
-                QTY = reelForRegisterDto.QTY
+                QTY = reelForRegisterDto.QTY,
+                ComponentasId =componentass.Id,
+                Location = "0"
             };
 
             var CreateReel = await _repo.RegisterReel(ReelToCreate);
@@ -118,7 +146,6 @@ namespace Storage.API.Controllers
 
             throw new Exception($"Updating user {id} failed on save");
         }
-
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReel(int id)
         {
@@ -126,27 +153,27 @@ namespace Storage.API.Controllers
 
             var photoFromRepo = await _repo.GetPhoto(reelFromRepo.Id);
 
-           /*
-            if (photoFromRepo.PublicId != null)
-            {
-                var deleteParams = new DeletionParams(photoFromRepo.PublicId);
+            /*
+             if (photoFromRepo.PublicId != null)
+             {
+                 var deleteParams = new DeletionParams(photoFromRepo.PublicId);
 
-                var result = _cloudinary.Destroy(deleteParams);
+                 var result = _cloudinary.Destroy(deleteParams);
 
-                if (result.Result == "ok")
-                {
-                    _repo.Delete(photoFromRepo);
-                }
-                _repo.Delete(reelFromRepo);
-            }
+                 if (result.Result == "ok")
+                 {
+                     _repo.Delete(photoFromRepo);
+                 }
+                 _repo.Delete(reelFromRepo);
+             }
 
-            if (photoFromRepo.PublicId == null)
-            {
-                _repo.Delete(photoFromRepo);
-                _repo.Delete(reelFromRepo);
-            }
+             if (photoFromRepo.PublicId == null)
+             {
+                 _repo.Delete(photoFromRepo);
+                 _repo.Delete(reelFromRepo);
+             }
 
-             */
+              */
 
             if (photoFromRepo == null)
             {

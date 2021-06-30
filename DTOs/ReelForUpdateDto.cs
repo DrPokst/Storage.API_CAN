@@ -9,6 +9,6 @@ namespace Storage.API.DTOs
     {
         public string CMnf { get; set; }
         public int QTY { get; set; }
-        
+        public string Location { get; set; }
     }
 }
