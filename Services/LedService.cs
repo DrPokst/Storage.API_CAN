@@ -152,29 +152,6 @@ namespace Storage.API.Services
                 int slotNr = id - ((tarpinis - 1) * 10);
                 byte ID = Convert.ToByte(tarpinis);
 
-<<<<<<< HEAD
-                
-                byte[] data = new byte[] { ID, (byte)id2, 0x00, 0xFF, 0x00, 0x01};
-                TransmitMessage(mcp25xxx, data);
-                
-               
-                
-                //ReadAllRegisters(mcp25xxx);
-                //ReadAllRegistersWithDetails(mcp25xxx);
-                //ReadRxBuffer(mcp25xxx);
-                //Write(mcp25xxx);
-                //LoadTxBuffer(mcp25xxx);
-                //RequestToSend(mcp25xxx);
-                //ReadStatus(mcp25xxx);
-                //RxStatus(mcp25xxx);
-                //BitModify(mcp25xxx);
-                
-                //LoopbackMode(mcp25xxx);
-                //Write(mcp25xxx);
-                //ReadAllRegisters(mcp25xxx);
-
-                //mcp25xxx.Write(Address.CanCtrl, new byte[] { 0b1001_1111 });
-=======
                 byte[] data = new byte[] {ID, (byte)slotNr, 0xFF, 0x00, 0x00, 0xFF, 0xFF, 0xFF };
                 TransmitMessage(mcp25xxx, data);
             }
@@ -189,7 +166,6 @@ namespace Storage.API.Services
                 byte[] data = new byte[] {0, 0, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
                 TransmitMessage(mcp25xxx, data);
             }
->>>>>>> Azure-AUTH
 
             return true;
         }
