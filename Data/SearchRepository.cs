@@ -55,8 +55,6 @@ namespace Storage.API.Data
         {
             var componentass = _context.Componentass.Include(p => p.Photos).AsQueryable();
 
-            
-
             if (componentParams.Size != null)
             {
                 componentass = componentass.Where(u => u.Size == componentParams.Size);

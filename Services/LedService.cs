@@ -14,6 +14,7 @@ using Iot.Device.Mcp25xxx.Register.CanControl;
 using Iot.Device.Mcp25xxx.Register.MessageTransmit;
 using Storage.API.Models;
 using System.Collections;
+using System.Text;
 
 namespace Storage.API.Services
 {
@@ -158,12 +159,20 @@ namespace Storage.API.Services
 
             return true;
         }
-        public async Task<bool> TurnOnAll()
+        public async Task<bool> TurnOnAll(String color)
         {
+            var bytes = GetBytesFromByteString(color).ToArray();
+            byte brightness = 0xFF;
+            int check = bytes.Length;
+            if (check > 3)
+            {
+                brightness = bytes[3];
+            }
+
             using (Mcp25xxx mcp25xxx = GetMcp25xxxDevice())
             {
                 InitMcp();
-                byte[] data = new byte[] {0, 0, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+                byte[] data = new byte[] {0, 0, 0xFF, 0xFF, bytes[0], bytes[1], bytes[2], brightness};
                 TransmitMessage(mcp25xxx, data);
             }
 
@@ -226,7 +235,6 @@ namespace Storage.API.Services
         }
         private static int getIntFromBitArray(BitArray bitArray)
         {
-
             if (bitArray.Length > 32)
                 throw new ArgumentException("Argument length shall be at most 32 bits.");
 
@@ -235,5 +243,13 @@ namespace Storage.API.Services
             return array[0];
 
         }
+        public IEnumerable<byte> GetBytesFromByteString(string s)
+        {
+            for (int index = 0; index < s.Length; index += 2)
+            {
+                yield return Convert.ToByte(s.Substring(index, 2), 16);
+            }
+        }
+
     }
 }

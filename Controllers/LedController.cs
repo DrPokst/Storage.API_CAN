@@ -42,10 +42,10 @@ namespace Storage.API.Controllers
             return Ok(reel);
         }
 
-        [HttpPut("on/all")]
-        public async Task<IActionResult> TurnOnAll()
+        [HttpPut("on/all/{color}")]
+        public async Task<IActionResult> TurnOnAll(String color)
         {   
-            var reel = await _ledService.TurnOnAll();
+            var reel = await _ledService.TurnOnAll(color);
             return Ok();
         }
         

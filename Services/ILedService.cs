@@ -12,7 +12,7 @@ namespace Storage.API.Services
         Task<bool> TurnOffLed(int id);
         Task<Rxmsg> SetReelLocation();
         Task<bool> TakeOutReel(int id);
-        Task<bool> TurnOnAll();
+        Task<bool> TurnOnAll(String color);
         Task<bool> TurnOffAll();
     }
 }

@@ -121,7 +121,7 @@ namespace Storage.API.Controllers
             ComponetsForRegisterDto.PublicId = uploadResult.PublicId;
 
 
-            var ComponentasToCreate = new Componentas
+            Componentas ComponentasToCreate = new Componentas
             {
                 Mnf = ComponetsForRegisterDto.Mnf.ToUpper(),
                 Manufacturer = ComponetsForRegisterDto.Manufacturer,
@@ -139,7 +139,7 @@ namespace Storage.API.Controllers
             var createComponent = await _repo.RegisterComponents(ComponentasToCreate);
 
 
-            var PhotoToCreate = new Photo
+            Photo PhotoToCreate = new Photo
             {
                 PublicId = ComponetsForRegisterDto.PublicId,
                 IsMain = true,
