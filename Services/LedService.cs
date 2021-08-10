@@ -2,19 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Drawing;
 using System.Device.Spi;
 using Iot.Device.Mcp25xxx;
 using Iot.Device.Mcp25xxx.Register;
-using Iot.Device.Ws28xx;
-using Iot.Device.Graphics;
-using System.Device.Gpio;
-using System.Threading;
 using Iot.Device.Mcp25xxx.Register.CanControl;
 using Iot.Device.Mcp25xxx.Register.MessageTransmit;
 using Storage.API.Models;
 using System.Collections;
-using System.Text;
+
 
 namespace Storage.API.Services
 {
@@ -26,6 +21,7 @@ namespace Storage.API.Services
             using (Mcp25xxx mcp25xxx = GetMcp25xxxDevice())
             {
 
+                
                 // Reset(mcp25xxx);
                 mcp25xxx.Write(Address.Cnf1, new byte[] { 0b0000_0000 });
                 mcp25xxx.Write(Address.Cnf2, new byte[] { 0b1001_0001 });
@@ -57,7 +53,7 @@ namespace Storage.API.Services
 
                 byte[] data1 = mcp25xxx.ReadRxBuffer(RxBufferAddressPointer.RxB0D0, 8);
                 byte[] data2 = mcp25xxx.ReadRxBuffer(RxBufferAddressPointer.RxB1D0, 8);
-
+                var bufferData = data1; 
 
 
 
@@ -87,24 +83,19 @@ namespace Storage.API.Services
                 //bitu masyva pakeiciu i integer skaiciu kuris parodo atejusio CAN paketo ID 
                 int ID = getIntFromBitArray(myBA2);
 
-                Rxmsg msg = new Rxmsg
+                if (data1[2] == 0x00)
                 {
-                    DLC = DLC,
-                    ID = ID,
-                    Msg = data1
-                };
+                    bufferData = data2;
+                }
 
-
-                /*  Console.WriteLine("RxB0D0 pirmas bytes DEC: " + data1[0]);
-                 Console.WriteLine("RxB1D0 pirmas bytes DEC: " + data2[0]);
-                 Console.WriteLine("RxB1Sidh: " + STID0);
-                 Console.WriteLine("RxB1Sidl: " + STID1);
-                 Console.WriteLine("DLC: " + DLC);
-                 Console.WriteLine("ID: " + ID);
-                  */
-
-
+                Rxmsg msg = new Rxmsg
+                    {
+                        DLC = DLC,
+                        ID = ID,
+                        Msg = bufferData
+                    };
                 return msg;
+                
             }
 
         }
@@ -115,14 +106,12 @@ namespace Storage.API.Services
 
                 InitMcp();
 
-                int tarpinis = (id / 10) + 1;
-                int slotNr = id - ((tarpinis - 1) * 10);
+                int tarpinis = (id - 1) / 10;
+                int slotNr = id - (tarpinis * 10);
                 byte ID = Convert.ToByte(tarpinis);
 
                 byte[] data = new byte[] { ID, (byte)slotNr, 0xF0, 0x0F, 0x00, 0x00, 0xFF, 0xFF };
                 TransmitMessage(mcp25xxx, data);
-
-
             }
 
             return true;
@@ -133,8 +122,8 @@ namespace Storage.API.Services
             {
                 InitMcp();
 
-                int tarpinis = (id / 10) + 1;
-                int slotNr = id - ((tarpinis - 1) * 10);
+                int tarpinis = (id - 1) / 10;
+                int slotNr = id - (tarpinis * 10);
                 byte ID = Convert.ToByte(tarpinis);
 
                 byte[] data = new byte[] {ID, (byte)slotNr, 0x00, 0xFF, 0x00, 0x00, 0xFF, 0xFF };
@@ -149,8 +138,8 @@ namespace Storage.API.Services
             {
                 InitMcp();
 
-                int tarpinis = (id / 10) + 1;
-                int slotNr = id - ((tarpinis - 1) * 10);
+                int tarpinis = (id - 1) / 10;
+                int slotNr = id - (tarpinis * 10);
                 byte ID = Convert.ToByte(tarpinis);
 
                 byte[] data = new byte[] {ID, (byte)slotNr, 0xFF, 0x00, 0x00, 0xFF, 0xFF, 0xFF };
@@ -250,6 +239,6 @@ namespace Storage.API.Services
                 yield return Convert.ToByte(s.Substring(index, 2), 16);
             }
         }
-
+        
     }
 }

@@ -44,8 +44,7 @@ namespace Storage.API.Controllers
             var userToCreate = _mapper.Map<User>(userForRegisterDTO);
 
             var result = await _userManager.CreateAsync(userToCreate, userForRegisterDTO.Password);
-
-            var role = await _userManager.AddToRoleAsync(userToCreate, "Admin");
+            var role = await _userManager.AddToRoleAsync(userToCreate, "Member");
 
             if (result.Succeeded)
             {

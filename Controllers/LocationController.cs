@@ -58,13 +58,23 @@ namespace Storage.API.Controllers
             
             }
             
-            var rxmsg = await _ledService.SetReelLocation();
+           var rxmsg = await _ledService.SetReelLocation();
+           //testo tikslais
+           /* Rxmsg rxmsg = new Rxmsg
+            {
+                DLC = 0,
+                ID = 2,
+                Msg = new byte[] { 25, 6, 0xFF, 0x00, 0x00, 0xFF, 0xFF, 0xFF }
+            };
+           */
 
-            int Location = rxmsg.Msg[1] + ((rxmsg.Msg[0] - 1) * 10);
+            int Location = rxmsg.Msg[1] + (rxmsg.Msg[0] * 10);
             
             var reelByLocation = await _repo.GetByLocation(Location.ToString());
             
             if (reelByLocation != null) return BadRequest("Ritės vieta jau užimta");
+
+            var user = await _userManager.FindByIdAsync(LocationForRegisterDto.UserId);
 
             var HistoryToCreate = new History
             {
@@ -76,18 +86,13 @@ namespace Storage.API.Controllers
                 ComponentasId = ComponentasFromRepo.Id,
                 DateAdded = DateTime.Now,
                 ReelId = LocationForRegisterDto.Id,
-                UserId = 1
+                UserId = user.Id
             };
+
             var createHistory = await _srepo.RegisterHistory(HistoryToCreate);
-
-
             LocationForRegisterDto.QTY = likutis;
             LocationForRegisterDto.UserId = null;
             LocationForRegisterDto.Location = Location.ToString();
-
-
-            
-            
             _mapper.Map(LocationForRegisterDto, ReelsFromRepo);
 
             if (await _repo.SaveAll())
