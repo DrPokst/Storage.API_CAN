@@ -1,6 +1,10 @@
 using System.Net;
 using System.Text;
 using AutoMapper;
+using GraphQL.Client.Abstractions;
+using GraphQL.Client.Http;
+using GraphQL.Client.Serializer.Newtonsoft;
+using GraphQLRequests.GraphQL;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -88,6 +92,11 @@ namespace Storage.API
                 options.AddPolicy("VipOnly", policy => policy.RequireRole("VIP"));
                 
             });
+
+            var graphClient = new GraphQLHttpClient(Configuration["GraphQLURI"], new NewtonsoftJsonSerializer());
+            graphClient.HttpClient.DefaultRequestHeaders.Add("token", $"15b9030a-5e5e-4946-8d4a-cf6ed9aee516");
+            services.AddSingleton<IGraphQLClient>(s => graphClient);
+            services.AddScoped<ComponentInfo>();
 
             services.AddControllers(options =>
             {

@@ -102,7 +102,6 @@ namespace Storage.API.Data
 
         public async Task<Componentas> RegisterComponents(Componentas componentas)
         {   
-            
             await _context.Componentass.AddAsync(componentas);
             await _context.SaveChangesAsync();
 
