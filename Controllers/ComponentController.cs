@@ -365,8 +365,9 @@ namespace Storage.API.Controllers
                             var buhnr = worksheet.Cells[row, 1].Value.ToString().Trim();
                             var mnf = worksheet.Cells[row, 2].Value.ToString().Trim();
 
-                            var components = await _repo.GetCompCMnf(mnf);
-                            if (components == null)
+                            var component1 = await _repo.GetCompCMnf(mnf);
+                            var component2 = await _repo.GetComponentBuhNr(buhnr);
+                            if (component1 == null && component2 == null)
                             {
                                  GraphQLData componentInfo = await _componentInfo.GetAllComponentInfo(mnf, 1, "USD");
 

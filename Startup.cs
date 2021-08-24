@@ -94,7 +94,7 @@ namespace Storage.API
             });
 
             var graphClient = new GraphQLHttpClient(Configuration["GraphQLURI"], new NewtonsoftJsonSerializer());
-            graphClient.HttpClient.DefaultRequestHeaders.Add("token", $"15b9030a-5e5e-4946-8d4a-cf6ed9aee516");
+            graphClient.HttpClient.DefaultRequestHeaders.Add("token", $"e388898b-6e35-4df1-8c4e-890316c8ae71");
             services.AddSingleton<IGraphQLClient>(s => graphClient);
             services.AddScoped<ComponentInfo>();
 
