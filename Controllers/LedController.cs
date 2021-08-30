@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Storage.API.Data;
-using Storage.API.Services;
 
 namespace Storage.API.Controllers
 {
@@ -15,12 +14,10 @@ namespace Storage.API.Controllers
     [ApiController]
     public class LedController : ControllerBase
     {
-        private readonly ILedService _ledService;
         private readonly IReelRepository _repo;
 
-        public LedController(ILedService ledService, IReelRepository repo)
+        public LedController(IReelRepository repo)
         {
-            _ledService = ledService;
             _repo = repo;
         }
 

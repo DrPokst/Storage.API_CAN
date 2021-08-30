@@ -114,7 +114,6 @@ namespace Storage.API
             services.AddAutoMapper(typeof(SearchRepository).Assembly);
             services.AddScoped<ISearchRepository, SearchRepository>();
             services.AddScoped<IReelRepository, ReelRepository>();
-            services.AddScoped<ILedService, LedService>();
             services.AddScoped<IBomService, BomService>();
             services.AddScoped<IBomRepository, BomRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
