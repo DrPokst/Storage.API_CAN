@@ -1,11 +1,8 @@
-using System.Net;
-using System.Text;
 using AutoMapper;
 using GraphQL.Client.Abstractions;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.Newtonsoft;
 using GraphQLRequests.GraphQL;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -19,14 +16,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Storage.API.CAN;
 using Storage.API.Data;
 using Storage.API.Helpers;
 using Storage.API.Models;
-using Storage.API.Services;
 using Storage.API_CAN.Data;
 using Storage.API_CAN.Models;
 using Storage.API_CAN.Services;
 using Storage.API_CAN.SignalR;
+using System.Net;
+using System.Text;
 
 namespace Storage.API
 {
@@ -69,8 +68,9 @@ namespace Storage.API
             builder.AddRoleManager<RoleManager<AppRole>>();
             builder.AddSignInManager<SignInManager<User>>();
 
-            
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -80,18 +80,18 @@ namespace Storage.API
                     ValidateAudience = false
                 };
 
-           
+
 
 
             });
 
-             services.AddAuthorization(options => 
-            {
-                options.AddPolicy("RequiredAdminRole", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
-                options.AddPolicy("VipOnly", policy => policy.RequireRole("VIP"));
-                
-            });
+            services.AddAuthorization(options =>
+           {
+               options.AddPolicy("RequiredAdminRole", policy => policy.RequireRole("Admin"));
+               options.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
+               options.AddPolicy("VipOnly", policy => policy.RequireRole("VIP"));
+
+           });
 
             var graphClient = new GraphQLHttpClient(Configuration["GraphQLURI"], new NewtonsoftJsonSerializer());
             graphClient.HttpClient.DefaultRequestHeaders.Add("token", $"e388898b-6e35-4df1-8c4e-890316c8ae71");
@@ -104,7 +104,7 @@ namespace Storage.API
                     .RequireAuthenticatedUser()
                     .Build();
 
-                options.Filters.Add(new AuthorizeFilter(policy));    
+                options.Filters.Add(new AuthorizeFilter(policy));
             }).AddNewtonsoftJson(opt =>
             {
                 opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
@@ -118,6 +118,8 @@ namespace Storage.API
             services.AddScoped<IBomRepository, BomRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<ICanRepository, CanRepository>();
+            services.AddScoped<ILedRepository, LedRepository>();
             services.AddSwaggerGen();
             services.AddSignalR();
         }
@@ -131,8 +133,10 @@ namespace Storage.API
             }
             else
             {
-                app.UseExceptionHandler(builder => {
-                    builder.Run(async context => {
+                app.UseExceptionHandler(builder =>
+                {
+                    builder.Run(async context =>
+                    {
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
                         var error = context.Features.Get<IExceptionHandlerFeature>();
@@ -162,18 +166,18 @@ namespace Storage.API
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            
+
 
             app.UseEndpoints(endpoints =>
             {
-             endpoints.MapControllerRoute(
-             name: "default",
-             pattern: "{controller=Fallback}/{action=Index}/{id?}");
-        
-             endpoints.MapFallbackToController("Index", "Fallback");
-             endpoints.MapHub<PresenceHub>("hubs/presence");
+                endpoints.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Fallback}/{action=Index}/{id?}");
+
+                endpoints.MapFallbackToController("Index", "Fallback");
+                endpoints.MapHub<PresenceHub>("hubs/presence");
             });
-            
+
         }
     }
 }
