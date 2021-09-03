@@ -39,7 +39,7 @@ namespace Storage.API.CAN
         {
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("http://192.168.8.98/api/Led/off" + "&color=" + color))
+                using (var response = await httpClient.GetAsync("http://192.168.8.98/api/Led/on/all" + "?color=" + color))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<Byte[]>(apiResponse);
@@ -53,7 +53,7 @@ namespace Storage.API.CAN
         {
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("http://192.168.8.98/api/Led/off" + "?id=" + id + "&color=" + color))
+                using (var response = await httpClient.GetAsync("http://192.168.8.98/api/Led/on" + "?id=" + id + "&color=" + color))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<Byte[]>(apiResponse);
