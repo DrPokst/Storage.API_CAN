@@ -23,5 +23,7 @@ namespace Storage.API.Data
          Task<Photo> GetPhotoCID(int Cid);
          Task<bool> MnFExists(string Mnf);
          Task<Componentas> GetComponentBuhNr(string buhNr);
+         Task<List<string>> ComponentTypes();
+         Task<List<string>> ComponentSizes();
     }
 }

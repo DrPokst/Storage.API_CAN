@@ -33,7 +33,7 @@ namespace Storage.API.Data
                                                           .Include(b => b.History)
                                                           .Include(r => r.Reels)
                                                           .FirstOrDefaultAsync(u => u.Id == id);
-
+           
             return componentass;
         }
         public async Task<IEnumerable<Componentas>> GetMnfs()
@@ -68,20 +68,20 @@ namespace Storage.API.Data
             if (componentParams.Mnf != null)
             {
                 componentass = from u in componentass
-                               where u.Mnf.StartsWith(componentParams.Mnf)
+                               where u.Mnf.Contains(componentParams.Mnf)
                                select u;
-   
-
             }
             if (componentParams.Nominal != null)
             {
                 componentass = from u in componentass
-                               where u.Nominal.StartsWith(componentParams.Nominal)
+                               where u.Nominal.Contains(componentParams.Nominal)
                                select u;
             }
             if (componentParams.BuhNr != null)
             {
-                componentass = componentass.Where(u => u.BuhNr == componentParams.BuhNr);
+                componentass = from u in componentass
+                               where u.BuhNr.Contains(componentParams.BuhNr)
+                               select u;
             }
 
             if (!string.IsNullOrEmpty(componentParams.OrderBy))
@@ -90,6 +90,12 @@ namespace Storage.API.Data
                 {
                     case "created":
                         componentass = componentass.OrderByDescending(u => u.Created);
+                        break;
+                    case "nominal":
+                        componentass = componentass.OrderBy(u => u.Nominal);
+                        break;
+                    case "mnf":
+                        componentass = componentass.OrderBy(u => u.Mnf);
                         break;
                     default:
                         componentass = componentass.OrderBy(u => u.Id);
@@ -206,6 +212,18 @@ namespace Storage.API.Data
         {
             var comp = await _context.Componentass.Where(u => u.BuhNr == buhNr).FirstOrDefaultAsync();
             return comp;
+        }
+        public async Task<List<string>> ComponentTypes()
+        {
+            var componentList = _context.Componentass.AsQueryable().ToListAsync();
+            var componentTypes = componentList.Result.Select(o => o.Type).Distinct().ToList();
+            return componentTypes;
+        }
+        public async Task<List<string>> ComponentSizes()
+        {
+            var componentList = _context.Componentass.AsQueryable().ToListAsync();
+            var componentSizes = componentList.Result.Select(o => o.Size).Distinct().OrderBy(o => o).ToList();
+            return componentSizes;
         }
     }
 }

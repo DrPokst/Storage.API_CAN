@@ -48,7 +48,7 @@ namespace Storage.API.Data
         {
            var reel = await _context.Reels.Include(p => p.Photos2).OrderByDescending(o => o.Id).FirstOrDefaultAsync(u => u.CMnf == cMnf);
 
-            return reel;
+           return reel;
         }
 
         public async Task<PageList<Reel>> GetReels(ReelParams reelParams)

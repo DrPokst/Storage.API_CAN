@@ -20,6 +20,7 @@ namespace Storage.API.Data
          Task<Photo2> RegisterPhoto(Photo2 photo);
          Task<Photo2> GetPhoto(int Rid);
          Task<Reel> RegisterReel(Reel reel);
+         
 
     }
 }

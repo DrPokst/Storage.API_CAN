@@ -470,6 +470,19 @@ namespace Storage.API.Controllers
 
         }
 
+        [HttpGet("ComponentTypes")]
+        public async Task<IActionResult> GetCompoentTypes()
+        {
+            var componentTypes = await _repo.ComponentTypes();
 
+            return Ok(componentTypes);
+        }
+        [HttpGet("ComponentSizes")]
+        public async Task<IActionResult> GetCompoentSizes()
+        {
+            var componentTypes = await _repo.ComponentSizes();
+
+            return Ok(componentTypes);
+        }
     }
 }
