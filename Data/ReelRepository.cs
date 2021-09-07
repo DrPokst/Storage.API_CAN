@@ -46,7 +46,7 @@ namespace Storage.API.Data
 
         public async Task<Reel> GetReelCMnf(string cMnf)
         {
-           var reel = await _context.Reels.Include(p => p.Photos2).FirstOrDefaultAsync(u => u.CMnf == cMnf);
+           var reel = await _context.Reels.Include(p => p.Photos2).OrderByDescending(o => o.Id).FirstOrDefaultAsync(u => u.CMnf == cMnf);
 
             return reel;
         }
@@ -96,7 +96,7 @@ namespace Storage.API.Data
             return reel;
         }
 
-        public async Task<bool> SaveAll()
+        public async Task<bool> SaveAll() 
         {
             return await _context.SaveChangesAsync() > 0;
         }

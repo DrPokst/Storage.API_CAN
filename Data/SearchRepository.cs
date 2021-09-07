@@ -55,8 +55,6 @@ namespace Storage.API.Data
         {
             var componentass = _context.Componentass.Include(p => p.Photos).AsQueryable();
 
-            
-
             if (componentParams.Size != null)
             {
                 componentass = componentass.Where(u => u.Size == componentParams.Size);
@@ -104,7 +102,6 @@ namespace Storage.API.Data
 
         public async Task<Componentas> RegisterComponents(Componentas componentas)
         {   
-            
             await _context.Componentass.AddAsync(componentas);
             await _context.SaveChangesAsync();
 

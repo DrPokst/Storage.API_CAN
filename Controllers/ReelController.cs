@@ -123,9 +123,67 @@ namespace Storage.API.Controllers
                 IsMain = true,
                 Url = uploadResult.Uri.ToString(),
                 ReelId = ReelToCreate.Id
-
             };
 
+            var createPhoto = await _repo.RegisterPhoto(PhotoToCreate);
+
+            return StatusCode(201);
+        }
+        [HttpPost("registerreel/stringlocation")]
+        public async Task<IActionResult> RegisterReelWithStringLocation([FromForm] ReelForRegisterWithLocationDto reelForRegisterDto)
+        {
+            var file = reelForRegisterDto.file;
+
+            var uploadResult = new ImageUploadResult();
+
+            if (reelForRegisterDto.CMnf == null) return BadRequest("No manufacturer number ");    // pratestuoti paskui ar viskas ok, ne veliau bus ikelta 
+
+            if (file != null)
+            {
+                using (var stream = file.OpenReadStream())
+                {
+                    var uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(file.Name, stream),
+                        Transformation = new Transformation().Width(500).Height(300).Crop("fill").Gravity("face")
+                    };
+
+                    uploadResult = _cloudinary.Upload(uploadParams);
+                }
+            }
+            if (reelForRegisterDto.URL != null)
+            {
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(@"data:image/png;base64," + reelForRegisterDto.URL),
+                    Transformation = new Transformation().Width(500).Height(300).Crop("fill").Gravity("face")
+                };
+
+                uploadResult = _cloudinary.Upload(uploadParams);
+            }
+
+
+            reelForRegisterDto.PublicId = uploadResult.PublicId;
+
+            var componentass = await _context.Componentass.FirstOrDefaultAsync(u => u.Mnf == reelForRegisterDto.CMnf);
+
+            var ReelToCreate = new Reel
+            {
+                CMnf = reelForRegisterDto.CMnf,
+                QTY = reelForRegisterDto.QTY,
+                ComponentasId = componentass.Id,
+                Location = reelForRegisterDto.Location
+            };
+
+            var CreateReel = await _repo.RegisterReel(ReelToCreate);
+
+            var PhotoToCreate = new Photo2
+            {
+                PublicId = reelForRegisterDto.PublicId,
+                IsMain = true,
+                Url = uploadResult.Uri.ToString(),
+                ReelId = ReelToCreate.Id
+            };
 
             var createPhoto = await _repo.RegisterPhoto(PhotoToCreate);
 

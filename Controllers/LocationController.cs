@@ -1,21 +1,16 @@
-using System;
-using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Storage.API.CAN;
 using Storage.API.Data;
 using Storage.API.DTOs;
-using Storage.API.Models;
-using Microsoft.AspNetCore.Mvc;
-using Storage.API.Services;
-using Storage.API_CAN.Helpers;
-using System.Collections.Generic;
 using Storage.API.Helpers;
+using Storage.API.Models;
 using Storage.API_CAN.DTOs;
-using System.Text;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.IdentityModel.JsonWebTokens;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+using Storage.API_CAN.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Storage.API.Controllers
 {
@@ -26,24 +21,25 @@ namespace Storage.API.Controllers
         private readonly IReelRepository _repo;
         private readonly ISearchRepository _srepo;
         private readonly IMapper _mapper;
-        private readonly ILedService _ledService;
         private readonly UserManager<User> _userManager;
-        public LocationController(ILedService ledService, IReelRepository repo, ISearchRepository srepo, IMapper mapper, UserManager<User> userManager)
+        private readonly ICanRepository _can;
+
+        public LocationController(IReelRepository repo, ISearchRepository srepo, IMapper mapper, UserManager<User> userManager, ICanRepository can)
         {
             _userManager = userManager;
             _srepo = srepo;
             _mapper = mapper;
+            _can = can;
             _repo = repo;
-            _ledService = ledService;
         }
-        
+
         [HttpPost("put")]
         public async Task<IActionResult> RegisterLocation(LocationForRegisterDto LocationForRegisterDto)
         {
 
             var ReelsFromRepo = await _repo.GetReel(LocationForRegisterDto.Id);
             if (ReelsFromRepo == null) return BadRequest("Pagal pateikta ID ritė nerasta");
-            
+
             var ComponentasFromRepo = await _srepo.GetCompCMnf(ReelsFromRepo.CMnf);
 
             int likutis = ReelsFromRepo.QTY - LocationForRegisterDto.QTY;
@@ -55,16 +51,26 @@ namespace Storage.API.Controllers
             {
                 int result = Int32.Parse(ReelsFromRepo.Location);
                 if (result > 0) return BadRequest("Ši ritė turėtų būti padėta į " + ReelsFromRepo.Location + " slotą !!!!!");
-            
+
             }
-            
-            var rxmsg = await _ledService.SetReelLocation();
+
+            var rxmsg = await _can.SetReelLocation();
+            //testo tikslais
+            /* Rxmsg rxmsg = new Rxmsg
+             {
+                 DLC = 0,
+                 ID = 2,
+                 Msg = new byte[] { 25, 6, 0xFF, 0x00, 0x00, 0xFF, 0xFF, 0xFF }
+             };
+            */
 
             int Location = rxmsg.Msg[1] + (rxmsg.Msg[0] * 10);
-            
+
             var reelByLocation = await _repo.GetByLocation(Location.ToString());
-            
+
             if (reelByLocation != null) return BadRequest("Ritės vieta jau užimta");
+
+            var user = await _userManager.FindByIdAsync(LocationForRegisterDto.UserId);
 
             var HistoryToCreate = new History
             {
@@ -76,14 +82,13 @@ namespace Storage.API.Controllers
                 ComponentasId = ComponentasFromRepo.Id,
                 DateAdded = DateTime.Now,
                 ReelId = LocationForRegisterDto.Id,
-                UserId = 1
+                UserId = user.Id
             };
-            var createHistory = await _srepo.RegisterHistory(HistoryToCreate);
 
+            var createHistory = await _srepo.RegisterHistory(HistoryToCreate);
             LocationForRegisterDto.QTY = likutis;
             LocationForRegisterDto.UserId = null;
             LocationForRegisterDto.Location = Location.ToString();
-
             _mapper.Map(LocationForRegisterDto, ReelsFromRepo);
 
             if (await _repo.SaveAll())
@@ -102,7 +107,7 @@ namespace Storage.API.Controllers
 
             int result = Int32.Parse(reelFromRepo.Location);
 
-            var take = _ledService.TakeOutReel(result);
+            var take = _can.TakeOutReel(result);
 
             var HistoryToCreate = new History
             {
@@ -121,7 +126,7 @@ namespace Storage.API.Controllers
             reelForTakeDto.UserId = user.Id;
 
             var createHistory = await _srepo.RegisterHistory(HistoryToCreate);
-            
+
             _mapper.Map(reelForTakeDto, reelFromRepo);
 
             if (await _repo.SaveAll())

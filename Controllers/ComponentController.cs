@@ -14,6 +14,8 @@ using CloudinaryDotNet;
 using Microsoft.Extensions.Options;
 using OfficeOpenXml;
 using System.IO;
+using GraphQLRequests.GraphQL.Models;
+using GraphQLRequests.GraphQL;
 
 namespace Storage.API.Controllers
 {
@@ -24,10 +26,12 @@ namespace Storage.API.Controllers
         private readonly ISearchRepository _repo;
         private readonly IMapper _mapper;
         private readonly IOptions<CloudinarySettings> _cloudinaryConfig;
+        private readonly ComponentInfo _componentInfo;
         private Cloudinary _cloudinary;
 
-        public ComponentController(ISearchRepository repo, IMapper mapper, IOptions<CloudinarySettings> cloudinaryConfig)
+        public ComponentController(ISearchRepository repo, IMapper mapper, IOptions<CloudinarySettings> cloudinaryConfig, ComponentInfo componentInfo)
         {
+            _componentInfo = componentInfo;
             _mapper = mapper;
             _cloudinaryConfig = cloudinaryConfig;
             _repo = repo;
@@ -69,7 +73,13 @@ namespace Storage.API.Controllers
 
             return Ok(componentsToReturn);
         }
+        [HttpGet("octopart/{Mnf}")]
+        public async Task<IActionResult> GetComponentOctopartInfo(string Mnf)
+        {
+            GraphQLData componentInfo = await _componentInfo.GetAllComponentInfo(Mnf, 1, "USD");
 
+            return Ok(componentInfo);
+        }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetComponents(int id)
         {
@@ -118,7 +128,7 @@ namespace Storage.API.Controllers
             ComponetsForRegisterDto.PublicId = uploadResult.PublicId;
 
 
-            var ComponentasToCreate = new Componentas
+            Componentas ComponentasToCreate = new Componentas
             {
                 Mnf = ComponetsForRegisterDto.Mnf.ToUpper(),
                 Manufacturer = ComponetsForRegisterDto.Manufacturer,
@@ -135,7 +145,8 @@ namespace Storage.API.Controllers
 
             var createComponent = await _repo.RegisterComponents(ComponentasToCreate);
 
-            var PhotoToCreate = new Photo
+
+            Photo PhotoToCreate = new Photo
             {
                 PublicId = ComponetsForRegisterDto.PublicId,
                 IsMain = true,
@@ -148,6 +159,69 @@ namespace Storage.API.Controllers
 
             return StatusCode(201);
         }
+        [HttpPost("registercomponent/short")]
+        public async Task<IActionResult> ShortRegister([FromForm] ComponentForRegisterShortDto componentForRegisterShortDto)
+        {
+
+            GraphQLData componentInfo = await _componentInfo.GetAllComponentInfo(componentForRegisterShortDto.Mnf, 1, "USD");
+
+            var uploadParams = new ImageUploadParams()
+            {
+                File = new FileDescription(componentInfo.search.results[0].part.images[0].url),
+            };
+
+            var uploadResult = _cloudinary.Upload(uploadParams);
+            var publicid = uploadResult.PublicId;
+            var url = uploadResult.Uri.ToString();
+
+            Componentas ComponentasToCreate = new Componentas
+            {
+                Mnf = componentForRegisterShortDto.Mnf,
+                Manufacturer = componentInfo.search.results[0].part.manufacturer.name,
+                Detdescription = componentInfo.search.results[0].part.short_description,
+                BuhNr = componentForRegisterShortDto.BuhNr,
+                Type = componentInfo.search.results[0].part.category.name,
+                Created = DateTime.Now
+            };
+
+            foreach (var item in componentInfo.search.results[0].part.specs)
+            {
+                switch (item.attribute.name)
+                {
+                    case "Case/Package":
+                        ComponentasToCreate.Size = item.display_value;
+                        break;
+                    case "Resistance":
+                        ComponentasToCreate.Nominal = item.display_value;
+                        break;
+                    case "Capacitance":
+                        ComponentasToCreate.Nominal = item.display_value;
+                        break;
+                    case "Impedance":
+                        ComponentasToCreate.Nominal = item.display_value;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            var createComponent = await _repo.RegisterComponents(ComponentasToCreate);
+
+
+            Photo PhotoToCreate = new Photo
+            {
+                PublicId = publicid,
+                IsMain = true,
+                Url = uploadResult.Uri.ToString(),
+                ComponentasId = createComponent.Id
+
+            };
+
+            await _repo.RegisterPhoto(PhotoToCreate);
+
+            return Ok();
+        }
+
         [HttpPost("registercomponent/all")]
         
         public async Task<IActionResult> AddBom([FromForm] BomForCreationDto bomForCreationDto)
@@ -235,6 +309,119 @@ namespace Storage.API.Controllers
                             var createPhoto = await _repo.RegisterPhoto(PhotoToCreate);
                         }
 
+                    }
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+            return Ok();
+        }
+        [HttpPost("registercomponent/all2")]
+
+        public async Task<IActionResult> AddBom2([FromForm] BomForCreationDto bomForCreationDto)
+        {
+
+
+            var formFile = bomForCreationDto.File;
+
+            if (formFile == null || formFile.Length <= 0)
+            {
+                return BadRequest("formfile is empty");
+            }
+
+            if (!Path.GetExtension(formFile.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+            {
+                return BadRequest("Not Support file extension");
+            }
+
+            try
+            {
+                using (var stream = new MemoryStream())
+                {
+                    await formFile.CopyToAsync(stream);
+                    ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+
+                    using (var package = new ExcelPackage(stream))
+                    {
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                        var rowCount = worksheet.Dimension.Rows;
+                        var colCount = worksheet.Dimension.Columns;
+
+
+                        for (int row = 1; row <= rowCount; row++)
+                        {
+
+                            var buhnr = worksheet.Cells[row, 1].Value.ToString().Trim();
+                            var mnf = worksheet.Cells[row, 2].Value.ToString().Trim();
+
+                            var component1 = await _repo.GetCompCMnf(mnf);
+                            var component2 = await _repo.GetComponentBuhNr(buhnr);
+                            if (component1 == null && component2 == null)
+                            {
+                                 GraphQLData componentInfo = await _componentInfo.GetAllComponentInfo(mnf, 1, "USD");
+
+                            if (componentInfo.search.results != null)
+                            {
+                                Componentas ComponentasToCreate = new Componentas
+                                {
+                                    Mnf = mnf,
+                                    Manufacturer = componentInfo.search.results[0].part.manufacturer.name,
+                                    Detdescription = componentInfo.search.results[0].part.short_description,
+                                    BuhNr = buhnr,
+                                    Type = componentInfo.search.results[0].part.category.name,
+                                    Created = DateTime.Now
+                                };
+
+                                foreach (var item in componentInfo.search.results[0].part.specs)
+                                {
+                                    switch (item.attribute.name)
+                                    {
+                                        case "Case/Package":
+                                            ComponentasToCreate.Size = item.display_value;
+                                            break;
+                                        case "Resistance":
+                                            ComponentasToCreate.Nominal = item.display_value;
+                                            break;
+                                        case "Capacitance":
+                                            ComponentasToCreate.Nominal = item.display_value;
+                                            break;
+                                        case "Impedance":
+                                            ComponentasToCreate.Nominal = item.display_value;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+
+                                var createComponent = await _repo.RegisterComponents(ComponentasToCreate);
+
+                                if (componentInfo.search.results[0].part.images[0].url is string)
+                                {
+                                    var uploadParams = new ImageUploadParams()
+                                    {
+                                        File = new FileDescription(componentInfo.search.results[0].part.images[0].url),
+                                    };
+
+                                    var uploadResult = _cloudinary.Upload(uploadParams);
+                                    var publicid = uploadResult.PublicId;
+                                    var url = uploadResult.Uri.ToString();
+
+                                    Photo PhotoToCreate = new Photo
+                                    {
+                                        PublicId = publicid,
+                                        IsMain = true,
+                                        Url = uploadResult.Uri.ToString(),
+                                        ComponentasId = createComponent.Id
+
+                                    };
+
+                                    await _repo.RegisterPhoto(PhotoToCreate);
+                                }
+                            }
+                            }
+                        }
                     }
                 }
             }

@@ -54,7 +54,7 @@ namespace Storage.API_CAN.Controllers
             return Ok("tik adminas ir moderatorius mato");
         }
 
-        // nepamirsti atsatyti, kad galetu daryti tik admin[Authorize(Policy = "RequiredAdminRole")]
+        [Authorize(Policy = "RequiredAdminRole")]
         [HttpPost("editRoles/{userName}")]
 
         public async Task<IActionResult> EditRules(string userName, RolesEditDto rolesEditDto)

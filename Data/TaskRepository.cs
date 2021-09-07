@@ -128,7 +128,7 @@ namespace Storage.API.Data
                         }
 
                     }
-                    if (suma < item.Qty)
+                    if (suma <= item.Qty)
                     {
                         listas.Add(new TaskList
                         {
@@ -141,10 +141,10 @@ namespace Storage.API.Data
                             ComponentasId = item.ComponentasId,
                             ManufPartNr = item.ManufPartNr
                         });
-                        suma = 0;
+                        
                     }
                 }
-
+             suma = 0;
 
             }
 
