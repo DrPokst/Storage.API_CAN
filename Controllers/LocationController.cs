@@ -34,15 +34,15 @@ namespace Storage.API.Controllers
         }
 
         [HttpPost("put")]
-        public async Task<IActionResult> RegisterLocation(LocationForRegisterDto LocationForRegisterDto)
+        public async Task<IActionResult> RegisterLocation(LocationForRegisterDto locationForRegisterDto)
         {
 
-            var ReelsFromRepo = await _repo.GetReel(LocationForRegisterDto.Id);
+            var ReelsFromRepo = await _repo.GetReel(locationForRegisterDto.Id);
             if (ReelsFromRepo == null) return BadRequest("Pagal pateikta ID ritė nerasta");
 
             var ComponentasFromRepo = await _srepo.GetCompCMnf(ReelsFromRepo.CMnf);
 
-            int likutis = ReelsFromRepo.QTY - LocationForRegisterDto.QTY;
+            int likutis = ReelsFromRepo.QTY - locationForRegisterDto.QTY;
             if (likutis <= 0) return BadRequest("Rite tusčia, bandote padeti tuščia pakuotę, nurasote didesni kieki nei buvo uzregistruota riteje");
 
 
@@ -70,7 +70,7 @@ namespace Storage.API.Controllers
 
             if (reelByLocation != null) return BadRequest("Ritės vieta jau užimta");
 
-            var user = await _userManager.FindByIdAsync(LocationForRegisterDto.UserId);
+            var user = await _userManager.FindByIdAsync(locationForRegisterDto.UserId);
 
             var HistoryToCreate = new History
             {
@@ -81,15 +81,70 @@ namespace Storage.API.Controllers
                 OldQty = ReelsFromRepo.QTY,
                 ComponentasId = ComponentasFromRepo.Id,
                 DateAdded = DateTime.Now,
-                ReelId = LocationForRegisterDto.Id,
+                ReelId = locationForRegisterDto.Id,
                 UserId = user.Id
             };
 
             var createHistory = await _srepo.RegisterHistory(HistoryToCreate);
-            LocationForRegisterDto.QTY = likutis;
-            LocationForRegisterDto.UserId = null;
-            LocationForRegisterDto.Location = Location.ToString();
-            _mapper.Map(LocationForRegisterDto, ReelsFromRepo);
+            locationForRegisterDto.QTY = likutis;
+            locationForRegisterDto.UserId = null;
+            locationForRegisterDto.Location = Location.ToString();
+            _mapper.Map(locationForRegisterDto, ReelsFromRepo);
+
+            if (await _repo.SaveAll())
+                return NoContent();
+
+            else
+                return BadRequest("Could notregister location");
+        }
+        [HttpPost("put/withlocation")]
+        public async Task<IActionResult> RegisterLocationFromUser(LocationForRegisterDto locationForRegisterDto)
+        {
+
+            var ReelsFromRepo = await _repo.GetReel(locationForRegisterDto.Id);
+            if (ReelsFromRepo == null) return BadRequest("Pagal pateikta ID ritė nerasta");
+
+            var ComponentasFromRepo = await _srepo.GetCompCMnf(ReelsFromRepo.CMnf);
+
+            int likutis = ReelsFromRepo.QTY - locationForRegisterDto.QTY;
+            if (likutis <= 0) return BadRequest("Rite tusčia, bandote padeti tuščia pakuotę, nurasote didesni kieki nei buvo uzregistruota riteje");
+
+
+            var res = Int32.TryParse(ReelsFromRepo.Location, out _);
+            if (res == true)
+            {
+                int result = Int32.Parse(ReelsFromRepo.Location);
+                if (result > 0) return BadRequest("Ši ritė turėtų būti padėta į " + ReelsFromRepo.Location + " slotą !!!!!");
+
+            }
+
+            var user = await _userManager.FindByIdAsync(locationForRegisterDto.UserId);
+            
+            locationForRegisterDto.UserId = null;
+
+            if (locationForRegisterDto.Location is null)
+            {
+                locationForRegisterDto.Location = user.UserName;
+                locationForRegisterDto.UserId = user.Id.ToString();
+            }
+
+            var HistoryToCreate = new History
+            {
+                Mnf = ReelsFromRepo.CMnf,
+                NewLocation = locationForRegisterDto.Location,
+                NewQty = likutis,
+                OldLocation = ReelsFromRepo.Location,
+                OldQty = ReelsFromRepo.QTY,
+                ComponentasId = ComponentasFromRepo.Id,
+                DateAdded = DateTime.Now,
+                ReelId = locationForRegisterDto.Id,
+                UserId = user.Id
+            };
+
+            var createHistory = await _srepo.RegisterHistory(HistoryToCreate);
+            locationForRegisterDto.QTY = likutis;
+            
+            _mapper.Map(locationForRegisterDto, ReelsFromRepo);
 
             if (await _repo.SaveAll())
                 return NoContent();
