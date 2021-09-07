@@ -25,7 +25,6 @@ using Storage.API_CAN.Models;
 using Storage.API_CAN.Services;
 using System.Net;
 using System.Text;
-using Storage.API_CAN.SignalR;
 
 namespace Storage.API
 {
@@ -171,11 +170,10 @@ namespace Storage.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Fallback}/{action=Index}/{id?}");
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapFallbackToController("Index", "Fallback");
-                endpoints.MapHub<PresenceHub>("hubs/presence");
             });
 
         }
