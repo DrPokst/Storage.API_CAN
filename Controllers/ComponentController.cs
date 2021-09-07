@@ -145,8 +145,7 @@ namespace Storage.API.Controllers
 
             var createComponent = await _repo.RegisterComponents(ComponentasToCreate);
 
-
-            Photo PhotoToCreate = new Photo
+            var PhotoToCreate = new Photo
             {
                 PublicId = ComponetsForRegisterDto.PublicId,
                 IsMain = true,
