@@ -64,7 +64,6 @@ namespace Storage.API.Controllers
 
             return Ok(componentsToReturn);
         }
-
         [HttpGet("mnf/{Mnf}")]
         public async Task<IActionResult> GetComponentsMnf(string Mnf)
         {
@@ -100,7 +99,6 @@ namespace Storage.API.Controllers
 
             throw new Exception($"Updating user {id} failed on save");
         }
-
         [HttpPost("registercomponent")]
         public async Task<IActionResult> RegisterComponent([FromForm] ComponetsForRegisterDto ComponetsForRegisterDto)
         {
@@ -220,9 +218,7 @@ namespace Storage.API.Controllers
 
             return Ok();
         }
-
         [HttpPost("registercomponent/all")]
-        
         public async Task<IActionResult> AddBom([FromForm] BomForCreationDto bomForCreationDto)
         {
 
@@ -474,14 +470,12 @@ namespace Storage.API.Controllers
         public async Task<IActionResult> GetCompoentTypes()
         {
             var componentTypes = await _repo.ComponentTypes();
-
             return Ok(componentTypes);
         }
         [HttpGet("ComponentSizes")]
         public async Task<IActionResult> GetCompoentSizes()
         {
             var componentTypes = await _repo.ComponentSizes();
-
             return Ok(componentTypes);
         }
     }

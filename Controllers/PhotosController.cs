@@ -14,10 +14,10 @@ using System.ComponentModel;
 
 namespace Storage.API.Controllers
 {
-    
+
     [Route("api/search/{componentId}/photos")]
-    [ApiController]    public class PhotosController : ControllerBase
-    { 
+    [ApiController] public class PhotosController : ControllerBase
+    {
         private readonly ISearchRepository _repo;
         private readonly IReelRepository _repo2;
         private readonly IMapper _mapper;
@@ -44,20 +44,20 @@ namespace Storage.API.Controllers
         public async Task<IActionResult> GetPhoto(int id)
         {
             var photoFromRepo = await _repo.GetPhoto(id);
-            
+
             var photo = _mapper.Map<PhotosForReturnDto>(photoFromRepo);
 
             return Ok(photo);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPhotoForComponent(int componentId, [FromForm]PhotosForCreationDto photoForCreationDto)
+        public async Task<IActionResult> AddPhotoForComponent(int componentId, [FromForm] PhotosForCreationDto photoForCreationDto)
         {
             var componentsFromRepo = await _repo.GetComponents(componentId);
             var file = photoForCreationDto.File;
             var uploadResult = new ImageUploadResult();
 
-            if  (file.Length > 0)
+            if (file.Length > 0)
             {
                 using (var stream = file.OpenReadStream())
                 {
@@ -80,22 +80,20 @@ namespace Storage.API.Controllers
                 photo.IsMain = true;
             componentsFromRepo.Photos.Add(photo);
 
-            if(await _repo.SaveAll())
+            if (await _repo.SaveAll())
             {
-                
+
                 var photoToReturn = _mapper.Map<PhotosForReturnDto>(photo);
-                return CreatedAtRoute("GetPhoto", new { componentId = componentId, id = photo.Id}, photoToReturn);
+                return CreatedAtRoute("GetPhoto", new { componentId = componentId, id = photo.Id }, photoToReturn);
             }
-                
+
             return BadRequest("Could not add the photo");
         }
-     
-    
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePhoto(int componentId, int id)
-        {
-            var componentFromRepo = await _repo.GetComponents(componentId);
 
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePhoto(int id)
+        {
             var photoFromRepo = await _repo.GetPhoto(id);
 
             if (photoFromRepo.PublicId != null)
@@ -123,6 +121,13 @@ namespace Storage.API.Controllers
             return BadRequest("Failed to delete the photo");
 
         }
-
+        [HttpGet("setmain/{id}")]
+        public async Task<IActionResult> SetMainPhoto(int componentId, int id)
+        {
+            var componentsFromRepo = await _repo.GetComponents(componentId);
+            var photoFromRepo = await _repo.GetPhoto(id);
+           
+            return Ok();
+        }
     }
 }

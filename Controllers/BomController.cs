@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
@@ -20,14 +21,16 @@ namespace Storage.API_CAN.Controllers
     {
 
         private readonly IBomRepository _repo;
+        private readonly IMapper _mapper;
         private readonly ISearchRepository _search;
         private readonly DataContext _context;
         private readonly ICanRepository _can;
 
-        public BomController(IBomRepository repo, ISearchRepository search, DataContext context, ICanRepository can)
+        public BomController(IBomRepository repo, IMapper mapper, ISearchRepository search, DataContext context, ICanRepository can)
         {
             _can = can;
             _repo = repo;
+            _mapper = mapper;
             _search = search;
             _context = context;
         }
@@ -72,9 +75,9 @@ namespace Storage.API_CAN.Controllers
                         for (int col = 1; col <= colCount; col++)
                         {
                             var res = worksheet.Cells[2, col].Value.ToString().Trim();
-                            if (res == "Buh.Nr.") buhNrCol = col;
-                            if (res == "QTY") qtyCol = col;
-                            if (res == "Manufacturer Part Number") mnfCol = col;
+                            if (res.Contains("Buh") || res.Contains("buh")) buhNrCol = col;
+                            if (res.Contains("QTY") || res.Contains("uantity")) qtyCol = col;
+                            if (res.Contains("Manufacturer Part Number")) mnfCol = col;
                         }
                         if (buhNrCol == 0) return BadRequest("Nerastas buhalterinio nr. stuleplis, patikslinkite langelio pavadinima i Buh.Nr. ");
                         if (qtyCol == 0) return BadRequest("Nerastas kiekio stulpelis, patikslinkite langelio pavadinima i QTY");
@@ -103,9 +106,6 @@ namespace Storage.API_CAN.Controllers
                                 manufPartNr = res.Mnf;
                                 componentasId = res.Id;
                             }
-
-
-
 
                             listas.Add(new BomList
                             {
@@ -156,6 +156,43 @@ namespace Storage.API_CAN.Controllers
                 return Ok();
             }
 
+
+            return BadRequest("Failed to delete");
+
+        }
+
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateBomList(BomList bomListForUpdate)
+        {
+            var listFromRepo = await _repo.GetBomListById(bomListForUpdate.Id);
+            var componentFromRepo = await _search.GetComponentBuhNr(bomListForUpdate.BuhNr);
+
+
+            if (componentFromRepo != null)
+             {
+                 listFromRepo.BuhNr = bomListForUpdate.BuhNr;
+                 listFromRepo.ComponentasId = componentFromRepo.Id;
+                 listFromRepo.ManufPartNr = componentFromRepo.Mnf;
+             }
+
+            if (await _search.SaveAll())
+                return NoContent();
+
+            throw new Exception($"Updating failed on save");
+        }
+        [HttpDelete("DeleteListLine/{id}")]
+        public async Task<IActionResult> DeleteListLine(int id)
+        {
+            var listFromRepo = await _repo.GetBomListById(id);
+            if (listFromRepo != null)
+            {
+                _search.Delete(listFromRepo);
+            }
+
+            if (await _search.SaveAll())
+            {
+                return Ok();
+            }
 
             return BadRequest("Failed to delete");
 

@@ -23,6 +23,12 @@ namespace Storage.API_CAN.Data
 
             return bomList;
         }
+        public async Task<BomList> GetBomListById(int Id)
+        {
+            var bomList = await _context.BomList.Where(u => u.Id ==Id).FirstOrDefaultAsync();
+
+            return bomList;
+        }
 
         public async Task<IEnumerable<BomList>> GetBomListXQty(int xQty, string name)
         {

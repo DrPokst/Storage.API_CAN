@@ -11,6 +11,7 @@ namespace Storage.API_CAN.Data
         Task<BomName> GetBomName (string name);
         Task<IEnumerable<BomName>> GetBomNames();
         Task<IEnumerable<BomList>> GetBomList(string name);
+        Task<BomList> GetBomListById(int bomNameId);
         Task<IEnumerable<BomList>> GetBomListXQty( int xQty, string name);
 
     }
