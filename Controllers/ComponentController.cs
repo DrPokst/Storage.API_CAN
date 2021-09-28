@@ -160,6 +160,11 @@ namespace Storage.API.Controllers
         public async Task<IActionResult> ShortRegister([FromForm] ComponentForRegisterShortDto componentForRegisterShortDto)
         {
 
+            var mnfFromRepo = await _repo.GetCompCMnf(componentForRegisterShortDto.Mnf);
+            var buhNtFromRepo = await _repo.GetComponentBuhNr(componentForRegisterShortDto.BuhNr);
+
+            if (mnfFromRepo != null || buhNtFromRepo != null) return BadRequest("Komponentas jau užregistruotas");
+
             GraphQLData componentInfo = await _componentInfo.GetAllComponentInfo(componentForRegisterShortDto.Mnf, 1, "USD");
 
             var uploadParams = new ImageUploadParams()
@@ -426,6 +431,7 @@ namespace Storage.API.Controllers
             }
             return Ok();
         }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteComponent(int id)
         {

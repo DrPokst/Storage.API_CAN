@@ -107,5 +107,12 @@ namespace Storage.API.Data
 
             return reel;
         }
+
+        public async Task<IEnumerable<Reel>> GetFeederList(string Location)
+        {
+            var reels = await _context.Reels.Where(u => u.Location == Location).ToListAsync();
+
+            return reels;
+        }
     }
 }

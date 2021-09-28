@@ -213,8 +213,6 @@ namespace Storage.API_CAN.Controllers
                     foreach (var itemas in componentas.Reels)
                     {
                         suma = suma + itemas.QTY;
-                        int result = Int32.Parse(itemas.Location);
-                        var reel = await _can.TakeOutReel(result);
                     }
                 }
                 listas.Add(new BomListWithXQtyForListDto

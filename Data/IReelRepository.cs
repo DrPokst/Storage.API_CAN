@@ -16,6 +16,7 @@ namespace Storage.API.Data
          Task<Reel> GetReel(int id);
          Task<Reel> GetByLocation(string Location);
          Task<Reel> GetReelCMnf(string cMnf);
+         Task<IEnumerable<Reel>> GetFeederList(string Location);
          Task<IQueryable<Reel>> GetReelByMnf(int id);
          Task<Photo2> RegisterPhoto(Photo2 photo);
          Task<Photo2> GetPhoto(int Rid);

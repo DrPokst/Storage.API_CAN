@@ -69,6 +69,13 @@ namespace Storage.API.Controllers
 
             return Ok(reelToReturn);
         }
+        [HttpGet("ListByLocation/{Location}")]
+        public async Task<IActionResult> GetListByLocation(string Location)
+        {
+            var reels = await _repo.GetFeederList(Location);
+            
+            return Ok(reels);
+        }
         [HttpPost("registerreel")]
         public async Task<IActionResult> RegisterReel([FromForm] ReelForRegisterDto reelForRegisterDto)
         {
